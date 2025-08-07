@@ -1,0 +1,69 @@
+.productDisplay {
+  display: flex;
+  flex-direction: column;
+}
+.productDisplayLeft {
+  display: flex;
+  gap: 17px;
+}
+.productDisplayImgList {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  gap: 16px;
+}
+.productDisplayImgList img {
+  height: 100px;
+}
+.porductDisplayMainImg {
+  width: 586px;
+  height: 500px;
+}
+.porductDisplayRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: start;
+}
+.porductDisplayRight h1 {
+  color: #3d3d3d;
+  font-size: 40px;
+  font-weight: 700;
+}
+.productDisplayRightPrice {
+  display: flex;
+  font-size: 24px;
+  font-weight: 700;
+}
+.productDisplayRightPriceLast {
+  text-decoration: line-through;
+  color: rgb(146, 146, 146);
+  font-size: 20px;
+  font-weight: 700;
+}
+.productDisplayRightTalleBtn {
+  display: flex;
+  justify-content: center;
+  padding: 10px 40px;
+  width: 80%;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background-color: red;
+  bottom: none;
+  outline: none;
+  cursor: pointer;
+}
+.form-select {
+  width: 80% !important;
+}
+.publicidadPageProduct {
+  background-image: url("../../assets/img/publicidadadidas.png");
+  height: 50rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.borderBotton {
+  border-bottom: 2px solid black;
+  width: 90%;
+}
