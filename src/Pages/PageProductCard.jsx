@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useProducts } from "../Context/ProductsContext";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useAuth } from "../Context/AuthContext";
 import "./CSS/PageProductCard.css";
 import { getEspecificaciones } from "../api/products";
@@ -9,10 +9,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import spinnerLoading from "../assets/img/spinnerLoading.svg";
 import { Toaster, toast } from "sonner";
 import { Comentarios } from "../Components/Comentarios";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
-// import { Form, FormCheck } from "react-bootstrap";
+import SkeletonUi from "../Components/Skeleton";
+import useLocalStorage from "../CustonHook/useLocalStorage";
+
+
+
 
 const PageProductCard = () => {
   const { productCard, getProduct, IncrementQty } = useProducts();
@@ -34,8 +36,8 @@ const PageProductCard = () => {
   const [talleOk, setTalleOk] = useState(false);
   const [quantityMax, setQuantityMax] = useState([]);
   const [color, setColor] = useState("");
-  
- 
+  const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
+
   useEffect(() => {
     if (params.id) {
       getProduct(params.id);
@@ -67,16 +69,22 @@ const PageProductCard = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     data.IdProduct = productCard.IdProduct;
-    data.IdUsu = user.id;
+    // data.IdUsu = user.id;
+    if (user) {
+      data.IdUsu = user.id;
+    }
     data.talle = talle;
     const res = await getEspecificaciones(data);
     data.eid = res._id;
-    await PostShoppings(data);
+    // await PostShoppings(data);
     IncrementQty();
     alertas();
+    console.log(data)
+    setProductLocal(data);
   });
  const login = () => {
-    if (!isAuthenticated) navigate("/login");
+  onSubmit();
+    // if (!isAuthenticated) navigate("/login");
   };
   const cambioIndexColor = (colorIndex) => {
     setTalle(colorIndex);
@@ -110,33 +118,7 @@ const PageProductCard = () => {
     <>
       {spinner ? (
         <>
-          <div className="productDisplay container text-center mt-3">
-            <div className=" d-flex  justify-content-around">
-              <figure className="productDisplayImg">
-                <Skeleton width={360} height={350} />
-              </figure>
-              <div className="porductDisplayRight w-50 ">
-                <h1 className="mb-3">
-                  <Skeleton width={450} height={50} direction="rtl" />
-                </h1>
-
-                <div className="productDisplayRightPriceLast">
-                  <Skeleton count={5} />
-                </div>
-                <div className="productDisplayRightPrice">
-                  <Skeleton count={3} />
-                </div>
-
-                <div className="productDisplayRightTalle d-flex flex-column gap-2">
-                  <Skeleton />
-
-                  <div className="productDisplayRightCantidad">
-                    <Skeleton />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+         <SkeletonUi />
         </>
       ) : (
         <>
@@ -320,9 +302,13 @@ const PageProductCard = () => {
                         )}
                       </div>
                     </div>
+                    <div>{productLocal.NombreProducto}</div>
 
                     <div className="productDisplayRightTalleBtn w-100 hover">
                       <btn onClick={!isAuthenticated ? login : onSubmit}>AGREAGAR AL CARRITO</btn>
+                      {/* si esta logueado que mande le producto al carrito
+                      si no esta logueado que lo redirija al login una vez logueado que mande mande el producto al carrito
+                      */}
                     </div>
                   </form>
                 </div>

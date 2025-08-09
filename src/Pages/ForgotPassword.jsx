@@ -53,7 +53,7 @@ const ForgotPassword = () => {
   }, [forgot]);
   return (
     <>
-      <h1 className=" text-center mt-3">Cambio de Contraseña</h1>
+      <h1 className=" text-center my-4">Cambio de Contraseña</h1>
       <div className=" container  d-flex justify-content-center bg-body-secondary  align-items-center p-2 maxW border border-2 border-dark rounded-3 shadow-lg my-4  ">
         {/* <form onClick={onSubmit} className="p-2  w-100  ">
           <div className="mb-3 my-4">

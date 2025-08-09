@@ -56,6 +56,21 @@ ul {
 .border {
   border: solid 0.1rem gray !important;
 }
+.logo {
+  background: url(../src/assets/img/logoshifu.png);
+  height: 100px;
+  width: 150px;
+  background-position: center;
+  background-size: cover;
+}
+.logofooter {
+  width: 150px;
+  height: 150px;
+  background-color: #000;
+  background: url(../src/assets/img/logoshifu.png);
+  background-position: center;
+  background-size: cover;
+}
 
 .iconoBuscar {
   border: none;
@@ -81,6 +96,14 @@ ul {
 .container {
   padding: 0 !important;
 }
+.positionRelative {
+  position: relative;
+}
+.positionAbsolute {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 p {
   margin: 0 !important;
@@ -99,15 +122,6 @@ li {
   width: auto;
 }
 
-.h-10 {
-  /* max-height: 70vh; */
-  /* border: solid red; */
-}
-
-/* .img1 {
-  /* width: 80%; */
-/* max-height: 70vh; */
-/* }  */
 */ .cursor {
   cursor: pointer;
 }
@@ -132,7 +146,7 @@ img {
   justify-content: center;
 }
 .containerCard {
-  width: 12rem;
+  width: 11rem;
 }
 .boxShadow {
   transition: all 500ms ease-out;
@@ -158,21 +172,14 @@ img {
 }
 
 /* MEDIAS QUERIES */
-@media (width < 430px) {
-  .containerCard {
-    max-width: 12rem;
-  }
-  /* .carrouselSlider {
-    height: 25vh;
-  } */
-}
+
 @media (width > 430px) {
   /* .carousel {
     height: 40vh !important;
   } */
-   .fontSize {
+  .fontSize {
     font-size: 1.2rem !important;
-   }
+  }
 }
 @media (width > 1000px) {
   /* .carousel {
@@ -201,6 +208,13 @@ img {
   .containerCard {
     transition: all 500ms ease-out;
     width: 12rem;
+  }
+}
+@media (width > 767px) {
+  .containerCard {
+    
+    width: 13rem;
+    
   }
 }
 @media (width > 1287px) {

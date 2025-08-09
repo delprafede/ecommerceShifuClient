@@ -6,7 +6,7 @@ import Image from "react-bootstrap/Image";
 // import Form from "react-bootstrap/Form";
 // import LogoYoCampo from "../assets/img/LogoYoCampo.jpg";
 // import logoAdidas from "../assets/img/logoAdidas.png";
-import logoCodeShop from "../assets/img/logoCodeShop.png";
+import logoshifu from "../assets/img/logoshifu.png";
 import { Button } from "react-bootstrap";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import iconos, {
@@ -57,11 +57,8 @@ function NavBarEx() {
                 to="/"
                 className="col-lg-3 d-flex justify-content-lg-start justify-content-center"
               >
-                <Image
-                  src={logoCodeShop}
-                  className=" w-25 h-25
-                "
-                />
+                <div className="logo"></div>
+                {/* div logo */}
               </Nav.Link>
 
               <div className=" col-lg-6 d-none d-lg-block order-lg-0">
@@ -143,8 +140,8 @@ function NavBarEx() {
                   Dirección
                 </Nav.Link>
               </div>
-              <div className="col-lg-6 d-lg-flex justify-content-start  ">
-                <ul className=" d-flex justify-content-center gap-3">
+              <div className="col-lg-6 d-lg-flex  justify-content-start  ">
+                <ul className=" d-flex flex-column flex-lg-row justify-content-center gap-lg-3 p-0">
                   <li>
                     {" "}
                     <NavDropdown title="Categorias" id="basic-nav-dropdown">
@@ -152,10 +149,10 @@ function NavBarEx() {
                         <>
                           <Nav.Link
                             key={category.id}
-                            className=""
+                            className=" p-2"
                             as={NavLink}
                             to={`productos/${category.name}`}
-                            // to= "productos"
+                        
                           >
                             {category.name}
                           </Nav.Link>

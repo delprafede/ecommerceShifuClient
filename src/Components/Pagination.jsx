@@ -36,7 +36,7 @@ const Pagination = ({
   
   return (
     <div className=" container ">
-      <nav aria-label="..." className="d-flex justify-content-around ">
+      <div aria-label="..." className="d-flex justify-content-around ">
         <button
           className={` page-link pagination page-item cursor rounded-start-2 ${
             currentPage === 1 ? "disabled " : ""
@@ -73,7 +73,7 @@ const Pagination = ({
             );
           })}
         </ul>
-      </nav>
+      </div>
     </div>
   );
 };

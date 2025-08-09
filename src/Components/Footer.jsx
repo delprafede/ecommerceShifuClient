@@ -1,33 +1,27 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 // import logoAdidas from "../assets/img/logoAdidas.png";
-import logoCodeShop from "../assets/img/logoCodeShop.png";
+import logoshifu from "../assets/img/logoshifu.png";
 import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import iconos from "../helpers/iconos";
 import QRCode from "react-qr-code";
 
 const Footer = () => {
+  const navigate = useNavigate();
+
   return (
     <>
-      <div className=" d-md-flex  align-items-md-baseline p-3">
-        <div className=" col-md-3 ">
-          <Nav.Link
-            // onClick={() => {
-            //   setSearch("");
-            // }}
-            as={NavLink}
-            to="/"
-            className=" h-100 d-flex justify-content-center align-items-center"
-          >
-            <Image
-              src={logoCodeShop}
-              className=" w-25 h-25
-                "
-            />
-          </Nav.Link>
+      <div className="  d-md-flex justify-content-around p-2 p-lg-4 p-md-3  ">
+        <div className=" d-flex justify-content-center ">
+          <div
+            onClick={() => {
+              navigate("/");
+            }}
+            className="logofooter  "
+          ></div>
         </div>
 
-        <div className=" col-md-3 d-flex flex-column align-items-center ">
+        <div className="  d-flex flex-column align-items-center  ">
           <h4 className=" text-uppercase text-dark text-center fw-semibold">
             Productos
           </h4>
@@ -42,7 +36,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className=" col-md-3 d-flex flex-column justify-content-center align-items-center">
+        <div className=" d-flex flex-column align-items-center ">
           <h4 className=" text-uppercase text-dark text-center fw-semibold">
             Productos
           </h4>
@@ -57,7 +51,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className=" col-md-3 d-flex flex-column justify-content-center align-items-center">
+        <div className="  d-flex flex-column justify-content-center align-items-center ">
           <h4 className=" text-uppercase text-dark text-center fw-semibold">
             Siguenos
           </h4>

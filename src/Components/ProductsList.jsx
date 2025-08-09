@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import { useFav } from "../Context/FavContext";
-import { toast } from "sonner";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
+
 import { iconoFavorito, iconoFavoritoAgregado } from "../helpers/iconos";
 // import { createFavRequest } from "../api/favorite";
 // import PaginaArticulo from "../Pages/ProductCard";
@@ -33,13 +33,17 @@ const ProductsList = () => {
   const alertas = () => {
     return toast.success("Debes iniciar sesion");
   };
-  const alertas1 = () => {
+  const alertasCreate = () => {
     return toast.success("Agregaste a favoritos");
+  };
+  const alertasDelete = () => {
+    toast.error("Eliminaste de favoritos");
   };
 
   const handclick = (product) => {
     setCambiar((cambiar) => !cambiar);
     deleteProductFavorites(product._id);
+    alertasDelete();
   };
 
   useEffect(() => {
@@ -80,60 +84,47 @@ const ProductsList = () => {
   return (
     <>
       <div className={`d-flex justify-content-center mt-3 h-100 containerMax `}>
-        <div className=" d-flex flex-wrap gap-2 gap-xl-3 justify-content-center ">
+        <div className=" d-flex  justify-content-center flex-wrap gap-2 gap-md-3 gap-xl-4 positionRelative ">
           {filteredProducts
             .map((product) => {
               return (
                 <>
                   <div
                     key={product.id}
-                    className="  card mb-4 boxShadow containerCard overflow-hidden"
+                    className="  card mb-4 boxShadow containerCard overflow-hidden "
                   >
-                    <div
-                      key={product.id}
-                      className="card  text-center"
-                    >
-                      <div
-                        onClick={async () => {
-                          await getProduct(product._id);
-                          navigate(`/productCard/${product._id}`);
-                        }}
-                        className=" overflow-hidden pointer "
-                      >
+                    <div key={product.id} className="card  text-center">
+                      <div className=" overflow-hidden  ">
                         <img
-                          onClick={async () => {
-                            await getProduct(product._id);
-                            navigate(`/productCard/${product._id}`);
-                          }}
+                          // onClick={async () => {
+                          //   await getProduct(product._id);
+                          //   navigate(`/productCard/${product._id}`);
+                          // }}
                           src={product.UrlImagen[0].secure_url}
                           className="  imgCard"
                           alt={product.NombreProducto}
                         />
                       </div>
-                      <div className="card-body">
+                      <div
+                        onClick={async () => {
+                          await getProduct(product._id);
+                          navigate(`/productCard/${product._id}`);
+                        }}
+                        className="card-body pointer"
+                      >
                         <p className=" mb-0 fs-6 fontSize">
                           {product.NombreProducto.substring(0, 12)}...
                         </p>
                         <p className="card-text  fs-6 fontSize fw-bold">
                           {formatCurrency(product.Precio)}
                         </p>
-                        <div className="d-flex justify-content-around align-items-center">
-                          <a
-                            className="d-none d-lg-block  linkHover"
-                            onClick={async () => {
-                              await getProduct(product._id);
-                              navigate(`/productCard/${product._id}`);
-                            }}
-                          >
-                            Ver más
-                          </a>
-
-                          {favsPage
+                        </div>
+                        {favsPage
                             .map((f) => f.product._id)
                             .includes(product._id) ? (
                             <button
                               key={product._id}
-                              className=" btn CorazonRed"
+                              className=" btn  positionAbsolute"
                               type="submit"
                               onClick={() => {
                                 handclick(product);
@@ -143,7 +134,7 @@ const ProductsList = () => {
                             </button>
                           ) : (
                             <button
-                              className="btn "
+                              className="btn positionAbsolute"
                               type="submit"
                               key={product._id}
                               onClick={async () => {
@@ -158,7 +149,7 @@ const ProductsList = () => {
                                   //  await createFavRequest(product1);
                                   await createFavorite(product1);
 
-                                  alertas1();
+                                  alertasCreate();
                                 }
                                 // handclick();
                                 setCambiar(!cambiar);
@@ -167,10 +158,10 @@ const ProductsList = () => {
                               {iconoFavorito}
                             </button>
                           )}
-                        </div>
-                      </div>
+                     
                     </div>
                   </div>
+                  
                 </>
               );
             })
@@ -191,10 +182,16 @@ const ProductsList = () => {
 
       <Toaster
         theme="light"
-        position="top-center"
-        duration={2000}
+        position="top-right"
+        duration={2500}
         toastOptions={{
-          style: { background: "green" },
+          style: {
+            background: "#a8b8c7ff",
+            color: "#212529",
+            fontSize: "1.5rem",
+            borderRadius: "8px",
+           
+          },
           className: "myToast",
         }}
       />

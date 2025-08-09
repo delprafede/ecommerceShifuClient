@@ -35,7 +35,7 @@ const ResetPassword = () => {
 
   return (
     <div className="">
-      <h1 className=" text-center ">Modificacion de contraseña</h1>
+      <h1 className=" text-center my-4 ">Modificacion de contraseña</h1>
       <div className=" container  d-flex justify-content-center bg-body-secondary  align-items-center p-2 maxW border border-2 border-dark rounded-3 shadow-lg my-4 ">
         <form className="p-2 w-100 p-4  ">
           {sendErrors !== "" && (

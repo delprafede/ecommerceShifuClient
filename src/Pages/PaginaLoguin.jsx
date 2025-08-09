@@ -33,13 +33,13 @@ const PaginaLoguin = () => {
   // console.log(setErrors);
   // console.log(setErrors.length);
   return (
-    <>
+    <div className="p-1">
     
       <h1 className=" text-center ">Acceder</h1>
       <div className=" container  d-flex justify-content-center  align-items-center p-2 maxW border border-2 border-dark rounded-3 shadow-lg bg-body-secondary mb-5">
         <form className=" p-2 bg-gradient w-100 my-4" onSubmit={onSubmit}>
           {setErrors.length > 0 && (
-            <span className=" fs-4 text-center mt-1 tex   ">{setErrors}</span>
+            <span className=" fs-4 text-center mt-1 text-danger">{setErrors}</span>
           )}
 
           <div className="mb-3">
@@ -122,17 +122,17 @@ const PaginaLoguin = () => {
             </NavLink>
           </btn>
           <div className="d-flex align-items-center gap-2 mt-4">
-            <p className="d-flex  fw-bold text-black fst-italic align-items-center">
+            <p className="d-flex text-black fst-italic align-items-center">
               No tienes una cuenta?
             </p>
 
-            <NavLink to="/registro" className=" text-success fw-bold  fst-italic">
+            <NavLink to="/registro" className=" text-primary fst-italic">
               Registrarme
             </NavLink>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

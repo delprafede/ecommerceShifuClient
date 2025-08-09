@@ -11,7 +11,7 @@ import "../src/index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // import RouterApp from "../RouterApp";
 // import Home from "../src/Pages/Home";
-import Nosotros from "../src/Pages/Nosotros";
+
 import Contacto from "../src/Pages/Contacto";
 // import Productos from "../src/Pages/Productos";
 // import ModalLoguin from "../src/Components/ModalLoguin";
@@ -39,7 +39,6 @@ import Ayuda from "./Pages/Ayuda.jsx";
 import SuccesPassword from "./Pages/SuccesPassword.jsx";
 import Favorit from "./Pages/favorit/Favorit.jsx";
 import Categories from "./Components/Categories.jsx";
-
 
 // import { ShoppingRender } from "./ShoppingF";
 
@@ -76,14 +75,7 @@ const router = createBrowserRouter([
           </div>
         ),
       },
-      {
-        path: "/nosotros",
-        element: (
-          <div>
-            <Nosotros />
-          </div>
-        ),
-      },
+
       {
         path: "/contacto",
         element: (
@@ -100,7 +92,7 @@ const router = createBrowserRouter([
           </div>
         ),
       },
-     
+
       {
         path: "/favorit",
         element: (
@@ -146,9 +138,7 @@ const router = createBrowserRouter([
         path: "/productos/hombres",
         element: (
           <div>
-            <Categories
-              category="Hombres"
-            />
+            <Categories category="Hombres" />
           </div>
         ),
       },
@@ -156,9 +146,7 @@ const router = createBrowserRouter([
         path: "/productos/mujeres",
         element: (
           <div>
-            <Categories
-              category="Mujeres"
-            />
+            <Categories category="Mujeres" />
           </div>
         ),
       },
@@ -166,9 +154,7 @@ const router = createBrowserRouter([
         path: "/productos/niños",
         element: (
           <div>
-            <Categories
-              category="Niños"
-            />
+            <Categories category="Niños" />
           </div>
         ),
       },
@@ -211,7 +197,6 @@ const router = createBrowserRouter([
             <PageAdmin />
           </ProtectedRoute>
         ),
-     
       },
     ],
   },

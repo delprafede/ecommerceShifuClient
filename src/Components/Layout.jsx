@@ -24,7 +24,7 @@ const Layout = () => {
           <Outlet />
           </main>
 
-          <footer className=" bg-body-secondary">
+          <footer className=" bg-body-secondary mt-2">
             <Footer />
           </footer>
         </>

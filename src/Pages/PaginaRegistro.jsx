@@ -31,7 +31,7 @@ function PaginaRegistro() {
   });
 
   return (
-    <>
+    <div className="p-1">
       <h1 className=" text-center ">Registro</h1>
       <div className=" container  d-flex justify-content-center  align-items-center p-2 maxW border border-2 border-dark rounded-3 shadow-lg mb-5 bg-body-secondary ">
         <form className=" p-2 bg-gradient w-100 my-4 " onSubmit={onSubmit}>
@@ -166,18 +166,18 @@ function PaginaRegistro() {
             </button>
           </div>
 
-          <div className="d-flex align-items-center gap-2 mt-4">
-            <p className="d-flex  fw-bold text-black fst-italic">
+          <div className="d-flex justify-content-center align-items-center gap-2 mt-4">
+            <p className="d-flex   text-black fst-italic">
               Ya tienes una cuenta?
             </p>
-            <NavLink to="/login" className="text-success fw-bold  fst-italic">
+            <NavLink to="/login" className="text-primary fst-italic">
               Acceder
             </NavLink>
            
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 
