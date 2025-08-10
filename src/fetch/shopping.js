@@ -57,7 +57,7 @@ const PostShoppings = async (Cart) => {
       "content-type": "application/json",
     },
   });
-
+  console.log(CartJson);
   const data = response.json();
 
   return data;

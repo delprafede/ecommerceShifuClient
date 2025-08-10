@@ -2,12 +2,15 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../Context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { iconEyesBlock, iconEyes } from "../helpers/iconos";
+import useLocalStorage from "../CustonHook/useLocalStorage";
+import { PostShoppings } from "../fetch/shopping";
 // ----------------------------------------------------------------
 
 const PaginaLoguin = () => {
   // const [show, setShow] = useState(false);
+  const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
 
   const [eyes, setEyes] = useState(false);
   const {
@@ -17,29 +20,44 @@ const PaginaLoguin = () => {
   } = useForm();
   const navigate = useNavigate();
 
-  const { signin, errors: setErrors, isAuthenticated } = useAuth();
+  const { signin, user, errors: setErrors, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    if (isAuthenticated) navigate("/");
-  }, [isAuthenticated, navigate]);
+  // useEffect(() => {
+
+  // }, []);
 
   const onSubmit = handleSubmit((data) => {
     signin(data);
+   
   });
+  const productStorage = useMemo(async() => {
+    if (isAuthenticated && window.localStorage.getItem("productLocal")) {
+
+     const IdUsuProductStorage = {
+      IdUsu: user.id,
+      productLocal: productLocal
+     }
+    const res= await PostShoppings(IdUsuProductStorage);
+     console.log("Productos enviados al carrito:", res);
+    } else {
+      console.log("No hay productos en el carrito");
+    }
+  }, [isAuthenticated]);
+
   const cambiarVista = () => {
     setEyes(!eyes);
     console.log(eyes);
   };
-  // console.log(setErrors);
-  // console.log(setErrors.length);
+
   return (
     <div className="p-1">
-    
       <h1 className=" text-center ">Acceder</h1>
       <div className=" container  d-flex justify-content-center  align-items-center p-2 maxW border border-2 border-dark rounded-3 shadow-lg bg-body-secondary mb-5">
         <form className=" p-2 bg-gradient w-100 my-4" onSubmit={onSubmit}>
           {setErrors.length > 0 && (
-            <span className=" fs-4 text-center mt-1 text-danger">{setErrors}</span>
+            <span className=" fs-4 text-center mt-1 text-danger">
+              {setErrors}
+            </span>
           )}
 
           <div className="mb-3">
@@ -116,7 +134,7 @@ const PaginaLoguin = () => {
               Iniciar sesión
             </button>
           </div>
-          <btn className= " ">
+          <btn className=" ">
             <NavLink to="/sendEmail" className=" text-black mt-4 ">
               Olvidaste tu Contraseña?
             </NavLink>
