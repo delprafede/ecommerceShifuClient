@@ -28,27 +28,33 @@ const PaginaLoguin = () => {
 
   const onSubmit = handleSubmit((data) => {
     signin(data);
-   
   });
-  const productStorage = useMemo(async() => {
+  const productStorage = useMemo(async () => {
     if (isAuthenticated && window.localStorage.getItem("productLocal")) {
-
-     const IdUsuProductStorage = {
-      IdUsu: user.id,
-      productLocal: productLocal
-     }
-    const res= await PostShoppings(IdUsuProductStorage);
-     console.log("Productos enviados al carrito:", res);
-    } else {
-      console.log("No hay productos en el carrito");
-    }
-  }, [isAuthenticated]);
+      const { IdProduct, cantidad, color, eid } = productLocal;
+      const IdUsuProductStorage = {
+        IdUsu: user.id,
+        IdProduct,
+        cantidad,
+        color,
+        eid,
+      };
+      
+       await PostShoppings(IdUsuProductStorage);
+       const timer = setTimeout(() => {
+         localStorage.removeItem("productLocal");
+       }, 3000);
+       return () => clearTimeout(timer);
+      } else {
+        console.log("No hay productos en el localStorage");
+      }
+      navigate("/carrito");
+  }, [isAuthenticated,navigate]);
 
   const cambiarVista = () => {
     setEyes(!eyes);
     console.log(eyes);
   };
-
   return (
     <div className="p-1">
       <h1 className=" text-center ">Acceder</h1>

@@ -52,6 +52,12 @@ ul {
 .btnImg {
   cursor: pointer;
 }
+.porductDisplayMainImg {
+  max-width: 700px;
+}
+.productDisplayImgList {
+  max-width: 400px;
+}
 
 .border {
   border: solid 0.1rem gray !important;

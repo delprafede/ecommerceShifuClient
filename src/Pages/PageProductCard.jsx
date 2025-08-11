@@ -13,9 +13,6 @@ import { Comentarios } from "../Components/Comentarios";
 import SkeletonUi from "../Components/Skeleton";
 import useLocalStorage from "../CustonHook/useLocalStorage";
 
-
-
-
 const PageProductCard = () => {
   const { productCard, getProduct, IncrementQty } = useProducts();
   const {
@@ -24,7 +21,7 @@ const PageProductCard = () => {
     formState: { errors },
   } = useForm();
   const { user, isAuthenticated } = useAuth();
- const navigate = useNavigate();
+  const navigate = useNavigate();
   const params = useParams();
   // const navigate = useNavigate();
   const [imgs, setImgs] = useState("");
@@ -66,26 +63,34 @@ const PageProductCard = () => {
   const alertas = () => {
     return toast.success("Se agrego a tu carrito");
   };
+  const alertasLocalStorageProduct = () => {
+    return toast.success("Se agrego a tu carrito, logueate por favor para ver tu carrito");
+  };
 
   const onSubmit = handleSubmit(async (data) => {
     data.IdProduct = productCard.IdProduct;
-    // data.IdUsu = user.id;
+   
     if (user) {
       data.IdUsu = user.id;
     }
     data.talle = talle;
     const res = await getEspecificaciones(data);
     data.eid = res._id;
-    // await PostShoppings(data);
-    IncrementQty();
-    alertas();
-    console.log(data)
-    setProductLocal(data);
+    if (isAuthenticated) {
+      await PostShoppings(data);
+      alertas();
+      IncrementQty();
+    } else {
+      setProductLocal(data);
+      IncrementQty();
+      alertasLocalStorageProduct();
+      navigate("/login");
+    }
   });
- const login = () => {
-  onSubmit();
-    // if (!isAuthenticated) navigate("/login");
-  };
+  // const login = () => {
+  //   onSubmit();
+  //   // if (!isAuthenticated) navigate("/login");
+  // };
   const cambioIndexColor = (colorIndex) => {
     setTalle(colorIndex);
     setTalleOk(true);
@@ -118,13 +123,14 @@ const PageProductCard = () => {
     <>
       {spinner ? (
         <>
-         <SkeletonUi />
+          <SkeletonUi />
         </>
       ) : (
         <>
           <div className="productDisplay container text-center  mt-4 ">
             <div className="productDisplayLeft d-flex flex-column justify-content-center align-items-center flex-lg-row p-2">
-              <div className=" productDisplayImgList d-flex ">
+             <div className="d-flex gap-2 col-8 ">
+               <div className=" productDisplayImgList d-flex ">
                 {productCard.UrlImagen.map((img, index) => {
                   return (
                     <div key={index} className="btnImg rounded-2 shadow-lg">
@@ -148,7 +154,8 @@ const PageProductCard = () => {
                   alt={` ${imgs}`}
                 />
               </figure>
-              <div className="porductDisplayRight">
+             </div>
+              <div className="col-4 d-flex flex-column align-items-start p-2">
                 <h1>{productCard.NombreProducto}</h1>
 
                 <div className="productDisplayRightPriceLast">
@@ -160,8 +167,8 @@ const PageProductCard = () => {
                 <div className="productDisplayRightDescription">
                   {productCard.Detalle}
                 </div>
-                <div>
-                  <form className="productDisplayRightTalle d-flex flex-column gap-2">
+                <div className="w-100 d-flex  flex-column align-items-start my-2">
+                  <form className="productDisplayRightTalle d-flex align-items-start flex-column gap-2">
                     <h3>Talle</h3>
 
                     <div>
@@ -305,7 +312,7 @@ const PageProductCard = () => {
                     <div>{productLocal.NombreProducto}</div>
 
                     <div className="productDisplayRightTalleBtn w-100 hover">
-                      <btn onClick={!isAuthenticated ? login : onSubmit}>AGREAGAR AL CARRITO</btn>
+                      <btn onClick={onSubmit}>AGREAGAR AL CARRITO</btn>
                       {/* si esta logueado que mande le producto al carrito
                       si no esta logueado que lo redirija al login una vez logueado que mande mande el producto al carrito
                       */}
