@@ -188,7 +188,7 @@ const ProductsList = () => {
           style: {
             background: "#a8b8c7ff",
             color: "#212529",
-            fontSize: "1.5rem",
+            fontSize: "1.2rem",
             borderRadius: "8px",
            
           },

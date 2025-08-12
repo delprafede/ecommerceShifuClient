@@ -41,6 +41,10 @@
   font-size: 20px;
   font-weight: 700;
 }
+/* .productDisplayRightCantidad {
+  width: 100%;
+ 
+} */
 .productDisplayRightTalleBtn {
   display: flex;
   justify-content: center;
@@ -49,10 +53,11 @@
   font-size: 16px;
   font-weight: 600;
   color: white;
-  background-color: red;
+  background-color: rgb(55, 55, 235);
   bottom: none;
   outline: none;
   cursor: pointer;
+  border-radius: 10px;
 }
 .form-select {
   width: 80% !important;

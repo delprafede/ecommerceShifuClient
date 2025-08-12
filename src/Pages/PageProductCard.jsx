@@ -69,7 +69,6 @@ const PageProductCard = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     data.IdProduct = productCard.IdProduct;
-   
     if (user) {
       data.IdUsu = user.id;
     }
@@ -84,7 +83,10 @@ const PageProductCard = () => {
       setProductLocal(data);
       IncrementQty();
       alertasLocalStorageProduct();
-      navigate("/login");
+      const timer = setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    return () => clearTimeout(timer);
     }
   });
   // const login = () => {
@@ -168,15 +170,15 @@ const PageProductCard = () => {
                   {productCard.Detalle}
                 </div>
                 <div className="w-100 d-flex  flex-column align-items-start my-2">
-                  <form className="productDisplayRightTalle d-flex align-items-start flex-column gap-2">
+                  <form className="productDisplayRightTalle d-flex align-items-start flex-column gap-2 ">
                     <h3>Talle</h3>
 
-                    <div>
+                    <div className="w-100 d-flex justify-content-start">
                       {" "}
                       <select
                         className={` w-100 p-2 rounded-2  opacity-75 border-0  ${
                           errors.talle &&
-                          "d-inline-flex focus-ring focus-ring-danger py-1 px-2 text-decoration-none border rounded-2"
+                          "d-inline-flex focus-ring focus-ring-danger py-1 px-2 text-decoration-none border rounded-2 "
                         }`}
                         {...register("talle", {
                           required: "Talle es requerido",
@@ -214,7 +216,7 @@ const PageProductCard = () => {
                       </span>
                     )}
 
-                    <div className="productDisplayRightColor">
+                    <div className="productDisplayRightColor ">
                       {talle ? (
                         <h3>Color</h3>
                       ) : (
@@ -270,16 +272,16 @@ const PageProductCard = () => {
                       )}
                     </div>
 
-                    <div className="productDisplayRightColor">
+                    <div className="productDisplayRightColor w-100">
                       <div className="productDisplayRightCantidad">
                         {color ? (
                           <>
-                            <h3>Cantidad</h3>
+                            <h3 className="text-start">Cantidad</h3>
                             {spinnerCantidad ? (
                               <img src={spinnerLoading} className="spinner" />
                             ) : (
                               <input
-                                className=" w-50"
+                                className="w-100"
                                 type="number"
                                 placeholder={
                                   quantityMax === 0 ? "sin stock" : quantityMax
@@ -309,13 +311,11 @@ const PageProductCard = () => {
                         )}
                       </div>
                     </div>
-                    <div>{productLocal.NombreProducto}</div>
+                   
 
                     <div className="productDisplayRightTalleBtn w-100 hover">
                       <btn onClick={onSubmit}>AGREAGAR AL CARRITO</btn>
-                      {/* si esta logueado que mande le producto al carrito
-                      si no esta logueado que lo redirija al login una vez logueado que mande mande el producto al carrito
-                      */}
+                     
                     </div>
                   </form>
                 </div>

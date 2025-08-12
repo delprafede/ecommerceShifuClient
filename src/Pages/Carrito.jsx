@@ -1,7 +1,7 @@
 import { useProducts } from "../Context/ProductsContext";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../Context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
 // import Form from "react-bootstrap/Form";
 import EditModalCarrito from "../Components/ModalEditCarrito";
@@ -12,6 +12,7 @@ import { useShoppingContext } from "../Context/ShoppingContext";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { formatCurrency } from "../utils";
 import spinnerLoading from "../assets/img/spinnerLoading.svg";
+import { arrowRetuernIcons, deleteIcons } from "../helpers/iconos";
 
 export const Carrito = () => {
   initMercadoPago("APP_USR-ee7c2a9d-4725-4e64-bf91-ad5ba9a3c2a2", {
@@ -69,11 +70,16 @@ export const Carrito = () => {
 
   return (
     <>
-      <h1 className=" text-center">Carrito</h1>
+     
       {productShopping.length === 0 ? (
-        <h1 className=" text-center bg-secondary ">No tienes Carrito</h1>
+      <div className="text-center mt-4">
+        <h1 className=" text-center">Aquí visualizarás tus productos</h1>
+
+        <NavLink to={"/"} className="text-primary ms-2 fw-bold pointer">{arrowRetuernIcons} volver al inicio</NavLink>
+      </div>
       ) : (
         <>
+         <h1 className=" text-center">Carrito</h1>
           <Table striped bordered hover className=" container">
             <thead>
               <tr className=" text-center">
@@ -100,7 +106,7 @@ export const Carrito = () => {
                     <td className=" d-flex flex-column flex-lg-row justify-content-center gap-2">
                       <div>
                         <button
-                          className="btn btn-success "
+                          className="btn"
                           onClick={() => {
                             console.log(item.cantidad);
                           }}
@@ -110,7 +116,7 @@ export const Carrito = () => {
                       </div>
                       <div>
                         <button
-                          className="btn btn-danger"
+                          className="btn"
                           onClick={async () => {
                             let eid = productShopping[index].eid._id;
                             console.log(
@@ -124,7 +130,7 @@ export const Carrito = () => {
                             DecrementQty();
                           }}
                         >
-                          Eliminar
+                        {deleteIcons}
                         </button>
                       </div>
                     </td>

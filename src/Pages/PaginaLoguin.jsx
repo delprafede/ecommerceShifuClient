@@ -22,12 +22,29 @@ const PaginaLoguin = () => {
 
   const { signin, user, errors: setErrors, isAuthenticated } = useAuth();
 
-  // useEffect(() => {
-
-  // }, []);
+  //
 
   const onSubmit = handleSubmit((data) => {
     signin(data);
+    // if (isAuthenticated && window.localStorage.getItem("productLocal")) {
+    //   const { IdProduct, cantidad, color, eid } = productLocal;
+    //   const IdUsuProductStorage = {
+    //     IdUsu: user.id,
+    //     IdProduct,
+    //     cantidad,
+    //     color,
+    //     eid,
+    //   };
+    //   PostShoppings(IdUsuProductStorage);
+    //   const timer = setTimeout(() => {
+    //     localStorage.removeItem("productLocal");
+    //   }, 3000);
+    //   navigate("/carrito");
+    //   return () => clearTimeout(timer);
+    // } else {
+    //   isAuthenticated && navigate("/");
+    //   console.log("soy login ");
+    // }
   });
   const productStorage = useMemo(async () => {
     if (isAuthenticated && window.localStorage.getItem("productLocal")) {
@@ -39,17 +56,17 @@ const PaginaLoguin = () => {
         color,
         eid,
       };
-      
+
        await PostShoppings(IdUsuProductStorage);
        const timer = setTimeout(() => {
          localStorage.removeItem("productLocal");
        }, 3000);
+       navigate("/carrito");
        return () => clearTimeout(timer);
       } else {
-        console.log("No hay productos en el localStorage");
+        navigate("/");
       }
-      navigate("/carrito");
-  }, [isAuthenticated,navigate]);
+  }, [isAuthenticated]);
 
   const cambiarVista = () => {
     setEyes(!eyes);
