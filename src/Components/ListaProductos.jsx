@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import { useProducts } from "../Context/ProductsContext.jsx";
 import ModalCreateEspecific from "../ComponentAdmin/ModalCreateEspecific.jsx";
 import { formatCurrency } from "../utils/index.js";
-import ModalEditProductss from "./ModalEditProductos.jsx";
+import ModalEditProductss from "../ComponentAdmin/ModalEditProductos.jsx";
 import { DeleteProducts } from "../FetchAdmin/Products.js";
 import { useEffect } from "react";
 import { toast, Toaster } from "sonner";

@@ -1,35 +1,19 @@
-.productDisplay {
-  display: flex;
-  flex-direction: column;
+
+ .containerMax {
+    max-width: 1200px;
+  }
+.cardImgTop {
+  max-width: 30rem;
 }
-.productDisplayLeft {
-  display: flex;
-  gap: 17px;
+.cardImg {
+  max-width: 6rem;
 }
-.productDisplayImgList {
-  display: flex;
-  flex-direction: column;
-  align-content: space-between;
-  gap: 16px;
+
+.cardImg:hover {
+  transform: scale(1.05);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
-.productDisplayImgList img {
-  height: 100px;
-}
-.porductDisplayMainImg {
-  width: 586px;
-  height: 500px;
-}
-.porductDisplayRight {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  text-align: start;
-}
-.porductDisplayRight h1 {
-  color: #3d3d3d;
-  font-size: 40px;
-  font-weight: 700;
-}
+
 .productDisplayRightPrice {
   display: flex;
   font-size: 24px;
@@ -41,10 +25,6 @@
   font-size: 20px;
   font-weight: 700;
 }
-/* .productDisplayRightCantidad {
-  width: 100%;
- 
-} */
 .productDisplayRightTalleBtn {
   display: flex;
   justify-content: center;
@@ -65,10 +45,57 @@
 .publicidadPageProduct {
   background-image: url("../../assets/img/publicidadadidas.png");
   height: 50rem;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
 }
 .borderBotton {
   border-bottom: 2px solid black;
   width: 90%;
+}
+@media (min-width: 767.98px) and (max-width: 991px) {
+  .cardImgTop {
+    max-width: 34rem;
+  }
+  .cardImg {
+    max-width: 8rem;
+  }
+  .cardImg:hover {
+    transform: scale(1.05);
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+      rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+      rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  }
+}
+@media (min-width: 991px) and (max-width: 1024px){
+  .cardImgTop {
+    max-width: 32rem;
+  }
+  .cardImg {
+    max-width: 8rem;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .cardImgTop {
+    max-width: 34rem;
+  }
+  .cardImg {
+    max-width: 8rem;
+  }
+  .cardImg:hover {
+    transform: scale(1.05);
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+      rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+      rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  }
+  .productDisplayRightTalleBtn {
+    padding: 10px 20px;
+  }
+}
+@media (min-width: 1200px) and (max-width: 1440px) {
+  .cardImgTop {
+    max-width: 36rem;
+  }
+  .cardImg {
+    max-width: 9rem;
+  }
 }

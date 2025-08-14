@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
-import { UploadProducts } from "../FetchAdmin/Products";
+// import { UploadProducts } from "../FetchAdmin/Products";
 import { useProducts } from "../Context/ProductsContext";
 
 function ModalEditProductss({ product }) {
@@ -14,7 +14,7 @@ function ModalEditProductss({ product }) {
   const { getProducts } = useProducts();
   const onSubmit = handleSubmit(async (data) => {
     data.id = product._id;
-     await UploadProducts(data);
+    //  await UploadProducts(data);
 
     console.log(product)
     handleClose();

@@ -1,15 +1,13 @@
-// import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../Context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { iconEyesBlock, iconEyes } from "../helpers/iconos";
 import useLocalStorage from "../CustonHook/useLocalStorage";
 import { PostShoppings } from "../fetch/shopping";
 // ----------------------------------------------------------------
 
 const PaginaLoguin = () => {
-  // const [show, setShow] = useState(false);
   const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
 
   const [eyes, setEyes] = useState(false);
@@ -26,25 +24,6 @@ const PaginaLoguin = () => {
 
   const onSubmit = handleSubmit((data) => {
     signin(data);
-    // if (isAuthenticated && window.localStorage.getItem("productLocal")) {
-    //   const { IdProduct, cantidad, color, eid } = productLocal;
-    //   const IdUsuProductStorage = {
-    //     IdUsu: user.id,
-    //     IdProduct,
-    //     cantidad,
-    //     color,
-    //     eid,
-    //   };
-    //   PostShoppings(IdUsuProductStorage);
-    //   const timer = setTimeout(() => {
-    //     localStorage.removeItem("productLocal");
-    //   }, 3000);
-    //   navigate("/carrito");
-    //   return () => clearTimeout(timer);
-    // } else {
-    //   isAuthenticated && navigate("/");
-    //   console.log("soy login ");
-    // }
   });
   const productStorage = useMemo(async () => {
     if (isAuthenticated && window.localStorage.getItem("productLocal")) {
@@ -57,15 +36,15 @@ const PaginaLoguin = () => {
         eid,
       };
 
-       await PostShoppings(IdUsuProductStorage);
-       const timer = setTimeout(() => {
-         localStorage.removeItem("productLocal");
-       }, 3000);
-       navigate("/carrito");
-       return () => clearTimeout(timer);
-      } else {
-        navigate("/");
-      }
+      await PostShoppings(IdUsuProductStorage);
+      const timer = setTimeout(() => {
+        localStorage.removeItem("productLocal");
+      }, 3000);
+      navigate("/carrito");
+      return () => clearTimeout(timer);
+    } else {
+      navigate("/");
+    }
   }, [isAuthenticated]);
 
   const cambiarVista = () => {

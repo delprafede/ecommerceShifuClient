@@ -1,18 +1,19 @@
 
-import Skeleton from "react-loading-skeleton";
+import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 
 const SkeletonUi = () => {
   return (
-    <div className="productDisplay container text-center mt-3">
-      <div className=" d-flex  justify-content-around">
-        <figure className="productDisplayImg">
-          <Skeleton width={360} height={350} />
+    <>
+    <SkeletonTheme>
+      <div className=" d-flex flex-column align-items-center flex-md-row">
+        <figure>
+          <Skeleton duration={0.2} width={350} height={350} />
         </figure>
-        <div className="porductDisplayRight w-50 ">
+        <div className=" p-4 w-100 ">
           <h1 className="mb-3">
-            <Skeleton width={450} height={50} direction="rtl" />
+            <Skeleton  />
           </h1>
 
           <div className="productDisplayRightPriceLast">
@@ -31,7 +32,8 @@ const SkeletonUi = () => {
           </div>
         </div>
       </div>
-    </div>
+      </SkeletonTheme>
+    </>
   );
 };
 

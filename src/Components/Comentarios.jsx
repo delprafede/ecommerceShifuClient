@@ -44,17 +44,17 @@ export const Comentarios = (props) => {
     <div>
       {" "}
       <h2 className=" text-center">Comentarios</h2>
-      <div className=" bg-body-secondary p-3 w-100">
+      <div className="  p-3 w-100">
         <form 
           onSubmit={handleComentarios}
           className=" container d-flex justify-content-around align-items-center gap-2"
         >
           <textarea
-            className="form-control"
+            className="w-100 focus-ring-primary p-1 rounded-2"
             placeholder="Descripcion"
             rows="1"
             {...register("description")}
-            autoFocus
+            
           ></textarea>
 
           <button
@@ -67,8 +67,8 @@ export const Comentarios = (props) => {
           </button>
         </form>
       </div>
-      <div className=" d-flex gap-2 mt-4  bg-info-subtle">
-        <div className=" col-lg-6">
+      <div className=" d-flex gap-2 mt-4">
+        <div className=" col-12 col-lg-6">
           {spinner ? (
             <img src={spinnerLoading} className="spinner" />
           ) : (

@@ -57,18 +57,22 @@ const PostEspecificaciones = async (Especificacion) => {
   // console.log(data)
   return data;
 };
-//Route para modificar Porductos admin
-const UploadProducts = async (product) => {
-  let ProdString = JSON.stringify(product);
-  const response = await fetch(`http://localhost:6060/api/Admin/Product`, {
-    body: ProdString,
-    method: "PUT",
-    headers: { "content-type": "application/json" },
-  });
-  const data = response.json();
 
-  return data;
-};
+// const UploadImgProducts = async (imgFile) => {
+//   console.log(imgFile)
+//   let ImgString = JSON.stringify(imgFile);
+//   const response = await fetch(`http://localhost:6060/api/Admin/AddImg`, {
+//     body: ImgString,
+//     method: "POST",
+//     headers: { "content-type": "application/json" },
+//   });
+//   const data = response.json();
+// // console.log(data)
+//   return data;
+// };
+ const UploadImgProducts = (imgFile) =>
+  
+  instance.post(`/Admin/AddImg`, imgFile);
 
 const UploadEspecificaciones = async () => {
   // let ProdString=JSON.stringify(data)
@@ -81,16 +85,16 @@ const UploadEspecificaciones = async () => {
   //         return res
 };
 
-const UploadImage = async (FormData) => {
-  // let ProdString=JSON.stringify(Image)
-  const response = await fetch(`http://localhost:6060/api/Admin/Picture`, {
-    body: FormData,
-    method: "PUT",
-  });
-  const data = response.json();
+// const UploadImage = async (FormData) => {
+//   // let ProdString=JSON.stringify(Image)
+//   const response = await fetch(`http://localhost:6060/api/Admin/Picture`, {
+//     body: FormData,
+//     method: "PUT",
+//   });
+//   const data = response.json();
 
-  return data;
-};
+//   return data;
+// };
 
 // const DeleteProducts = async (id) => {
 //   console.log(id);
@@ -142,10 +146,10 @@ export {
   GetProduct,
   GetCompleteProduct,
   PostEspecificaciones,
-  UploadImage,
+  // UploadImage,
   DeleteProducts,
   DeleteImage,
   DeleteEspecificaciones,
-  UploadProducts,
+  UploadImgProducts,
   UploadEspecificaciones,
 };

@@ -185,9 +185,7 @@ const FormAdminProduct = () => {
                 onChange={(e) => {
                   setFiles(e.target.files[0]);
                 }}
-                // {...register("Imagen",
-                //   { required: "La imagen del producto es obligatoria" }
-                // )}
+               
               />
             </div>
           <div className="d-flex justify-content-center mt-3">
