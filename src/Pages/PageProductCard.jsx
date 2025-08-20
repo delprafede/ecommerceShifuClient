@@ -129,9 +129,9 @@ const PageProductCard = () => {
       ) : (
         <>
           <div
-            className="container-lg d-lg-flex mt-lg-4 containerMax"
+            className="container-lg d-lg-flex mt-lg-4 containerMax "
           >
-            <div className="container-fluid container-md col-lg-8  col-xl-9">
+            <div className=" container-fluid container-md col-lg-8  col-xl-9 ">
               <p className=" text-center my-3 d-lg-none fs-4">
                 {productCard.NombreProducto}
               </p>

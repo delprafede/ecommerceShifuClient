@@ -3,33 +3,32 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
-// import Form from "react-bootstrap/Form";
-// import LogoYoCampo from "../assets/img/LogoYoCampo.jpg";
-// import logoAdidas from "../assets/img/logoAdidas.png";
+
 import logoshifu from "../assets/img/logoshifu.png";
 import { Button } from "react-bootstrap";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import iconos, {
   iconoCarrito,
   iconoFavorito,
+  iconoFavoritoAgregado,
   locationIcons,
   personIcon,
 } from "../helpers/iconos";
 import { useAuth } from "../Context/AuthContext";
 import { useProducts } from "../Context/ProductsContext";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Buscador from "./Buscador";
 import { useFav } from "../Context/FavContext";
 import Categories from "./Categories";
-// import PaginaLoguin from "../Pages/PaginaLoguin";
+import Favorites from "../Pages/Favorites";
 
 function NavBarEx() {
   const { isAuthenticated, logout, user } = useAuth();
   const { productShopping, getProductShopping, quantity, search, setSearch } =
     useProducts();
   const { favsPage, getProductsFavorite } = useFav();
+  const [iconsFavS, setIconsFavS] = useState(false);
 
-  // const [show, setShow] = useState(false);
   const categories = [
     { id: 1, name: "Hombres" },
     { id: 2, name: "Mujeres" },
@@ -39,10 +38,8 @@ function NavBarEx() {
   useEffect(() => {
     getProductShopping();
     getProductsFavorite();
-  }, [quantity, isAuthenticated]);
-
-  // console.log(productsPage);
-
+  
+  }, [quantity, isAuthenticated,]);
   return (
     <>
       <Navbar expand="lg" className=" bg-body-secondary p-2">
@@ -152,7 +149,6 @@ function NavBarEx() {
                             className=" p-2"
                             as={NavLink}
                             to={`productos/${category.name}`}
-                        
                           >
                             {category.name}
                           </Nav.Link>
@@ -193,6 +189,7 @@ function NavBarEx() {
                   ) : null}
                 </div>
               </div>
+              {/* fin menu movil */}
               <div className=" col-lg-3 justify-content-end d-none d-lg-flex   ">
                 {isAuthenticated && user.rule === "admin" ? (
                   <>
@@ -209,10 +206,22 @@ function NavBarEx() {
                     <Nav.Link as={NavLink} to="admin">
                       Admin
                     </Nav.Link>
-                    <Nav.Link as={NavLink} to="favorit">
-                      {iconoFavorito}
-                    </Nav.Link>
-                    <div className="contadorFav">{favsPage.length}</div>
+
+                    {
+                      favsPage.length  ? (
+                        <Nav.Link className="favorito">
+                          {iconoFavoritoAgregado}
+                          <div id="favorito" className="bg-white p-3">
+                            <Favorites />
+                          </div>
+                        </Nav.Link>
+                      ) : (
+                        <>
+                          <Nav.Link className="">{iconoFavorito}</Nav.Link>
+                          <div className="contadorFav">{favsPage.length}</div>
+                        </>
+                      )}
+                  
 
                     <Nav.Link as={NavLink} to="carrito">
                       {iconoCarrito}

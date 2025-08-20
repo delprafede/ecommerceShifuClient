@@ -7,6 +7,32 @@
 .dropdown-menu[data-bs-popper] {
   left: -50px !important;
 }
+/* favoritos hover */
+.favorito {
+  background-color: transparent;
+  border: none;
+  max-width: 2rem;
+  position: relative;
+  z-index: 100;
+}
+.favorito #favorito {
+  display: none;
+  position: absolute;
+  box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+}
+.favorito:hover #favorito {
+  display: block;
+  background-color: white;
+  padding: 10px;
+  height: fit-content;
+  min-width: 350px;
+  width: fit-content;
+  top: 100%;
+  right: 0;
+  left: unset;
+  margin-left: unset;
+  margin-right: unset;
+}
 /* .carousel {
   height: 300px !important;
 } */
@@ -216,15 +242,13 @@ img {
 }
 @media (width > 767px) {
   .containerCard {
-    
     width: 13rem;
-    
   }
 }
 @media (width > 1287px) {
   .containerCard {
     transition: all 500ms ease-out;
-    width: 15rem;
+    width: 14rem;
   }
   .containerMax {
     max-width: 1440px;

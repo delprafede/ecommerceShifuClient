@@ -46,11 +46,11 @@ const Favorit = () => {
       <div
         className=" containerMax d-flex flex-wrap mt-4 justify-content-center align-items-center gap-3"
       >
-        {favsPage.map((product) => {
+        {favsPage.map((product, index) => {
           return (
             <>
               <div
-                key={product.product.UrlImagen[0].secure_url}
+                key={index}
                 className=" card mb-4 boxShadow containerCard "
               >
                 <div className="card h-100 text-center wCard">

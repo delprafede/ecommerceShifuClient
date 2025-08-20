@@ -31,7 +31,7 @@ const ProductsList = () => {
   const totalProducts = productsPage.length;
 
   const alertas = () => {
-    return toast.success("Debes iniciar sesion");
+    return toast.warning("Debes iniciar sesion");
   };
   const alertasCreate = () => {
     return toast.success("Agregaste a favoritos");
@@ -63,16 +63,19 @@ const ProductsList = () => {
   const customWidth = () => {
     if (window.innerWidth >= 600) {
       setPageNumber(12);
+    
     }
     if (window.innerWidth >= 1000) {
       setPageNumber(15);
+    // verificar
+    
     }
     if (window.innerWidth <= 428) {
       setPageNumber(10);
     }
   };
   useEffect(() => {
-    customWidth();
+  
 
     window.addEventListener("resize", customWidth);
 
@@ -96,10 +99,7 @@ const ProductsList = () => {
                     <div key={product.id} className="card  text-center">
                       <div className=" overflow-hidden  ">
                         <img
-                          // onClick={async () => {
-                          //   await getProduct(product._id);
-                          //   navigate(`/productCard/${product._id}`);
-                          // }}
+                         
                           src={product.UrlImagen[0].secure_url}
                           className="  imgCard"
                           alt={product.NombreProducto}
@@ -182,13 +182,13 @@ const ProductsList = () => {
 
       <Toaster
         theme="light"
-        position="top-right"
+        position="top-center"
         duration={2500}
+        richColors
         toastOptions={{
           style: {
-            background: "#a8b8c7ff",
-            color: "#212529",
             fontSize: "1.2rem",
+           padding: "10px",
             borderRadius: "8px",
            
           },
