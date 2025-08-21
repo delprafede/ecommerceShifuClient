@@ -131,7 +131,7 @@ const PageProductCard = () => {
           <div
             className="container-lg d-lg-flex mt-lg-4 containerMax "
           >
-            <div className=" container-fluid container-md col-lg-8  col-xl-9 ">
+            <div className=" container-fluid container-md col-lg-8   ">
               <p className=" text-center my-3 d-lg-none fs-4">
                 {productCard.NombreProducto}
               </p>
@@ -162,7 +162,7 @@ const PageProductCard = () => {
               </div>
             </div>
 
-            <div className=" container-fluid mt-2 mt-lg-0 col-lg-4 col-xl-3 d-flex flex-column justify-content-center">
+            <div className=" container-fluid mt-2 mt-lg-0 col-lg-4  d-flex flex-column justify-content-center">
               <p className=" text-center d-none d-lg-flex fs-4">
                 {productCard.NombreProducto}
               </p>

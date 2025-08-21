@@ -251,7 +251,7 @@ img {
     width: 14rem;
   }
   .containerMax {
-    max-width: 1440px;
+    max-width: 1200px;
   }
 }
 /* Grilla de Productos */
@@ -305,7 +305,7 @@ img {
   text-decoration: none;
 }
 .linkHover:hover {
-  color: green;
+  color: rgb(0, 66, 128);
   text-decoration: underline;
   cursor: pointer;
 }

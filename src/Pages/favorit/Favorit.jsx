@@ -22,87 +22,159 @@ const Favorit = () => {
   const alertas = () => {
     return toast.success("Eliminaste el producto de Mis Favoritos");
   };
-  console.log(favsPage)
+  console.log(favsPage);
 
   return (
     <>
       {favsPage.length === 0 ? (
         <>
-        <div className="container d-flex flex-column justify-content-center align-items-center">
+          <div className="container d-flex flex-column justify-content-center align-items-center">
             <h1 className=" text-uppercase text-center my-3">
-            Tus favoritos se mostrarán aquí
-          </h1>
-          <button
-            className="btn btn-primary "
-            onClick={() => navigate("/")}
-          >
-            Volver
-          </button>
-        </div>
+              Tus favoritos se mostrarán aquí
+            </h1>
+            <button className="btn btn-primary " onClick={() => navigate("/")}>
+              Volver
+            </button>
+          </div>
         </>
       ) : (
-        <h1 className=" text-uppercase text-center my-3">Mis Favoritos</h1>
-      )}
-      <div
-        className=" containerMax d-flex flex-wrap mt-4 justify-content-center align-items-center gap-3"
-      >
-        {favsPage.map((product, index) => {
-          return (
-            <>
+        <>
+          <h1 className=" text-center ">Favoritos</h1>
+          {/* {favsPage.map((favorite) => {
+            return (
               <div
-                key={index}
-                className=" card mb-4 boxShadow containerCard "
+                key={favorite.product._id}
+                className="  card mb-4 boxShadow containerCard overflow-hidden "
               >
-                <div className="card h-100 text-center wCard">
-                  <div className=" overflow-hidden">
+                <div key={favorite.product._id} className="card  text-center">
+                  <div className=" overflow-hidden  ">
                     <img
-                      src={product.product.UrlImagen[0].secure_url}
+                      src={product.UrlImagen[0].secure_url}
                       className="  imgCard"
                       alt={product.NombreProducto}
                     />
                   </div>
-                  <div className="card-body">
-                    <h5 className="card-title mb-0">
-                      {product.product.NombreProducto.substring(0, 12)}...
-                    </h5>
-                    <p className="card-text lead fw-bold">
-                      $ {product.product.Precio}
+                  <div
+                    onClick={async () => {
+                      await getProduct(product._id);
+                      navigate(`/productCard/${product._id}`);
+                    }}
+                    className="card-body pointer"
+                  >
+                    <p className=" mb-0 fs-6 fontSize">
+                      {product.NombreProducto.substring(0, 12)}...
+                    </p>
+                    <p className="card-text  fs-6 fontSize fw-bold">
+                      {formatCurrency(product.Precio)}
                     </p>
                   </div>
-                  <div className=" w-100 d-flex justify-content-around p-1">
+                  {favsPage.map((f) => f.product._id).includes(product._id) ? (
                     <button
-                      className="bg-white buttonHoverCart border border-black  rounded-1  p-1
-                      "
-                      onClick={async () => {
-                        await getProduct(product.product._id);
-                        navigate(`/productCard/${product.product._id}`);
-                      }}
-                    >
-                      {iconoCarritoCart}
-                    </button>
-                    <button
-                      className="bg-white border border-black  rounded-1 buttonHoverDelete p-1"
+                      key={product._id}
+                      className=" btn  positionAbsolute"
+                      type="submit"
                       onClick={() => {
-                        deleteProductFavorites(product.product._id);
-                        alertas();
+                        handclick(product);
                       }}
                     >
-                      Eliminar
+                      {iconoFavoritoAgregado}
                     </button>
-                  </div>
+                  ) : (
+                    <button
+                      className="btn positionAbsolute"
+                      type="submit"
+                      key={product._id}
+                      onClick={async () => {
+                        if (!isAuthenticated) {
+                          alertas();
+                        } else {
+                          const product1 = {
+                            product: product._id,
+                            user: user.id,
+                          };
+
+                          //  await createFavRequest(product1);
+                          await createFavorite(product1);
+
+                          alertasCreate();
+                        }
+                        // handclick();
+                        setCambiar(!cambiar);
+                      }}
+                    >
+                      {iconoFavorito}
+                    </button>
+                  )}
                 </div>
               </div>
-            </>
-          );
-        })}
-      </div>
+            );
+          })} */}
+          {/* <div className="container-products">
+            {favsPage.map((favorite) => {
+              return (
+                <div
+                  className=" card-product bg-danger "
+                  key={favorite.product._id}
+                >
+                  <figure className="container-img">
+                    <img
+                      className=""
+                      src={favorite.product.UrlImagen[0].secure_url}
+                      alt={favorite.product.NombreProducto}
+                    />
+                  </figure>
+
+                  <div className="info-product">
+                    <h3>{favorite.product.NombreProducto} </h3>
+                  </div>
+
+                  <div className="btnIcon bg-white ">
+                    <div className=" col-4 ">
+                      <p className="price text-danger ">
+                        $ {favorite.product.Precio}{" "}
+                      </p>
+                    </div>
+                    <div className=" d-flex col-8 justify-content-end g-3 ">
+                      <button
+                        className="bg-white"
+                        onClick={async () => {
+                          await getProduct(favorite.product._id);
+                          navigate(`/productCard/${favorite.product._id}`);
+                        }}
+                      >
+                        {iconoCarritoCart}
+                      </button>
+                      <button
+                        className="text-primary bg-white "
+                        type="submit"
+                        onClick={() => {
+                          console.log(favorite.product._id);
+                          deleteProductFavorites(favorite.product._id);
+                          alertas();
+                        }}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div> */}
+        </>
+      )}
       <Toaster
         theme="light"
         position="top-center"
-        duration={5000}
+        duration={2500}
+        richColors
         toastOptions={{
-          style: { background: "red" },
-          className: "my-toast",
+          style: {
+            fontSize: "1.2rem",
+            padding: "10px",
+            borderRadius: "8px",
+          },
+          className: "myToast",
         }}
       />
     </>

@@ -87,7 +87,7 @@ function Contacto() {
                   }`}
                   placeholder={
                     !isAuthenticated
-                      ? "Por favor inicia sesión para enviar el comentario "
+                      ? "Por favor inicia sesión para enviar un comentario "
                       : "Deja tu comentario aquí..."
                   }
                   maxLength={100}
