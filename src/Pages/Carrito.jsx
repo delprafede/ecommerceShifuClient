@@ -76,6 +76,8 @@ export const Carrito = () => {
 
   return (
     <>
+    <div className=" d-flex justify-content-center">
+    <div className=" containerMax w-100 ">
       {productShopping.length === 0 ? (
         <div className="text-center mt-4">
           <h1 className=" text-center">Aquí visualizarás tus productos</h1>
@@ -85,12 +87,12 @@ export const Carrito = () => {
           </NavLink>
         </div>
       ) : (
-        <div className="d-lg-flex justify-content-around">
+        <div className="d-lg-flex justify-content-around ">
           <div className="d-flex flex-column col-lg-7 ">
           {productShopping.map((item, index) => {
             return (
               
-                <div key={index} className=" soy el div">
+                <div key={index} className=" ">
                   <article>
                     <section className="container-md  rounded my-3 p-3 shadow-sm ">
                       <h2 className=" border-bottom border-2 pb-2 mb-0">
@@ -104,7 +106,7 @@ export const Carrito = () => {
                             alt=""
                           />
                         </figure>
-                        <div className="col-6 d-flex flex-column justify-content-between p-1">
+                        <div className="col-6 d-flex flex-column justify-content-between p-1 p-lg-3">
                           <div className=" d-flex gap-2">
                             <p className="fs-6 fw-bold ">
                               Color:{" "}
@@ -221,6 +223,8 @@ export const Carrito = () => {
           </div>
         </div>
       )}
+      </div>
+      </div>
     </>
   );
 };

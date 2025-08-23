@@ -28,16 +28,14 @@ import PaginaLoguin from "./Pages/PaginaLoguin";
 import PaginaRegistro from "./Pages/PaginaRegistro";
 import { ProtectedRoute } from "../src/Components/ProtectedRoute";
 import { FavoritesProvider } from "./Context/FavContext";
-
 import PageProductCard from "./Pages/PageProductCard";
 import { ProductsProvider } from "./Context/ProductsContext";
 import { Carrito } from "./Pages/Carrito";
 import { ShoppingProvider } from "./Context/ShoppingContext";
 import PageAdmin from "./Pages/PageAdmin.jsx";
-// import PageSuccess from "./Pages/pageSuccess.jsx";
 import Ayuda from "./Pages/Ayuda.jsx";
 import SuccesPassword from "./Pages/SuccesPassword.jsx";
-import Favorit from "./Pages/favorit/Favorit.jsx";
+import Favorit from "./Pages/Favorit.jsx";
 import Categories from "./Components/Categories.jsx";
 
 // import { ShoppingRender } from "./ShoppingF";

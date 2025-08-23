@@ -43,7 +43,7 @@ function NavBarEx() {
   return (
     <>
       <Navbar expand="lg" className=" bg-body-secondary p-2">
-        <Container className="  d-flex justify-content-center  flex-lg-column  ">
+        <Container className="  d-flex justify-content-center  flex-lg-column containerMax">
           <Navbar className="col col-lg-12 order-2 order-lg-0 ">
             <Container className="d-flex justify-content-center  p-2 ">
               <Nav.Link
@@ -123,9 +123,9 @@ function NavBarEx() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" className="order-1" />
           <Navbar.Collapse
             id="basic-navbar-nav"
-            className="w-100  d-lg-flex order-4 justify-content-end align-items-center"
+            className="w-100 d-lg-flex order-4 justify-content-end align-items-center col-lg-12"
           >
-            <Nav className="p-2 w-100  col-lg-12  ">
+            <Nav className="p-2 container col-lg-12">
               <div className="d-lg-none d-flex w-100">
                 <div className="  w-75">
                   <Buscador buscar={search} />
@@ -143,7 +143,7 @@ function NavBarEx() {
                     {" "}
                     <NavDropdown title="Categorias" id="basic-nav-dropdown">
                       {categories.map((category) => (
-                        <>
+                       
                           <Nav.Link
                             key={category.id}
                             className=" p-2"
@@ -152,7 +152,7 @@ function NavBarEx() {
                           >
                             {category.name}
                           </Nav.Link>
-                        </>
+                  
                       ))}
                     </NavDropdown>
                   </li>
@@ -241,9 +241,20 @@ function NavBarEx() {
                       </btn>
                     </NavDropdown>
 
-                    <Nav.Link as={NavLink} to="favorites">
-                      {iconoFavorito}
-                    </Nav.Link>
+                   {
+                      favsPage.length  ? (
+                        <Nav.Link className="favorito">
+                          {iconoFavoritoAgregado}
+                          <div id="favorito" className="bg-white p-3">
+                            <Favorites />
+                          </div>
+                        </Nav.Link>
+                      ) : (
+                        <>
+                          <Nav.Link className="">{iconoFavorito}</Nav.Link>
+                          <div className="contadorFav">{favsPage.length}</div>
+                        </>
+                      )}
                     <Nav.Link as={NavLink} to="carrito">
                       {iconoCarrito}
                     </Nav.Link>

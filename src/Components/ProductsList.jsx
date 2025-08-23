@@ -4,8 +4,7 @@ import { useFav } from "../Context/FavContext";
 import { toast, Toaster } from "sonner";
 
 import { iconoFavorito, iconoFavoritoAgregado } from "../helpers/iconos";
-// import { createFavRequest } from "../api/favorite";
-// import PaginaArticulo from "../Pages/ProductCard";
+
 import { useProducts } from "../Context/ProductsContext";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
@@ -89,14 +88,14 @@ const ProductsList = () => {
       <div className={`d-flex justify-content-center mt-3 h-100 containerMax `}>
         <div className=" d-flex  justify-content-center flex-wrap gap-2 gap-md-3 gap-xl-4 positionRelative ">
           {filteredProducts
-            .map((product) => {
+            .map((product, index) => {
               return (
-                <>
+                
                   <div
-                    key={product.id}
+                    key={index}
                     className="  card mb-4 boxShadow containerCard overflow-hidden "
                   >
-                    <div key={product.id} className="card  text-center">
+                    <div className="card  text-center">
                       <div className=" overflow-hidden  ">
                         <img
                          
@@ -162,7 +161,7 @@ const ProductsList = () => {
                     </div>
                   </div>
                   
-                </>
+               
               );
             })
             .slice(firstIndex, lastIndex)}

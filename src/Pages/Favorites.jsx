@@ -15,14 +15,21 @@ import { useProducts } from "../Context/ProductsContext";
 const Favorites = () => {
   const navigate = useNavigate();
   const { getProduct } = useProducts();
-  const { favsPage, getProductsFavorite, deleteProductFavorites } = useFav();
+  const { favsPage, deleteProductFavorites, clearFavorites } = useFav();
   const { isAuthenticated } = useAuth();
 
   const alertas = () => {
     return toast.error("Eliminaste el producto de Mis Favoritos");
   };
 
-
+   const handleShop = async (favorite) => {
+    await getProduct(favorite.product._id);
+    navigate(`/productCard/${favorite.product._id}`);
+  };
+  const handDelete = (favorite) => {
+    deleteProductFavorites(favorite.product._id);
+    alertas();
+  };
 
   return (
     <>
@@ -53,18 +60,37 @@ const Favorites = () => {
                       {favorito.product.NombreProducto.substring(0, 10)}...
                     </td>
                     <td className="fw-bold">${favorito.product.Precio}</td>
-                    <td className="">{cartFavoriteIcon}</td>
+                    <td
+                      onClick={() => {
+                        handleShop(favorito);
+                      }}
+                      className=""
+                    >
+                      {cartFavoriteIcon}
+                    </td>
 
-                    <td className=" ">{deleteIcons}</td>
+                    <td
+                      onClick={() => {
+                        handDelete(favorito);
+                      }}
+                      className=" "
+                    >
+                      {deleteIcons}
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
 
-          <button className="btn btn-dark w-100 mt-3 p-2">
-            Vaciar Favoritos
-          </button>
+          <button
+           onClick={() => {
+            clearFavorites();
+           }}
+           className="btn btn-dark w-100 mt-3 p-2"
+         >
+           Vaciar Favoritos
+         </button>
         <Toaster
           position="top-right"
           toastOptions={{

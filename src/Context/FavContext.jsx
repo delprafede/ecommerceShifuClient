@@ -50,14 +50,17 @@ export const FavoritesProvider = ({ children }) => {
     }
    
   };
-
+  const clearFavorites = () => {
+    setFavsPage([]);
+  };
   return (
     <FavContext.Provider
       value={{
         favsPage,
         createFavorite,
         getProductsFavorite,
-        deleteProductFavorites, 
+        deleteProductFavorites,
+        clearFavorites, 
         favsCreate,
         removeId,
         errors,

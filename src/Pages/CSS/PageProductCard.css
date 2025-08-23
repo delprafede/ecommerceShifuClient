@@ -9,8 +9,8 @@
   max-width: 6rem;
  
 }
-.containerHeigth {
-  height: 200px;
+.containerMax {
+  max-width: 1400px;
 }
 
 .cardImg:hover {
