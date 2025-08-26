@@ -50,7 +50,7 @@ export const ProductsProvider = ({ children }) => {
       const res = await getProductsRequest();
       setProductsPage(res.data);
     } catch (error) {
-      console.log(error, "estoy aca");
+     console.log(error)
     }
   };
 

@@ -20,8 +20,8 @@ const Favorit = () => {
     getProductsFavorite();
     if (!isAuthenticated) navigate("/");
   }, []);
-  const alertas = () => {
-    return toast.error("Eliminaste el producto de Mis Favoritos");
+  const alertasPageFavorite = () => {
+    return toast.error("Eliminaste de Mis Favoritos pagina");
   };
   console.log(favsPage);
   const handleShop = async (favorite) => {
@@ -30,7 +30,7 @@ const Favorit = () => {
   };
   const handDelete = (favorite) => {
     deleteProductFavorites(favorite.product._id);
-    alertas();
+    alertasPageFavorite();
   };
   return (
     <>
@@ -97,20 +97,7 @@ const Favorit = () => {
         </>
       )}
 
-      <Toaster
-        theme="light"
-        position="top-center"
-        duration={2500}
-        richColors
-        toastOptions={{
-          style: {
-            fontSize: "1rem",
-            padding: "10px",
-            borderRadius: "8px",
-          },
-          className: "myToast",
-        }}
-      />
+      <Toaster position="top-center" duration={2500} richColors />
     </>
   );
 };

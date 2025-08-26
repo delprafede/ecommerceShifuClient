@@ -14,7 +14,7 @@ import { formatCurrency } from "../utils";
 // import { createFavRequest } from "../api/favorite";
 
 const ProductsList = () => {
-  const [pageNumber, setPageNumber] = useState(10);
+  const [pageNumber, setPageNumber] = useState(15);
   const [currentPage, setCurrentPage] = useState(1);
   const { user, isAuthenticated } = useAuth();
   const {
@@ -36,7 +36,7 @@ const ProductsList = () => {
     return toast.success("Agregaste a favoritos");
   };
   const alertasDelete = () => {
-    toast.error("Eliminaste de favoritos");
+    toast.error("Eliminaste de favoritos pageProductlist");
   };
 
   const handclick = (product) => {
@@ -71,15 +71,19 @@ const ProductsList = () => {
     }
     if (window.innerWidth <= 428) {
       setPageNumber(10);
+      console.log("hola")
     }
   };
   useEffect(() => {
   
+    if (window.innerWidth <= 428) {
+      setPageNumber(10);
+    }
 
     window.addEventListener("resize", customWidth);
-
     return () => {
       window.removeEventListener("resize", customWidth);
+
     };
   }, [lastIndex]);
 
@@ -185,12 +189,6 @@ const ProductsList = () => {
         duration={2500}
         richColors
         toastOptions={{
-          style: {
-            fontSize: "1.2rem",
-           padding: "10px",
-            borderRadius: "8px",
-           
-          },
           className: "myToast",
         }}
       />

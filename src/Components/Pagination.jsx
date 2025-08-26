@@ -14,6 +14,10 @@ const Pagination = ({
   }
   const onPrevioPage = () => {
     setCurrentPage(currentPage - 1);
+      window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const onNextPage = () => {
@@ -24,7 +28,7 @@ const Pagination = ({
     });
   };
 
-  const onSepecificPage = (e) => {
+  const onSpecificPage = (e) => {
     setCurrentPage(e);
   };
    const scrollToTop = () => {
@@ -60,7 +64,7 @@ const Pagination = ({
               <li key={numberPage} className="page-item cursor">
                 <a
                   onClick={() => {
-                    onSepecificPage(numberPage);
+                    onSpecificPage(numberPage);
                   scrollToTop();
                   }}
                   className={`page-link ${
