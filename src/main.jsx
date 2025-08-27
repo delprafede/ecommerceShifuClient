@@ -35,7 +35,8 @@ import { ShoppingProvider } from "./Context/ShoppingContext";
 import PageAdmin from "./Pages/PageAdmin.jsx";
 import Ayuda from "./Pages/Ayuda.jsx";
 import SuccesPassword from "./Pages/SuccesPassword.jsx";
-import Favorit from "./Pages/Favorit.jsx";
+// import Favorites from "./Pages/Favorit.jsx";
+import Favorites from "./Pages/Favorites.jsx";
 import Categories from "./Components/Categories.jsx";
 
 // import { ShoppingRender } from "./ShoppingF";
@@ -92,10 +93,10 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/favorit",
+        path: "/favorit/*",
         element: (
           <div>
-            <Favorit />
+            <Favorites />
           </div>
         ),
       },
@@ -196,9 +197,18 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-    ],
+    ]
   },
-]);
+],
+{
+  future: {
+    v7: {
+      // Normalize `useNavigation()`/`useFetcher()` `formMethod` to uppercase
+       v7_normalizeFormMethod: true,
+    },
+  },
+}
+);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ShoppingProvider>

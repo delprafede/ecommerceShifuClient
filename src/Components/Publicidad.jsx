@@ -1,13 +1,12 @@
 import { Image } from "react-bootstrap"
-import publicidadbanner from "../assets/img/publicidadbanner.gif";
+import publicidadbanner from "../assets/img/publicidadadidas.png";
 
 
 const Publicidad = () => {
   return (
-    <div>
-      <h1>Hola Publicidad</h1>
-      <Image src={publicidadbanner} className=" w-100 imgPublicidad" />
-    </div>
+     <figure className="card w-100 border-0">
+                  <img src={publicidadbanner} className="card-img-top " alt={` ${publicidadbanner}`} />
+                </figure>
   )
 }
 

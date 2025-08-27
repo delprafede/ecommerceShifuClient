@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { get, useForm } from "react-hook-form";
 import { useProducts } from "../Context/ProductsContext";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -74,15 +74,18 @@ export const Comentarios = (props) => {
           ) : (
             comentries.map((comentario, index) => {
               return (
-                <>
-                  <p key={index} className=" p-3">
+            
+                <div key={index} >
+
+                  <p className=" p-3">
                     {comentario.description}
                   </p>
                   <span className=" text-center">
                     {new Date(comentario.date).toLocaleDateString()}
                   </span>
                   <hr />
-                </>
+                </div>
+           
               );
             }).reverse()
           )}

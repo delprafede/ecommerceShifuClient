@@ -55,10 +55,11 @@ export const ProductsProvider = ({ children }) => {
   };
 
   const getProduct = async (id) => {
-    console.log(id);
+    console.log(id, "usando")
     try {
       const res = await getProductCardRequest(id);
       setProductCard(res.data);
+      // return res.data;
       console.log(res.data);
     } catch (error) {
       console.log(error.response.data);
@@ -120,7 +121,7 @@ export const ProductsProvider = ({ children }) => {
   const getComentries = async (id) => {
     try {
       const res = await getComentriesRequest(id);
-      console.log(res);
+     
       setComentries(res);
     } catch (error) {
       console.log(error, "no me estoy aplicando");

@@ -369,17 +369,9 @@ img {
   right: 0 !important;
 }
 
-/* Publicidad */
-.imgPublicidad {
-  max-height: 50vh;
-}
 
-/* Alertas */
-.my-toast {
-  width: 20rem;
-  background-color: green;
-  color: #fff;
-}
+
+
 /* MEDIAS QUERIES */
 
 @media (width > 428px) {
@@ -395,18 +387,7 @@ img {
     font-size: 1.2rem !important;
   }
 }
-/* @media (width > 428px) {
-  .containerCard {
-    transition: all 500ms ease-out;
-    width: 12rem;
-  }
-} */
 
-/* @media (width > 430px) {
-  .fontSize {
-    font-size: 1.2rem !important;
-  }
-} */
 
 @media (width > 767px) {
   .containerCard {
@@ -428,18 +409,28 @@ img {
     font-size: 1.4rem !important;
   }
 }
+@media (width > 1023px) {
+  .containerCard {
+    transition: all 500ms ease-out;
+    max-width: 13rem;
+
+  }
+  .fontSize {
+    font-size: 1.4rem !important;
+  }
+}
 @media (width > 1200px) {
   .carrouselSlider {
     height: 60vh;
   }
 }
-@media (width > 1287px) {
+@media (width > 1224px) {
   .containerCard {
     transition: all 500ms ease-out;
     width: 14rem;
   }
   .containerMax {
-    max-width: 1400px;
+    max-width: 1200px;
   }
 }
 /* Grilla de Productos */

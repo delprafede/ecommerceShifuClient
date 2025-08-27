@@ -9,9 +9,9 @@
   max-width: 6rem;
  
 }
-.containerMax {
+/* .containerMax {
   max-width: 1400px;
-}
+} */
 
 .cardImg:hover {
   transform: scale(1.05);

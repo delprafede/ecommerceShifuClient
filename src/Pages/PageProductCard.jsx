@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import spinnerLoading from "../assets/img/spinnerLoading.svg";
 import { Toaster, toast } from "sonner";
 import { Comentarios } from "../Components/Comentarios";
-
+import Publicidad from "../Components/Publicidad";
 import SkeletonUi from "../Components/Skeleton";
 import useLocalStorage from "../CustonHook/useLocalStorage";
 
@@ -19,6 +19,7 @@ const PageProductCard = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -79,11 +80,13 @@ const PageProductCard = () => {
     data.eid = res._id;
     if (isAuthenticated) {
       await PostShoppings(data);
-      alertas();
       IncrementQty();
+      reset();
+      alertas();
     } else {
       setProductLocal(data);
       IncrementQty();
+      reset();
       alertasLocalStorageProduct();
       const timer = setTimeout(() => {
         navigate("/login");
@@ -205,6 +208,7 @@ const PageProductCard = () => {
                           onClick={() => {
                             cambioIndexColor(t);
                             setTalle(t);
+                            console.log("funciona");
                           }}
                           key={t.id}
                           value={t}
@@ -322,7 +326,9 @@ const PageProductCard = () => {
             <div className=" col-12 col-lg-6 p-2">
               <Comentarios productCard={productCard} />
             </div>
-            <aside className="publicidadPageProduct d-none d-lg-flex col-lg-6"></aside>
+            <aside className=" d-none d-lg-flex col-lg-6">
+              <Publicidad />
+            </aside>
           </div>
         </>
       )}

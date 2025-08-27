@@ -44,20 +44,16 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await LoguinRequest(user);
       setUser(res.data);
-      // console.log(res)
+
       setisAuthenticate(true);
     } catch (error) {
-      console.log(error.response.data.message)
       setErrors(error.response.data.message);
-      console.log(errors.length)
-    
-
     }
   };
 
   // Cerrar sesion
   const logout = () => {
-    window.location.reload()
+    window.location.reload();
     Cookies.remove("token");
     setisAuthenticate(false);
     setUser(null);
@@ -83,11 +79,10 @@ export const AuthProvider = ({ children }) => {
       const res = await updatePasswordRequest(id, token, user);
       console.log(res.data);
       if (res.data.status === "Success") {
-        setForgot(true)
-     
+        setForgot(true);
       }
       // setForgot(true);
-      
+
       const timer = setTimeout(() => {
         setSend(false);
       }, 3000);
@@ -151,7 +146,8 @@ export const AuthProvider = ({ children }) => {
         forgot,
         errors,
         loading,
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

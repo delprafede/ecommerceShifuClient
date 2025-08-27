@@ -20,11 +20,11 @@ export const FavoritesProvider = ({ children }) => {
   const [favsCreate, setFavsCreate] = useState([]);
   const [removeId, setRemoveId] = useState([]);
   const [errors, setErrors] = useState("");
+  const [isActivePage, setIsActivePage] = useState(false);
 
   const createFavorite = async (product1) => {
     try {
       const res = await createFavRequest(product1);
-      
     } catch (error) {
       setErrors(error.message);
       console.log(error);
@@ -41,6 +41,7 @@ export const FavoritesProvider = ({ children }) => {
   };
 
   const deleteProductFavorites = async (id) => {
+    console.log(id)
     try {
       const res = await deleteFavRequest(id);
       if (res.status === 204)
@@ -48,11 +49,8 @@ export const FavoritesProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-   
   };
-  const clearFavorites = () => {
-    setFavsPage([]);
-  };
+
   return (
     <FavContext.Provider
       value={{
@@ -60,10 +58,11 @@ export const FavoritesProvider = ({ children }) => {
         createFavorite,
         getProductsFavorite,
         deleteProductFavorites,
-        clearFavorites, 
         favsCreate,
         removeId,
         errors,
+        setIsActivePage,
+        isActivePage
       }}
     >
       {children}

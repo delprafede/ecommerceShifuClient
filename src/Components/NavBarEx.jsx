@@ -26,20 +26,20 @@ function NavBarEx() {
   const { isAuthenticated, logout, user } = useAuth();
   const { productShopping, getProductShopping, quantity, search, setSearch } =
     useProducts();
-  const { favsPage, getProductsFavorite } = useFav();
+  const { favsPage, getProductsFavorite, setIsActivePage } = useFav();
   const [iconsFavS, setIconsFavS] = useState(false);
+
 
   const categories = [
     { id: 1, name: "Hombres" },
     { id: 2, name: "Mujeres" },
     { id: 3, name: "Niños" },
   ];
-
+ 
   useEffect(() => {
     getProductShopping();
     getProductsFavorite();
-  
-  }, [quantity, isAuthenticated,]);
+  }, [quantity, isAuthenticated]);
   return (
     <>
       <Navbar expand="lg" className=" bg-body-secondary p-2">
@@ -143,16 +143,14 @@ function NavBarEx() {
                     {" "}
                     <NavDropdown title="Categorias" id="basic-nav-dropdown">
                       {categories.map((category) => (
-                       
-                          <Nav.Link
-                            key={category.id}
-                            className=" p-2"
-                            as={NavLink}
-                            to={`productos/${category.name}`}
-                          >
-                            {category.name}
-                          </Nav.Link>
-                  
+                        <Nav.Link
+                          key={category.id}
+                          className=" p-2"
+                          as={NavLink}
+                          to={`productos/${category.name}`}
+                        >
+                          {category.name}
+                        </Nav.Link>
                       ))}
                     </NavDropdown>
                   </li>
@@ -175,7 +173,11 @@ function NavBarEx() {
                       <Nav.Link as={NavLink} to="carrito">
                         {iconoCarrito}
                       </Nav.Link>
-                      <Nav.Link as={NavLink} to="favorit">
+                      <Nav.Link
+                        onClick={() => setIsActivePage(true)}
+                        as={NavLink}
+                        to="favorit"
+                      >
                         {iconoFavorito}
                       </Nav.Link>
                       <div className="contadorFavMovil">{favsPage.length}</div>
@@ -207,21 +209,19 @@ function NavBarEx() {
                       Admin
                     </Nav.Link>
 
-                    {
-                      favsPage.length  ? (
-                        <Nav.Link className="favorito">
-                          {iconoFavoritoAgregado}
-                          <div id="favorito" className="bg-white p-3">
-                            <Favorites />
-                          </div>
-                        </Nav.Link>
-                      ) : (
-                        <>
-                          <Nav.Link className="">{iconoFavorito}</Nav.Link>
-                          <div className="contadorFav">{favsPage.length}</div>
-                        </>
-                      )}
-                  
+                    {favsPage.length ? (
+                      <Nav.Link className="favorito">
+                        {iconoFavoritoAgregado}
+                        <div id="favorito" className="bg-white p-3">
+                          <Favorites />
+                        </div>
+                      </Nav.Link>
+                    ) : (
+                      <>
+                        <Nav.Link className="">{iconoFavorito}</Nav.Link>
+                        <div className="contadorFav">{favsPage.length}</div>
+                      </>
+                    )}
 
                     <Nav.Link as={NavLink} to="carrito">
                       {iconoCarrito}
@@ -241,20 +241,19 @@ function NavBarEx() {
                       </btn>
                     </NavDropdown>
 
-                   {
-                      favsPage.length  ? (
-                        <Nav.Link className="favorito">
-                          {iconoFavoritoAgregado}
-                          <div id="favorito" className="bg-white p-3">
-                            <Favorites />
-                          </div>
-                        </Nav.Link>
-                      ) : (
-                        <>
-                          <Nav.Link className="">{iconoFavorito}</Nav.Link>
-                          <div className="contadorFav">{favsPage.length}</div>
-                        </>
-                      )}
+                    {favsPage.length ? (
+                      <Nav.Link className="favorito">
+                        {iconoFavoritoAgregado}
+                        <div id="favorito" className="bg-white p-3">
+                          <Favorites />
+                        </div>
+                      </Nav.Link>
+                    ) : (
+                      <>
+                        <Nav.Link className="">{iconoFavorito}</Nav.Link>
+                        <div className="contadorFav">{favsPage.length}</div>
+                      </>
+                    )}
                     <Nav.Link as={NavLink} to="carrito">
                       {iconoCarrito}
                     </Nav.Link>

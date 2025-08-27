@@ -64,7 +64,7 @@ const ProductsList = () => {
       setPageNumber(12);
     
     }
-    if (window.innerWidth >= 1000) {
+    if (window.innerWidth >= 992) {
       setPageNumber(15);
     // verificar
     
