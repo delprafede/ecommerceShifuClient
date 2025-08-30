@@ -68,7 +68,7 @@ export const Comentarios = (props) => {
         </form>
       </div>
       <div className=" d-flex gap-2 mt-4">
-        <div className=" col-12 col-lg-6">
+        <div className=" col-12">
           {spinner ? (
             <img src={spinnerLoading} className="spinner" />
           ) : (

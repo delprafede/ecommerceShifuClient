@@ -69,8 +69,8 @@ const Favorites = () => {
           {favsPage.length > 0 && (
             <>
               <table className="w-100 table">
-                <thead>
-                  <tr>
+                <thead className=" sticky-top">
+                  <tr className="">
                     <th>Imagen</th>
                     <th>Nombre</th>
                     <th>Precio</th>
@@ -140,7 +140,7 @@ const Favorites = () => {
             </>
           ) : (
             <>
-              <h1 className=" text-center ">Favoritos page movil</h1>
+              <h1 className=" text-center ">Favoritos</h1>
               <div className="d-flex justify-content-center mt-3 containerMax">
                 <div className=" d-flex  justify-content-center flex-wrap gap-2 gap-md-3 gap-xl-4 positionRelative ">
                   {favsPage.map((favorite, index) => {
@@ -177,7 +177,7 @@ const Favorites = () => {
                             type="submit"
                             key={favorite.product._id}
                             onClick={() => {
-                              handDelete(favorite);
+                              handDelete(favorite.product._id);
                             }}
                           >
                             {deleteIcons}

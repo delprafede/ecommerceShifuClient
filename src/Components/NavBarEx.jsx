@@ -212,7 +212,7 @@ function NavBarEx() {
                     {favsPage.length ? (
                       <Nav.Link className="favorito">
                         {iconoFavoritoAgregado}
-                        <div id="favorito" className="bg-white p-3">
+                        <div id="favorito" className="">
                           <Favorites />
                         </div>
                       </Nav.Link>

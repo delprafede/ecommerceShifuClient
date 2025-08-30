@@ -29,18 +29,18 @@ const PageProductCard = () => {
   const [spinner, setSpinner] = useState(true);
   const [spinnerColors, setSpinnerColors] = useState(true);
   const [spinnerCantidad, setSpinnerCantidad] = useState(false);
-  const [talle, setTalle] = useState();
+  const [talle, setTalle] = useState("");
   const [talleDuplicado, setTalleDuplicado] = useState([]);
   const [talleOk, setTalleOk] = useState(false);
   const [quantityMax, setQuantityMax] = useState([]);
   const [color, setColor] = useState("");
+  const [cantidad, setCantidad] = useState(0);
   const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
 
   useEffect(() => {
     if (params.id) {
       getProduct(params.id);
     }
-
     const time = setTimeout(() => {
       setSpinner(false);
     }, 2500);
@@ -73,16 +73,21 @@ const PageProductCard = () => {
   const onSubmit = handleSubmit(async (data) => {
     data.IdProduct = productCard.IdProduct;
     if (user) {
-      data.IdUsu = user.id;
-    }
-    data.talle = talle;
-    const res = await getEspecificaciones(data);
-    data.eid = res._id;
-    if (isAuthenticated) {
-      await PostShoppings(data);
-      IncrementQty();
-      reset();
-      alertas();
+        data.IdUsu = user.id;
+      }
+      data.talle = talle;
+      const res = await getEspecificaciones(data);
+      data.eid = res._id;
+      if (isAuthenticated) {
+        await PostShoppings(data);
+        IncrementQty();
+        alertas();
+        reset();
+        const timer = setTimeout(() => {
+          setTalle("");
+        }, 1000);
+        return () => clearTimeout(timer);
+
     } else {
       setProductLocal(data);
       IncrementQty();
@@ -104,7 +109,7 @@ const PageProductCard = () => {
     }, 500);
     return () => clearTimeout(timerColor);
   };
-
+  let colorin = [];
   const quantityMaxCantidad = (color) => {
     setColor(color);
     setSpinnerCantidad(true);
@@ -119,9 +124,28 @@ const PageProductCard = () => {
     }, 500);
     return () => clearTimeout(timerColor);
   };
-
-  let talleD = [];
+  const handleTalle = (t) => {
+    cambioIndexColor(t);
+    setTalle(t);
+  };
+  let talleD = [...new Set(talleDuplicado)];
+  // saco todos los colores del producto
+  let handleColorTotal = productCard.Especificaciones.map((c) => {
+    return c.id.Color;
+  });
+  // obtengo todos los colores sin repetirce y se muetra en la pagina
+  const colorTotalProduct = [...new Set(handleColorTotal)];
+  // guardo los coleres del talle
   let arrayColors = [];
+
+  const colorHabilitado = productCard.Especificaciones.find((e) => {
+    if (e.id.Talle === talle) {
+      arrayColors.push(e.id.Color);
+    }
+  });
+
+
+
 
   return (
     <>
@@ -131,9 +155,7 @@ const PageProductCard = () => {
         </div>
       ) : (
         <>
-          <div
-            className="container-lg d-lg-flex mt-lg-4 containerMax "
-          >
+          <div className="container-lg d-lg-flex mt-lg-4 containerMax ">
             <div className=" container-fluid container-md col-lg-8   ">
               <p className=" text-center my-3 d-lg-none fs-4">
                 {productCard.NombreProducto}
@@ -180,44 +202,42 @@ const PageProductCard = () => {
               </p>
 
               <form className=" w-100 d-flex align-items-start flex-column gap-2  mt-2">
-                <h3>Talle</h3>
+                {productCard.Especificaciones.map((t) => {
+                  talleDuplicado.push(t.id.Talle);
+                })}
+
+                <p>
+                  Talle:{" "}
+                  <span className=" d-inline fw-semibold">
+                    {talle ? talle : " Elegi el talle"}
+                  </span>
+                </p>
 
                 <div className="w-100 d-flex justify-content-start">
-                  {" "}
-                  <select
-                    className={` w-100 p-2 rounded-2  opacity-75 border-0  ${
-                      errors.talle &&
-                      "d-inline-flex focus-ring focus-ring-danger py-1 px-2 text-decoration-none border rounded-2 "
-                    }`}
-                    {...register("talle", {
-                      required: "Talle es requerido",
-                    })}
-                  >
-                    <option disabled selected value="">
-                      ---Seleccione su talle---
-                    </option>
-
-                    {productCard.Especificaciones.map((t) => {
-                      talleDuplicado.push(t.id.Talle);
-                    })}
-                    {(talleD = [...new Set(talleDuplicado)])}
-
-                    {talleD.map((t) => {
+                  <div className=" d-flex gap-2 align-items-center">
+                    {talleD.map((t, index) => {
                       return (
-                        <option
-                          onClick={() => {
-                            cambioIndexColor(t);
-                            setTalle(t);
-                            console.log("funciona");
-                          }}
-                          key={t.id}
-                          value={t}
-                        >
-                          {t}
-                        </option>
+                        <div key={index} className="checketRadio ">
+                          <input
+                            type="radio"
+                            id={index}
+                            value={t}
+                            className=" d-none "
+                            {...register("talle", {
+                              required: "Talle es requerido",
+                            })}
+                            onClick={() => {
+                              handleTalle(t);
+                             
+                            }}
+                          />
+                          <label className="cursor" htmlFor={index}>
+                            {t} AR
+                          </label>
+                        </div>
                       );
                     })}
-                  </select>
+                  </div>
                 </div>
 
                 {errors.talle && (
@@ -226,21 +246,96 @@ const PageProductCard = () => {
                   </span>
                 )}
 
-                <div className=" ">
+                {/* //colores */}
+                <p>
+                  Color:{" "}
+                  <span className=" d-inline fw-semibold">
+                    {color ? color : "Elegi el color"}
+                  </span>
+                </p>
+                <div className="w-100 d-flex justify-content-start">
+                  <div className="d-flex gap-2 align-items-center">
+                    {/* colores que tiene el producto */}
+                    {talle ? (
+                      spinnerColors ? (
+                        <img src={spinnerLoading} className="spinner" />
+                      ) : (
+                        arrayColors.map((c, index) => {
+                          return (
+                            <div
+                              className=" d-flex justify-content-center align-items-center gap-2 checketRadio "
+                              key={index}
+                            >
+                              <input
+                                className=" d-none"
+                                type="radio"
+                                id={c}
+                                value={c}
+                                onClick={() => {
+                                  quantityMaxCantidad(c);
+                                  setColor(c);
+                                
+                                }}
+                                {...register("color", {
+                                  required: "Color es requerido",
+                                })}
+                              />
+                              <label className="cursor" htmlFor={c}>
+                                {c}
+                              </label>
+                            </div>
+                          );
+                        })
+                      )
+                    ) : (
+                      colorTotalProduct.map((ctp, index) => {
+                        return (
+                          <div
+                            className=" d-flex justify-content-center align-items-center gap-2 opacity-50 "
+                            key={index}
+                          >
+                            <input
+                              className=" d-none opacity-50"
+                              type="radio"
+                              id={ctp}
+                              value={ctp}
+                              disabled
+                            />
+                            <label
+                              className=" border rounded-1 border-2 p-1"
+                              htmlFor={ctp}
+                            >
+                              {ctp}
+                            </label>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+                <div>
+                  {errors.color && (
+                    <span className=" fs-4 text-start mt-1  text-danger    ">
+                      {errors.color.message}
+                    </span>
+                  )}
+                </div>
+
+                {/*              
                   {talle ? (
-                    <h3>Color</h3>
+                    <p>Color: <span className=" d-inline fw-semibold">{color ? color : "Elegi el color"}</span></p>
                   ) : (
                     <span className=" fs-4 text-start  text-black ">
                       Seleccione un talle para ver los colores disponibles
                     </span>
                   )}
-                  {spinnerColors ? (
+                  {spinnerColorsColors ? (
                     <img src={spinnerLoading} className="spinner" />
                   ) : (
                     <>
                       <div className=" d-flex ">
                         <div
-                          className={`d-flex bg-body-secondary w-100 gap-3 rounded-2 ${
+                          className={`d-flex w-100 gap-3 rounded-2 ${
                             arrayColors.length > 0 ? "p-2" : ""
                           }`}
                         >
@@ -249,23 +344,31 @@ const PageProductCard = () => {
                               arrayColors.push(e.id.Color);
                             }
                           })}
-                          {arrayColors.map((e) => {
+                          {arrayColors.map((c, index) => {
                             return (
                               <div
-                                className=" d-flex justify-content-center align-items-center gap-2 p-2"
-                                key={e}
+                                className=" d-flex justify-content-center align-items-center gap-2 "
+                                key={index}
                               >
                                 <input
+                                  className=" d-none"
                                   type="radio"
-                                  value={e}
+                                  id={c}
+                                  value={c}
                                   onClick={() => {
-                                    quantityMaxCantidad(e);
+                                    quantityMaxCantidad(c);
+                                    console.log(c);
                                   }}
                                   {...register("color", {
                                     required: "Color es requerido",
                                   })}
                                 />
-                                <label>{e}</label>
+                                <label
+                                  className=" border rounded-1 border-2 p-1"
+                                  htmlFor={c}
+                                >
+                                  {c}
+                                </label>
                               </div>
                             );
                           })}
@@ -279,22 +382,26 @@ const PageProductCard = () => {
                         )}
                       </div>
                     </>
-                  )}
-                </div>
+                  )} */}
 
                 <div className=" w-100">
                   {color ? (
                     <>
-                      <h3 className="text-start">Cantidad</h3>
+                      <p>Cantidad: <span className=" d-inline fw-semibold">{cantidad}</span> </p>
                       {spinnerCantidad ? (
                         <img src={spinnerLoading} className="spinner" />
                       ) : (
                         <input
-                          className="w-100"
+                          className="w-50"
                           type="number"
                           placeholder={
                             quantityMax === 0 ? "sin stock" : quantityMax
                           }
+                          onClick={(e)=> {
+                            setCantidad(e.target.value)
+                     
+                            
+                          }}
                           min={1}
                           max={quantityMax}
                           {...register("cantidad", {
@@ -304,8 +411,8 @@ const PageProductCard = () => {
                       )}
                     </>
                   ) : (
-                    <span className={` ${talle ? "d-flex" : "d-none"}`}>
-                      Seleccione un color para ver la cantidad disponible
+                    <span className="">
+                      <p>Cantidad: <span className=" d-inline fw-semibold">0</span></p>
                     </span>
                   )}
 

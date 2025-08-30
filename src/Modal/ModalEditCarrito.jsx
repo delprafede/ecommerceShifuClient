@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { useAuth } from "../Context/AuthContext";
 // import { PostShoppings } from "../fetch/shopping";
 import { useProducts } from "../Context/ProductsContext";
-import { editIcons } from "../helpers/iconos";
+import { arrowIconsUp } from "../helpers/iconos";
 
 function ModalEditCarrito({element}) {
 
@@ -19,7 +19,7 @@ function ModalEditCarrito({element}) {
 
   return (
     <>
-      <p onClick={handleShow}>{editIcons}</p>
+      <p onClick={handleShow}>{arrowIconsUp}</p>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
