@@ -75,32 +75,20 @@ function NavBarEx() {
           <NavDropdown
             title={personIcon}
             id="basic-nav-dropdown"
-            className="order-3 d-lg-none "
+            className="order-3 d-lg-none"
           >
-            {isAuthenticated && user.rule === "admin" ? (
-              <div>
-                <btn
-                  className=" p-3 pointer"
-                  onClick={() => {
-                    logout();
-                  }}
-                >
-                  Salir
-                </btn>
-              </div>
-            ) : isAuthenticated ? (
-              <>
-                <NavDropdown title={user.nameUser} id="basic-nav-dropdown">
-                  <btn
-                    className=" p-3 pointer"
+            { isAuthenticated ? (
+             
+                  <button
+                    className="border-0 bg-white w-100 text-center"
                     onClick={() => {
                       logout();
                     }}
                   >
                     Salir
-                  </btn>
-                </NavDropdown>
-              </>
+                  </button>
+           
+        
             ) : (
               <>
                 <ul className=" mb-0 ps-2">
@@ -195,15 +183,17 @@ function NavBarEx() {
               <div className=" col-lg-3 justify-content-end d-none d-lg-flex   ">
                 {isAuthenticated && user.rule === "admin" ? (
                   <>
-                    <NavDropdown title={user.nameUser} id="basic-nav-dropdown">
-                      <btn
-                        className=" p-3 pointer"
+                    <NavDropdown
+                    className=""
+                    title={user.nameUser}>
+                      <button
+                        className=" border-0 bg-white w-100 text-center "
                         onClick={() => {
                           logout();
                         }}
                       >
                         Salir
-                      </btn>
+                      </button>
                     </NavDropdown>
                     <Nav.Link as={NavLink} to="admin">
                       Admin
@@ -231,14 +221,14 @@ function NavBarEx() {
                 ) : isAuthenticated ? (
                   <>
                     <NavDropdown title={user.nameUser} id="basic-nav-dropdown">
-                      <btn
-                        className=" p-3 pointer"
+                      <button
+                        className=" pointer w-100 text-center"
                         onClick={() => {
                           logout();
                         }}
                       >
                         Salir
-                      </btn>
+                      </button>
                     </NavDropdown>
 
                     {favsPage.length ? (

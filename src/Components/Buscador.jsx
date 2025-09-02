@@ -41,7 +41,6 @@ const Buscador = () => {
           <input
             type="text"
             className=" imputBuscar"
-            id="exampleInputEmail1"
             aria-describedby="emailHelp"
             placeholder="Buscar Productos"
             {...register("search")}
@@ -49,8 +48,6 @@ const Buscador = () => {
         <button 
          
           type="submit"
-          id="button-addon2"
-          
           aria-label="Search"
         className=" iconoBuscar">
           {" "}

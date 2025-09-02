@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useProducts } from "../Context/ProductsContext";
 import { set, useForm } from "react-hook-form";
 import { useAuth } from "../Context/AuthContext";
@@ -12,6 +12,7 @@ import { Comentarios } from "../Components/Comentarios";
 import Publicidad from "../Components/Publicidad";
 import SkeletonUi from "../Components/Skeleton";
 import useLocalStorage from "../CustonHook/useLocalStorage";
+import { use } from "react";
 
 const PageProductCard = () => {
   const { productCard, getProduct, IncrementQty } = useProducts();
@@ -34,6 +35,8 @@ const PageProductCard = () => {
   const [talleOk, setTalleOk] = useState(false);
   const [quantityMax, setQuantityMax] = useState([]);
   const [color, setColor] = useState("");
+  const [arrayColors, setArrayColors] = useState([]);
+  const [coloresparavender, setColoresparavender] = useState([]);
   const [cantidad, setCantidad] = useState(0);
   const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
 
@@ -44,12 +47,15 @@ const PageProductCard = () => {
     const time = setTimeout(() => {
       setSpinner(false);
     }, 2500);
+    // console.log()
     return () => clearTimeout(time);
   }, []);
-
+  // console.log(productCard.Especificaciones)
   useEffect(() => {
     const timer = setTimeout(() => {
       setImgs(productCard.UrlImagen[0].secure_url);
+      setArrayColors(productCard.Especificaciones.map((e) => e.id.Color));
+      setTalleDuplicado(productCard.Especificaciones.map((e) => e.id.Talle));
     }, 2000);
     return () => clearTimeout(timer);
   }, [productCard]);
@@ -66,28 +72,27 @@ const PageProductCard = () => {
   };
   const alertasLocalStorageProduct = () => {
     return toast.success(
-      "Se agrego a tu carrito, logueate por favor para ver tu carrito"
+      "Logueate por favor para ver tu carrito"
     );
   };
 
   const onSubmit = handleSubmit(async (data) => {
     data.IdProduct = productCard.IdProduct;
     if (user) {
-        data.IdUsu = user.id;
-      }
-      data.talle = talle;
-      const res = await getEspecificaciones(data);
-      data.eid = res._id;
-      if (isAuthenticated) {
-        await PostShoppings(data);
-        IncrementQty();
-        alertas();
-        reset();
-        const timer = setTimeout(() => {
-          setTalle("");
-        }, 1000);
-        return () => clearTimeout(timer);
-
+      data.IdUsu = user.id;
+    }
+    data.talle = talle;
+    const res = await getEspecificaciones(data);
+    data.eid = res._id;
+    if (isAuthenticated) {
+      await PostShoppings(data);
+      IncrementQty();
+      alertas();
+      reset();
+      const timer = setTimeout(() => {
+        setTalle("");
+      }, 1000);
+      return () => clearTimeout(timer);
     } else {
       setProductLocal(data);
       IncrementQty();
@@ -100,16 +105,6 @@ const PageProductCard = () => {
     }
   });
 
-  const cambioIndexColor = (colorIndex) => {
-    setTalle(colorIndex);
-    setTalleOk(true);
-    setSpinnerColors(true);
-    const timerColor = setTimeout(() => {
-      setSpinnerColors(false);
-    }, 500);
-    return () => clearTimeout(timerColor);
-  };
-  let colorin = [];
   const quantityMaxCantidad = (color) => {
     setColor(color);
     setSpinnerCantidad(true);
@@ -126,27 +121,35 @@ const PageProductCard = () => {
   };
   const handleTalle = (t) => {
     cambioIndexColor(t);
+    console.log(t);
     setTalle(t);
   };
+  let arrayColorsTalle = [];
+  const cambioIndexColor = (t) => {
+    setTalle(t);
+    productCard.Especificaciones.find((e) => {
+      if (e.id.Talle === t) {
+        arrayColorsTalle.push(e.id.Color);
+        setColoresparavender(arrayColorsTalle);
+      }
+    });
+    setTalleOk(true);
+    setSpinnerColors(true);
+    const timerColor = setTimeout(() => {
+      setSpinnerColors(false);
+    }, 500);
+    return () => clearTimeout(timerColor);
+  };
+  console.log(coloresparavender);
+
+  // obtengo todos los talles sin repetirce y se muetra en la pagina
   let talleD = [...new Set(talleDuplicado)];
-  // saco todos los colores del producto
-  let handleColorTotal = productCard.Especificaciones.map((c) => {
-    return c.id.Color;
-  });
+
   // obtengo todos los colores sin repetirce y se muetra en la pagina
-  const colorTotalProduct = [...new Set(handleColorTotal)];
-  // guardo los coleres del talle
-  let arrayColors = [];
-
-  const colorHabilitado = productCard.Especificaciones.find((e) => {
-    if (e.id.Talle === talle) {
-      arrayColors.push(e.id.Color);
-    }
-  });
-
-
-
-
+  const colorTotalProduct = [...new Set(arrayColors)];
+  const handleQuantity = (e) => {
+    setCantidad(e.target.value);
+  };
   return (
     <>
       {spinner ? (
@@ -202,10 +205,6 @@ const PageProductCard = () => {
               </p>
 
               <form className=" w-100 d-flex align-items-start flex-column gap-2  mt-2">
-                {productCard.Especificaciones.map((t) => {
-                  talleDuplicado.push(t.id.Talle);
-                })}
-
                 <p>
                   Talle:{" "}
                   <span className=" d-inline fw-semibold">
@@ -228,7 +227,6 @@ const PageProductCard = () => {
                             })}
                             onClick={() => {
                               handleTalle(t);
-                             
                             }}
                           />
                           <label className="cursor" htmlFor={index}>
@@ -247,20 +245,21 @@ const PageProductCard = () => {
                 )}
 
                 {/* //colores */}
+
                 <p>
                   Color:{" "}
                   <span className=" d-inline fw-semibold">
                     {color ? color : "Elegi el color"}
                   </span>
                 </p>
-                <div className="w-100 d-flex justify-content-start">
-                  <div className="d-flex gap-2 align-items-center">
+                <div className="w-100 d-flex justify-content-start ">
+                  <div className="d-flex gap-2 align-items-center flex-wrap">
                     {/* colores que tiene el producto */}
                     {talle ? (
                       spinnerColors ? (
                         <img src={spinnerLoading} className="spinner" />
                       ) : (
-                        arrayColors.map((c, index) => {
+                        coloresparavender.map((c, index) => {
                           return (
                             <div
                               className=" d-flex justify-content-center align-items-center gap-2 checketRadio "
@@ -274,7 +273,6 @@ const PageProductCard = () => {
                                 onClick={() => {
                                   quantityMaxCantidad(c);
                                   setColor(c);
-                                
                                 }}
                                 {...register("color", {
                                   required: "Color es requerido",
@@ -291,7 +289,7 @@ const PageProductCard = () => {
                       colorTotalProduct.map((ctp, index) => {
                         return (
                           <div
-                            className=" d-flex justify-content-center align-items-center gap-2 opacity-50 "
+                            className=" d-flex justify-content-center align-items-center gap-2 opacity-50  "
                             key={index}
                           >
                             <input
@@ -302,7 +300,7 @@ const PageProductCard = () => {
                               disabled
                             />
                             <label
-                              className=" border rounded-1 border-2 p-1"
+                              className=" border rounded-1 border-2 p-1 text-nowrap"
                               htmlFor={ctp}
                             >
                               {ctp}
@@ -321,86 +319,26 @@ const PageProductCard = () => {
                   )}
                 </div>
 
-                {/*              
-                  {talle ? (
-                    <p>Color: <span className=" d-inline fw-semibold">{color ? color : "Elegi el color"}</span></p>
-                  ) : (
-                    <span className=" fs-4 text-start  text-black ">
-                      Seleccione un talle para ver los colores disponibles
-                    </span>
-                  )}
-                  {spinnerColorsColors ? (
-                    <img src={spinnerLoading} className="spinner" />
-                  ) : (
-                    <>
-                      <div className=" d-flex ">
-                        <div
-                          className={`d-flex w-100 gap-3 rounded-2 ${
-                            arrayColors.length > 0 ? "p-2" : ""
-                          }`}
-                        >
-                          {productCard.Especificaciones.find((e) => {
-                            if (e.id.Talle === talle) {
-                              arrayColors.push(e.id.Color);
-                            }
-                          })}
-                          {arrayColors.map((c, index) => {
-                            return (
-                              <div
-                                className=" d-flex justify-content-center align-items-center gap-2 "
-                                key={index}
-                              >
-                                <input
-                                  className=" d-none"
-                                  type="radio"
-                                  id={c}
-                                  value={c}
-                                  onClick={() => {
-                                    quantityMaxCantidad(c);
-                                    console.log(c);
-                                  }}
-                                  {...register("color", {
-                                    required: "Color es requerido",
-                                  })}
-                                />
-                                <label
-                                  className=" border rounded-1 border-2 p-1"
-                                  htmlFor={c}
-                                >
-                                  {c}
-                                </label>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                      <div>
-                        {errors.color && (
-                          <span className=" fs-4 text-start mt-1  text-danger    ">
-                            {errors.color.message}
-                          </span>
-                        )}
-                      </div>
-                    </>
-                  )} */}
-
                 <div className=" w-100">
-                  {color ? (
+                  {talle && color ? (
                     <>
-                      <p>Cantidad: <span className=" d-inline fw-semibold">{cantidad}</span> </p>
+                      <p>
+                        Cantidad:{" "}
+                        <span className=" d-inline fw-semibold">
+                          {cantidad}
+                        </span>{" "}
+                      </p>
                       {spinnerCantidad ? (
                         <img src={spinnerLoading} className="spinner" />
                       ) : (
                         <input
-                          className="w-50"
+                          className="w-25"
                           type="number"
                           placeholder={
                             quantityMax === 0 ? "sin stock" : quantityMax
                           }
-                          onClick={(e)=> {
-                            setCantidad(e.target.value)
-                     
-                            
+                          onChange={(e) => {
+                            handleQuantity(e);
                           }}
                           min={1}
                           max={quantityMax}
@@ -411,9 +349,20 @@ const PageProductCard = () => {
                       )}
                     </>
                   ) : (
-                    <span className="">
-                      <p>Cantidad: <span className=" d-inline fw-semibold">0</span></p>
-                    </span>
+                    <>
+                      <span className="">
+                        <p>
+                          Cantidad:{" "}
+                          <span className=" d-inline fw-semibold">0</span>
+                        </p>
+                      </span>
+                      <input
+                        className=" w-25 opacity-50"
+                        type="number"
+                        placeholder={cantidad}
+                        disabled
+                      />
+                    </>
                   )}
 
                   {errors.cantidad && (
@@ -423,9 +372,12 @@ const PageProductCard = () => {
                   )}
                 </div>
 
-                <div className="productDisplayRightTalleBtn w-100 hover mt-2">
-                  <btn onClick={onSubmit}>AGREAGAR AL CARRITO</btn>
-                </div>
+                <button
+                  className="productDisplayRightTalleBtn w-100"
+                  onClick={onSubmit}
+                >
+                  AGREAGAR AL CARRITO
+                </button>
               </form>
             </div>
           </div>

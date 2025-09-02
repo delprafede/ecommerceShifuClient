@@ -24,7 +24,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   //     //Usuario que podra ser leido en toda la aplicacion
   const [user, setUser] = useState(null);
-  const [isAuthenticated, setisAuthenticate] = useState(false);
+  const [isAuthenticated, setIsAuthenticate] = useState(false);
   const [errors, setErrors] = useState("");
   const [loading, setLoading] = useState(true);
   const [send, setSend] = useState(false);
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await registerRequest(user);
       setUser(res.data);
-      setisAuthenticate(true);
+      setIsAuthenticate(true);
       console.log(res.data);
     } catch (error) {
       setErrors(error.response.data.msg);
@@ -44,8 +44,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await LoguinRequest(user);
       setUser(res.data);
-
-      setisAuthenticate(true);
+      setIsAuthenticate(true);
     } catch (error) {
       setErrors(error.response.data.message);
     }
@@ -55,7 +54,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     window.location.reload();
     Cookies.remove("token");
-    setisAuthenticate(false);
+    setIsAuthenticate(false);
     setUser(null);
   };
 
@@ -106,7 +105,7 @@ export const AuthProvider = ({ children }) => {
       const cookies = Cookies.get();
 
       if (!cookies.token) {
-        setisAuthenticate(false);
+        setIsAuthenticate(false);
         setLoading(false);
         setUser(null);
       }
@@ -114,16 +113,16 @@ export const AuthProvider = ({ children }) => {
         const res = await verifyTokenRequest(cookies.token);
         // console.log(res);
         if (!res.data) {
-          setisAuthenticate(false);
+          setIsAuthenticate(false);
           setLoading(false);
           console.log("necesitas acceder");
         }
-        setisAuthenticate(true);
+        setIsAuthenticate(true);
         setUser(res.data);
         setLoading(false);
         // console.log(res.data)
       } catch (error) {
-        setisAuthenticate(false);
+        setIsAuthenticate(false);
         setUser(null);
         setLoading(false);
         // console.log("error verify", error);

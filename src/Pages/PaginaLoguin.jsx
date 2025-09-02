@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import { iconEyesBlock, iconEyes } from "../helpers/iconos";
 import useLocalStorage from "../CustonHook/useLocalStorage";
 import { PostShoppings } from "../fetch/shopping";
+import { useEffect } from "react";
+import { use } from "react";
 // ----------------------------------------------------------------
 
 const PaginaLoguin = () => {
@@ -22,34 +24,62 @@ const PaginaLoguin = () => {
 
   //
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     signin(data);
   });
-  const productStorage = useMemo(async () => {
-    if (isAuthenticated && window.localStorage.getItem("productLocal")) {
-      const { IdProduct, cantidad, color, eid } = productLocal;
-      const IdUsuProductStorage = {
-        IdUsu: user.id,
-        IdProduct,
-        cantidad,
-        color,
-        eid,
-      };
 
-      await PostShoppings(IdUsuProductStorage);
-      const timer = setTimeout(() => {
-        localStorage.removeItem("productLocal");
-      }, 3000);
-      navigate("/carrito");
-      return () => clearTimeout(timer);
-    } else {
-      navigate("/");
-    }
+  // const porductStorage = useMemo(async () => {
+  //   if (isAuthenticated && window.localStorage.getItem("productLocal")) {
+  //     console.log("enviando");
+
+  //     const { IdProduct, cantidad, color, eid } = productLocal;
+  //     const IdUsuProductStorage = {
+  //       IdUsu: user.id,
+  //       IdProduct,
+  //       cantidad,
+  //       color,
+  //       eid,
+  //     };
+
+  //     await PostShoppings(IdUsuProductStorage);
+  //     navigate("/carrito");
+  //     const timer = setTimeout(() => {
+  //       localStorage.removeItem("productLocal");
+  //     }, 2000);
+  //     return () => clearTimeout(timer);
+  //   } else {
+  //     navigate("/");
+  //   }
+  // }, [isAuthenticated]);
+  useEffect(() => {
+    const porductStorage = async () => {
+      if (isAuthenticated && window.localStorage.getItem("productLocal")) {
+        console.log("enviando");
+
+        const { IdProduct, cantidad, color, eid } = productLocal;
+        const IdUsuProductStorage = {
+          IdUsu: user.id,
+          IdProduct,
+          cantidad,
+          color,
+          eid,
+        };
+        console.log("enviando")
+        await PostShoppings(IdUsuProductStorage);
+        console.log("recivido")
+        navigate("/carrito");
+        const timer = setTimeout(() => {
+          localStorage.removeItem("productLocal");
+        }, 2000);
+        return () => clearTimeout(timer);
+      }
+    };
+
+    porductStorage();
   }, [isAuthenticated]);
 
   const cambiarVista = () => {
     setEyes(!eyes);
-    console.log(eyes);
   };
   return (
     <div className="p-1">
@@ -136,11 +166,11 @@ const PaginaLoguin = () => {
               Iniciar sesión
             </button>
           </div>
-          <btn className=" ">
+          <button className=" border-0 ">
             <NavLink to="/sendEmail" className=" text-black mt-4 ">
               Olvidaste tu Contraseña?
             </NavLink>
-          </btn>
+          </button>
           <div className="d-flex align-items-center gap-2 mt-4">
             <p className="d-flex text-black fst-italic align-items-center">
               No tienes una cuenta?

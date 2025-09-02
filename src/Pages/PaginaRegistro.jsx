@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import { useForm } from "react-hook-form";
 
@@ -9,7 +9,6 @@ import { useAuth } from "../Context/AuthContext";
 import { NavLink } from "react-router-dom";
 
 function PaginaRegistro() {
- 
   const {
     register,
     handleSubmit,
@@ -24,11 +23,35 @@ function PaginaRegistro() {
   useEffect(() => {
     if (isAuthenticated) navigate("/");
   }, [isAuthenticated]);
- 
+
   const onSubmit = handleSubmit(async (data) => {
     signup(data);
-  
   });
+  const porductStorage = useMemo(async () => {
+    if (isAuthenticated && window.localStorage.getItem("productLocal")) {
+      console.log("enviando");
+
+      const { IdProduct, cantidad, color, eid } = productLocal;
+      const IdUsuProductStorage = {
+        IdUsu: user.id,
+        IdProduct,
+        cantidad,
+        color,
+        eid,
+      };
+
+      await PostShoppings(IdUsuProductStorage);
+      navigate("/carrito");
+      console.log("if porductStorage")
+      const timer = setTimeout(() => {
+        localStorage.removeItem("productLocal");
+      }, 2000);
+      return () => clearTimeout(timer);
+    } else {
+      navigate("/");
+      console.log("else porductStorage")
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="p-1">
@@ -92,7 +115,6 @@ function PaginaRegistro() {
                 {errors.email.message}
               </span>
             )}
-          
 
             {authErrors !== "" && (
               <span className=" fs-4 text-center mt-1  text-white  bg-danger  ">
@@ -173,7 +195,6 @@ function PaginaRegistro() {
             <NavLink to="/login" className="text-primary fst-italic">
               Acceder
             </NavLink>
-           
           </div>
         </form>
       </div>
