@@ -24,18 +24,23 @@ import Favorites from "../Pages/Favorites";
 
 function NavBarEx() {
   const { isAuthenticated, logout, user } = useAuth();
-  const { productShopping, getProductShopping, quantity, search, setSearch } =
-    useProducts();
+  const {
+    productShopping,
+    getProductShopping,
+    quantity,
+    search,
+    setSearch,
+    setSearchTrue,
+  } = useProducts();
   const { favsPage, getProductsFavorite, setIsActivePage } = useFav();
   const [iconsFavS, setIconsFavS] = useState(false);
-
 
   const categories = [
     { id: 1, name: "Hombres" },
     { id: 2, name: "Mujeres" },
     { id: 3, name: "Niños" },
   ];
- 
+
   useEffect(() => {
     getProductShopping();
     getProductsFavorite();
@@ -47,15 +52,16 @@ function NavBarEx() {
           <Navbar className="col col-lg-12 order-2 order-lg-0 ">
             <Container className="d-flex justify-content-center  p-2 ">
               <Nav.Link
-                onClick={() => {
-                  setSearch("");
+                onClick={() => { 
+                  setSearch([]);            
+                 setSearchTrue(false);
                 }}
                 as={NavLink}
                 to="/"
                 className="col-lg-3 d-flex justify-content-lg-start justify-content-center"
               >
-                <div className="logo"></div>
                 {/* div logo */}
+                <div className="logo"></div>
               </Nav.Link>
 
               <div className=" col-lg-6 d-none d-lg-block order-lg-0">
@@ -77,18 +83,15 @@ function NavBarEx() {
             id="basic-nav-dropdown"
             className="order-3 d-lg-none"
           >
-            { isAuthenticated ? (
-             
-                  <button
-                    className="border-0 bg-white w-100 text-center"
-                    onClick={() => {
-                      logout();
-                    }}
-                  >
-                    Salir
-                  </button>
-           
-        
+            {isAuthenticated ? (
+              <button
+                className="border-0 bg-white w-100 text-center"
+                onClick={() => {
+                  logout();
+                }}
+              >
+                Salir
+              </button>
             ) : (
               <>
                 <ul className=" mb-0 ps-2">
@@ -183,9 +186,7 @@ function NavBarEx() {
               <div className=" col-lg-3 justify-content-end d-none d-lg-flex   ">
                 {isAuthenticated && user.rule === "admin" ? (
                   <>
-                    <NavDropdown
-                    className=""
-                    title={user.nameUser}>
+                    <NavDropdown className="" title={user.nameUser}>
                       <button
                         className=" border-0 bg-white w-100 text-center "
                         onClick={() => {

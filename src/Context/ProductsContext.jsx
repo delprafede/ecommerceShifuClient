@@ -8,6 +8,7 @@ import {
   createComentriesRequest,
 } from "../api/products";
 import { DeleteProduct, PostShoppings } from "../fetch/shopping";
+import { set } from "react-hook-form";
 
 const ProductsContext = createContext();
 
@@ -28,7 +29,9 @@ export const ProductsProvider = ({ children }) => {
   const [quantity, setQuantity] = useState(productShopping.length);
   const [cantidad, setCantProduct] = useState();
   const [results, setResults] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState([]);
+  const [searchTrue, setSearchTrue] = useState(false);
+  const [filteredProduct, setFilteredProduct] = useState("");
   const [comentries, setComentries] = useState([]);
 
   const DecrementQty = () => {
@@ -40,27 +43,36 @@ export const ProductsProvider = ({ children }) => {
   const IncrementQty = () => {
     setQuantity((prevCont) => prevCont + 1);
   };
-  const searcher = (data) => {
-    setSearch(data.search);
-    
-  };
+  const searcher = (name) => {
+   
+   setSearch(productsPage.filter((product) =>
+      product.NombreProducto.toLowerCase().includes(name.toLowerCase())))
+    setSearchTrue(true)
+    // if ( filteredProduct  ) {
 
+    //   filteredProduct = productsPage.filter((product) =>
+    //     product.NombreProducto.toLowerCase().includes(
+    //       name.toLowerCase()
+    //     ))
+    //   }else {
+    //  console.log(   "no esoty")
+    //   }
+      
+ 
+  }
   const getProducts = async () => {
     try {
       const res = await getProductsRequest();
       setProductsPage(res.data);
     } catch (error) {
-     console.log(error)
+      console.log(error);
     }
   };
 
   const getProduct = async (id) => {
-    
     try {
       const res = await getProductCardRequest(id);
       setProductCard(res.data);
-     
-    
     } catch (error) {
       console.log(error.response.data);
     }
@@ -121,7 +133,7 @@ export const ProductsProvider = ({ children }) => {
   const getComentries = async (id) => {
     try {
       const res = await getComentriesRequest(id);
-     
+
       setComentries(res);
     } catch (error) {
       console.log(error, "no me estoy aplicando");
@@ -156,6 +168,9 @@ export const ProductsProvider = ({ children }) => {
         CreateComentries,
         getComentries,
         comentries,
+        filteredProduct,
+       setSearchTrue,
+       searchTrue
       }}
     >
       {children}

@@ -4,14 +4,14 @@ import banner3 from "../assets/img/banner3.png";
 import { useProducts } from "../Context/ProductsContext";
 
 function SliderCarousels() {
-  const { search } = useProducts();
+  const { searchTrue } = useProducts();
 
   return (
     <>
-      {!search ? (
+      
         <div
           id="carouselExampleInterval"
-          className="carousel slide  "
+          className={` carousel slide ${searchTrue ? "d-none" : "d-block" }`}
           data-bs-ride="carousel"
         >
           <div className="carousel-inner bg-body-secondary h-100">
@@ -62,7 +62,7 @@ function SliderCarousels() {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
-      ) : null}
+      ) 
     </>
   );
 }

@@ -36,7 +36,7 @@ const PageProductCard = () => {
   const [quantityMax, setQuantityMax] = useState([]);
   const [color, setColor] = useState("");
   const [arrayColors, setArrayColors] = useState([]);
-  const [coloresparavender, setColoresparavender] = useState([]);
+  const [colorsAvailable, setcolorsAvailable] = useState([]);
   const [cantidad, setCantidad] = useState(0);
   const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
 
@@ -47,11 +47,10 @@ const PageProductCard = () => {
     const time = setTimeout(() => {
       setSpinner(false);
     }, 2500);
-    // console.log()
+
     return () => clearTimeout(time);
   }, []);
-  // console.log(productCard.Especificaciones)
-  useEffect(() => {
+   useEffect(() => {
     const timer = setTimeout(() => {
       setImgs(productCard.UrlImagen[0].secure_url);
       setArrayColors(productCard.Especificaciones.map((e) => e.id.Color));
@@ -71,9 +70,7 @@ const PageProductCard = () => {
     return toast.success("Se agrego a tu carrito");
   };
   const alertasLocalStorageProduct = () => {
-    return toast.success(
-      "Logueate por favor para ver tu carrito"
-    );
+    return toast.success("Logueate por favor para ver tu carrito");
   };
 
   const onSubmit = handleSubmit(async (data) => {
@@ -140,7 +137,7 @@ const PageProductCard = () => {
     }, 500);
     return () => clearTimeout(timerColor);
   };
-  console.log(coloresparavender);
+ 
 
   // obtengo todos los talles sin repetirce y se muetra en la pagina
   let talleD = [...new Set(talleDuplicado)];
@@ -259,7 +256,7 @@ const PageProductCard = () => {
                       spinnerColors ? (
                         <img src={spinnerLoading} className="spinner" />
                       ) : (
-                        coloresparavender.map((c, index) => {
+                        colorsAvailable.map((c, index) => {
                           return (
                             <div
                               className=" d-flex justify-content-center align-items-center gap-2 checketRadio "
@@ -273,6 +270,7 @@ const PageProductCard = () => {
                                 onClick={() => {
                                   quantityMaxCantidad(c);
                                   setColor(c);
+                                  setCantidad(0);
                                 }}
                                 {...register("color", {
                                   required: "Color es requerido",
@@ -331,21 +329,37 @@ const PageProductCard = () => {
                       {spinnerCantidad ? (
                         <img src={spinnerLoading} className="spinner" />
                       ) : (
-                        <input
-                          className="w-25"
+                       <div className=" d-flex w-100 gap-2 align-items-center">
+                  
+                         <input
+                          className="w-25 inputNumber "
                           type="number"
                           placeholder={
                             quantityMax === 0 ? "sin stock" : quantityMax
                           }
-                          onChange={(e) => {
-                            handleQuantity(e);
+                          onClick={(e) => {
+                            setCantidad(e.target.value);
+                   
                           }}
                           min={1}
                           max={quantityMax}
                           {...register("cantidad", {
-                            required: "Cantidad es requerida.",
+                            required: {
+                              value: true,
+                              message: "Cantidad es requerida",
+                            },
+                            validate: (value) => {
+                              if (value > quantityMax) {
+                                return "Cantidad no valida";
+                              } else {
+                                return true;
+                              }
+                            },
                           })}
                         />
+                  
+                        <p className=" opacity-50">({quantityMax} disponibles)</p>
+                       </div>
                       )}
                     </>
                   ) : (
@@ -394,11 +408,8 @@ const PageProductCard = () => {
       <Toaster
         theme="light"
         position="top-center"
-        duration={5000}
-        toastOptions={{
-          style: { background: "green" },
-          className: "my-toast",
-        }}
+        duration={2000}
+       
       />
     </>
   );

@@ -11,7 +11,7 @@ import "./CSS/PageProductCard.css";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { formatCurrency } from "../utils";
 import spinnerLoading from "../assets/img/spinnerLoading.svg";
-import ModalEditCarrito from "../Modal/ModalEditCarrito"
+import ModalEditCarrito from "../Modal/ModalEditCarrito";
 import {
   arrowIcons,
   arrowIconsUp,
@@ -40,21 +40,22 @@ export const Carrito = () => {
   // const [formapago, setForma] = useState({});
 
   const navigate = useNavigate();
-  console.log(spinner);
+
   useEffect(() => {
     getProductShopping();
 
     if (!isAuthenticated) navigate("/");
+ 
   }, []);
+   //console.log(spinner); obtener info sobre la ejecucion repetida
   useEffect(() => {
     const timerPay = setTimeout(() => {
       setSpinner(false);
     }, 1000);
+  
     return () => clearTimeout(timerPay);
   }, [spinner]);
-  console.log(productShopping);
-  console.log(productShopping.map((item) => item.eid.Color));
-  // console.log(productShopping[0].pid.Precio);
+
   let Total = 0;
   for (let i = 0; i < productShopping.length; i++) {
     Total = Total + productShopping[i].cantidad * productShopping[i].pid.Precio;
@@ -66,7 +67,7 @@ export const Carrito = () => {
         (acum, element) => acum + element.cantidad * element.pid.Precio,
         0
       ),
-    [productShopping]
+  [productShopping]
   );
   //usar useMemo
   // let cantidadTotal = 0;
@@ -208,7 +209,7 @@ export const Carrito = () => {
                                 userEmail: user.email,
                                 TotalCarro: Total,
                               };
-                              console.log(carrito);
+
                               createOrderPayment(carrito);
                               setSpinner(true);
                               // setTotal(Total)
@@ -242,92 +243,6 @@ export const Carrito = () => {
     </>
   );
 };
-{
-  /* <Table striped bordered hover className=" container">
-            <thead>
-              <tr className=" text-center">
-                <th>Color</th>
-                <th>Talle</th>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio Unitario</th>
-                <th>Precio Parcial</th>
-                <th>Acciones de Productos</th>
-              </tr>
-            </thead>
-            <tbody className=" text-center">
-              {productShopping.map((item, index) => (
-                <>
-                  <tr key={index}>
-                    <td>{item.eid.Color}</td>
-
-                    <td>{item.eid.Talle}</td>
-                    <td>{item.pid.NombreProducto}</td>
-                    <td>{item.cantidad}</td>
-                    <td>{formatCurrency(item.pid.Precio)}</td>
-                    <td>{formatCurrency(item.cantidad * item.pid.Precio)}</td>
-                    <td className=" d-flex flex-column flex-lg-row justify-content-center gap-2">
-                      <div>
-                        <button
-                          className="btn"
-                          onClick={() => {
-                            console.log(item.cantidad);
-                          }}
-                        >
-                          <EditModalCarrito element={item} />
-                        </button>
-                      </div>
-                      <div>
-                        <button
-                          className="btn"
-                          onClick={async () => {
-                            let eid = productShopping[index].eid._id;
-                            console.log(
-                              productShopping[index].pid.NombreProducto
-                            );
-                            console.log(eid);
-                            let IdUsu = user.id;
-                            let Product = { IdUsu, eid };
-
-                            await DeleteShoppingProduct(Product);
-                            DecrementQty();
-                          }}
-                        >
-                        {deleteIcons}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <th className="text-center">Total</th>
-                <th colSpan={4}></th>
-                <th className="text-center">{formatCurrency(resultTotal)}</th>
-                <td
-                  colSpan={1}
-                  className=" d-flex justify-content-center gap-2"
-                >
-                  <div>
-                    <button
-                      className="btn btn-warning"
-                      onClick={() => {
-                        console.log(productShopping);
-                        deleteShopping(getCarroId);
-                        console.log(getCarroId);
-                      }}
-                    >
-                      {" "}
-                      Eliminar El Carrito
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
-          </Table> */
-}
 
 {
   /* <div>

@@ -71,7 +71,7 @@ const FormAdminProduct = () => {
         )}
         <div className="mb-3">
           <label
-            htmlFor="exampleInputPassword1"
+            htmlFor="exampleInputPassword4"
             className="form-label fw-semibold"
           >
             Nombre del Producto
@@ -80,7 +80,7 @@ const FormAdminProduct = () => {
             type="tetxt"
             className="form-control"
             name="NombreDelProducto"
-            id="exampleInputPassword1"
+            id="exampleInputPassword4"
             {...register("NombreProducto", {
               required: "El nombre del producto es obligatorio",
             })}
@@ -91,7 +91,7 @@ const FormAdminProduct = () => {
         )}
         <div className="mb-3">
           <label
-            htmlFor="exampleInputPassword1"
+            htmlFor="exampleInputPassword5"
             className="form-label fw-semibold"
           >
             Detalle
@@ -99,7 +99,7 @@ const FormAdminProduct = () => {
           <input
             type="text"
             className="form-control"
-            id="exampleInputPassword1"
+            id="exampleInputPassword5"
             {...register("Detalle", {
               required: "El detalle del producto es obligatorio",
             })}
@@ -110,7 +110,7 @@ const FormAdminProduct = () => {
         </div>
         <div className="mb-3">
           <label
-            htmlFor="exampleInputPassword1"
+            htmlFor="exampleInputPassword6"
             className="form-label fw-semibold"
           >
             Precio
@@ -118,7 +118,7 @@ const FormAdminProduct = () => {
           <input
             type="number"
             className="form-control"
-            id="exampleInputPassword1"
+            id="exampleInputPassword6"
             {...register("Precio", {
               required: "El precio del producto es obligatorio",
             })}
@@ -129,7 +129,7 @@ const FormAdminProduct = () => {
         )}
         <div className="mb-3">
           <label
-            htmlFor="exampleInputPassword1"
+            htmlFor="exampleInputPassword3"
             className="form-label fw-semibold"
           >
             Ultimo Precio
@@ -137,7 +137,7 @@ const FormAdminProduct = () => {
           <input
             type="number"
             className="form-control"
-            id="exampleInputPassword1"
+            id="exampleInputPassword3"
             {...register("UltimoPrecio", {
               required: "El último precio del producto es obligatorio",
             })}
@@ -148,7 +148,7 @@ const FormAdminProduct = () => {
         )}
         <div className="mb-3">
           <label
-            htmlFor="exampleInputPassword1"
+            htmlFor="exampleInputPassword4"
             className="form-label fw-semibold"
           >
             Categoria
@@ -160,7 +160,7 @@ const FormAdminProduct = () => {
               required: "La categoría del producto es obligatoria",
             })}
           >
-            <option selected>Selecciona una Categoria</option>
+            <option defaultValue={"Selecciona una Categoria"}>Selecciona una Categoria</option>
             <option value="Hombres">Hombres</option>
             <option value="Mujeres">Mujeres</option>
             <option value="Niños">Niños</option>
@@ -212,10 +212,7 @@ const FormAdminProduct = () => {
         theme="light"
         position="top-center"
         duration={2000}
-        toastOptions={{
-          style: { background: "blue" },
-          className: "myToast",
-        }}
+        
       />
     </>
   );

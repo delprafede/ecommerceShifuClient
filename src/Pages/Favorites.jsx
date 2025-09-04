@@ -16,20 +16,15 @@ import { formatCurrency } from "../utils";
 const Favorites = () => {
   const navigate = useNavigate();
   const { getProduct } = useProducts();
-  const {
-    favsPage,
-    deleteProductFavorites,
- 
-    setIsActivePage,
-    isActivePage,
-  } = useFav();
+  const { favsPage, deleteProductFavorites, setIsActivePage, isActivePage } =
+    useFav();
   const { isAuthenticated } = useAuth();
   const [windowWidth, setWindowWidth] = useState(false);
 
   const alertas = () => {
-    return toast.error("Eliminaste de Mis Favoritos modal");
+    return toast.error("Eliminaste de Mis Favoritos");
   };
-  console.log(isActivePage);
+  // console.log(isActivePage);
   const handleShop = async (favorite) => {
     await getProduct(favorite);
 
@@ -40,7 +35,6 @@ const Favorites = () => {
     alertas();
   };
 
- 
   const windowPage = () => {
     if (window.innerWidth >= 992) {
       setWindowWidth(true);
@@ -49,9 +43,10 @@ const Favorites = () => {
     if (window.innerWidth >= 992 && isActivePage) {
       navigate("/");
     }
-    setTimeout(() => {
+    const timerPage = setTimeout(() => {
       setIsActivePage(false);
     }, 100);
+    return () => clearTimeout(timerPage);
   };
 
   useEffect(() => {
@@ -115,9 +110,6 @@ const Favorites = () => {
                   })}
                 </tbody>
               </table>
-
-        
-             
             </>
           )}
         </div>
@@ -131,7 +123,7 @@ const Favorites = () => {
                   Tus favoritos se mostrarán aquí
                 </h1>
                 <button
-                  className="btn btn-primary "
+                  className="btn btn-primary"
                   onClick={() => navigate("/")}
                 >
                   Volver

@@ -64,14 +64,16 @@ const PaginaLoguin = () => {
           color,
           eid,
         };
-        console.log("enviando")
+
         await PostShoppings(IdUsuProductStorage);
-        console.log("recivido")
+
         navigate("/carrito");
         const timer = setTimeout(() => {
           localStorage.removeItem("productLocal");
         }, 2000);
         return () => clearTimeout(timer);
+      } else if (isAuthenticated) {
+        navigate("/");
       }
     };
 
