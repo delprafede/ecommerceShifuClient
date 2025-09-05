@@ -45,8 +45,14 @@ export const ProductsProvider = ({ children }) => {
   };
   const searcher = (name) => {
    
-   setSearch(productsPage.filter((product) =>
-      product.NombreProducto.toLowerCase().includes(name.toLowerCase())))
+   setSearch(productsPage.filter((product) =>{
+    if( product.NombreProducto.toLowerCase().includes(name.toLowerCase())){
+      return product
+    }else {
+      console.log("soy el string")
+    }
+   }
+     ))
     setSearchTrue(true)
     // if ( filteredProduct  ) {
 

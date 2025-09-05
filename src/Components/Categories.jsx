@@ -126,10 +126,7 @@ const Categories = (categories) => {
           theme="light"
           position="top-center"
           duration={2000}
-          toastOptions={{
-            style: { background: "green" },
-            className: "myToast",
-          }}
+         
         />
       </div>
     </>

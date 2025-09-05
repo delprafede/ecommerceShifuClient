@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Pagination from "./Pagination";
 import { useFav } from "../Context/FavContext";
 import { toast, Toaster } from "sonner";
@@ -20,7 +20,7 @@ const Products = ({lastIndex, firstIndex,setPageNumber}) => {
     createFavorite,
   } = useFav();
 
-  const { getProducts, productsPage, getProduct, search, setSearch } =
+  const { getProducts, productsPage, getProduct, search, setSearch,setProductsPage } =
     useProducts();
   const [cambiar, setCambiar] = useState(false);
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const Products = ({lastIndex, firstIndex,setPageNumber}) => {
     return toast.success("Agregaste a favoritos");
   };
   const alertasDelete = () => {
-    toast.error("Eliminaste de favoritos pageProductlist");
+    toast.error("Eliminaste de favoritos ");
   };
 
   const handclick = (product) => {
@@ -79,12 +79,25 @@ const Products = ({lastIndex, firstIndex,setPageNumber}) => {
       console.log("hola");
     }
   };
+ const filtrado = useMemo(()=> {
+   if(search.length > 0) {
+    setProductsPage(search)
+    
+  }
+  else {
+    getProducts()
+    setProductsPage(productsPage)
+    console.log(productsPage)
+  }
+ }, [search])
+//  console.log(object)
   return (
 
     <div className={`d-flex justify-content-center mt-3 h-100 containerMax `}>
       <div className=" d-flex  justify-content-center flex-wrap gap-2 gap-md-3 gap-xl-4 positionRelative ">
   
-        {productsPage.map((product, index) => {
+        { (productsPage.map((product, index) => {
+         
           return (
            <div
                 key={index}
@@ -152,7 +165,8 @@ const Products = ({lastIndex, firstIndex,setPageNumber}) => {
                 </div>
               </div>
           )
-        }).slice(firstIndex, lastIndex)}
+        }).slice(firstIndex, lastIndex))
+         }
         
       </div>
        <Toaster
@@ -160,9 +174,7 @@ const Products = ({lastIndex, firstIndex,setPageNumber}) => {
         position="top-center"
         duration={2500}
         richColors
-        toastOptions={{
-          className: "myToast",
-        }}
+     
       />
     </div>
   );

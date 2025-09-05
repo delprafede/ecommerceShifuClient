@@ -36,7 +36,7 @@ const FilterProduct = ({ lastIndex, firstIndex, setPageNumber }) => {
     return toast.success("Agregaste a favoritos");
   };
   const alertasDelete = () => {
-    toast.error("Eliminaste de favoritos pageProductlist");
+    toast.error("Eliminaste de favoritos");
   };
 
   const handclick = (product) => {
@@ -45,14 +45,7 @@ const FilterProduct = ({ lastIndex, firstIndex, setPageNumber }) => {
     alertasDelete();
   };
 
-  // const searchProducts = () => {
-  // if (search) {
-  //   filteredProducts = productsPage.filter((product) =>
-  //     product.NombreProducto.toLowerCase().includes(search.toLowerCase())
-  //   );
-  // }
 
-  // console.log(filteredProduct)
 
   useEffect(() => {
     if (window.innerWidth <= 428) {
