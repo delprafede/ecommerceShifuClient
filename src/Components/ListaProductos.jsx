@@ -6,21 +6,25 @@ import ModalCreateEspecific from "../ComponentAdmin/ModalCreateEspecific.jsx";
 import { formatCurrency } from "../utils/index.js";
 import ModalEditProductss from "../ComponentAdmin/ModalEditProductos.jsx";
 import { DeleteProducts } from "../FetchAdmin/Products.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
 import ModalImageProducts from "./ModalImage.jsx";
+import { set } from "react-hook-form";
+import { use } from "react";
 
 
 
 function GetListaProductos() {
   const { productsPage, getProducts } = useProducts();
-
+  const [deleteProducts, setDeleteProducts] = useState(false)
+  
   const alertasDelete = () => {
-     return toast.error("Eliminaste el producto de Administración");
+     toast.error("Eliminaste el producto de Administración");
+     setDeleteProducts(!deleteProducts)
    };
   useEffect(() => {
     getProducts();
-  }, [alertasDelete]);
+  }, [deleteProducts]);
   return (
     <>
       {productsPage.map((product, index) => {
@@ -36,9 +40,9 @@ function GetListaProductos() {
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody className=" text-center h-100  ">
+            <tbody className=" text-center  ">
               <tr className="">
-                <td className="w-25 text-center  h-25">
+                <td className="containerCard">
                   <img
                     className="card-img-top "
                     src={product.UrlImagen[0].secure_url}
@@ -49,11 +53,11 @@ function GetListaProductos() {
                 <td>{product.NombreProducto}</td>
                 <td>{formatCurrency(product.Precio)}</td>
                 <td>{product.Detalle}</td>
-                <td className=" d-flex  h-100 justify-content-center ">
-                  <div className=" d-flex flex-column justify-content-center gap-2 ">
-                    <div className=" btn-secondary">
+                <td className="d-flex flex-column justify-content-center gap-3 ">
+                 
+                    <button className=" btn btn-primary">
                       <ModalEditProductss product={product} />
-                    </div>
+                    </button>
                     <button
                       className="btn btn-danger"
                       onClick={async () => {
@@ -65,7 +69,7 @@ function GetListaProductos() {
                       Eliminar
                     </button>
                     <button className="btn btn-success"> Ver más</button>
-                  </div>
+                
                 </td>
                 {/* <td className="">
                 </td> */}
@@ -91,11 +95,8 @@ function GetListaProductos() {
         position="top-center"
         dir="ltr"
         duration={5000}
-        closeButton={true}
-        toastOptions={{
-          style: { background: "red" },
-          className: "my-toast",
-        }}
+       richColors
+       
       />
     </>
  

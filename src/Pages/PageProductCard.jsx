@@ -36,7 +36,7 @@ const PageProductCard = () => {
   const [quantityMax, setQuantityMax] = useState([]);
   const [color, setColor] = useState("");
   const [arrayColors, setArrayColors] = useState([]);
-  const [colorsAvailable, setcolorsAvailable] = useState([]);
+  const [colorsAvailable, setColorsAvailable] = useState([]);
   const [cantidad, setCantidad] = useState(0);
   const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
 
@@ -127,7 +127,7 @@ const PageProductCard = () => {
     productCard.Especificaciones.find((e) => {
       if (e.id.Talle === t) {
         arrayColorsTalle.push(e.id.Color);
-        setColoresparavender(arrayColorsTalle);
+        setColorsAvailable(arrayColorsTalle);
       }
     });
     setTalleOk(true);
@@ -409,6 +409,7 @@ const PageProductCard = () => {
         theme="light"
         position="top-center"
         duration={2000}
+        richColors
        
       />
     </>

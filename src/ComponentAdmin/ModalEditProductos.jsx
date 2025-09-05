@@ -25,9 +25,9 @@ function ModalEditProductss({ product }) {
   }, [show]);
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <p variant="primary" onClick={handleShow}>
         Modificar
-      </Button>
+      </p>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

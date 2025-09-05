@@ -11,7 +11,7 @@ import { useAuth } from "../Context/AuthContext";
 import { formatCurrency } from "../utils";
 import { set } from "react-hook-form";
 
-const Products = ({lastIndex, firstIndex,setPageNumber}) => {
+const Products = ({ lastIndex, firstIndex, setPageNumber }) => {
   const { user, isAuthenticated } = useAuth();
   const {
     favsPage,
@@ -20,8 +20,14 @@ const Products = ({lastIndex, firstIndex,setPageNumber}) => {
     createFavorite,
   } = useFav();
 
-  const { getProducts, productsPage, getProduct, search, setSearch,setProductsPage } =
-    useProducts();
+  const {
+    getProducts,
+    productsPage,
+    getProduct,
+    search,
+    setSearch,
+    setProductsPage,
+  } = useProducts();
   const [cambiar, setCambiar] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
@@ -46,16 +52,6 @@ const Products = ({lastIndex, firstIndex,setPageNumber}) => {
   };
 
 
-  // const searchProducts = () => {
-  // if (search) {
-  //   filteredProducts = productsPage.filter((product) =>
-  //     product.NombreProducto.toLowerCase().includes(search.toLowerCase())
-  //   );
-  // }
-
-  console.log(search)
-
-
   useEffect(() => {
     if (window.innerWidth <= 428) {
       setPageNumber(10);
@@ -66,7 +62,7 @@ const Products = ({lastIndex, firstIndex,setPageNumber}) => {
       window.removeEventListener("resize", customWidth);
     };
   }, [lastIndex]);
-    const customWidth = () => {
+  const customWidth = () => {
     if (window.innerWidth >= 600) {
       setPageNumber(12);
     }
@@ -76,30 +72,24 @@ const Products = ({lastIndex, firstIndex,setPageNumber}) => {
     }
     if (window.innerWidth <= 428) {
       setPageNumber(10);
-      console.log("hola");
     }
   };
- const filtrado = useMemo(()=> {
-   if(search.length > 0) {
-    setProductsPage(search)
-    
-  }
-  else {
-    getProducts()
-    setProductsPage(productsPage)
-    console.log(productsPage)
-  }
- }, [search])
-//  console.log(object)
-  return (
+  const filtrado = useMemo(() => {
+    if (search.length > 0) {
+      setProductsPage(search);
+    } else {
+      getProducts();
+      setProductsPage(productsPage);
+    }
+  }, [search]);
 
+  return (
     <div className={`d-flex justify-content-center mt-3 h-100 containerMax `}>
       <div className=" d-flex  justify-content-center flex-wrap gap-2 gap-md-3 gap-xl-4 positionRelative ">
-  
-        { (productsPage.map((product, index) => {
-         
-          return (
-           <div
+        {productsPage
+          .map((product, index) => {
+            return (
+              <div
                 key={index}
                 className="  card mb-4 boxShadow containerCard overflow-hidden "
               >
@@ -164,27 +154,22 @@ const Products = ({lastIndex, firstIndex,setPageNumber}) => {
                   )}
                 </div>
               </div>
-          )
-        }).slice(firstIndex, lastIndex))
-         }
-        
+            );
+          })
+          .slice(firstIndex, lastIndex)}
       </div>
-       <Toaster
-        theme="light"
-        position="top-center"
-        duration={2500}
-        richColors
-     
-      />
+      <Toaster theme="light" position="top-center" duration={2500} richColors />
     </div>
   );
 };
 
 export default Products;
-{/* {filteredProducts
+{
+  /* {filteredProducts
           .map((product, index) => {
             return (
               
             );
           })
-          .slice(firstIndex, lastIndex)} */}
+          .slice(firstIndex, lastIndex)} */
+}

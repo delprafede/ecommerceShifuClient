@@ -61,14 +61,15 @@ export const Carrito = () => {
     Total = Total + productShopping[i].cantidad * productShopping[i].pid.Precio;
   }
 
-  const resultTotal = useMemo(
+  const totalCompra = useMemo(
     () =>
       productShopping.reduce(
         (acum, element) => acum + element.cantidad * element.pid.Precio,
         0
       ),
   [productShopping]
-  );
+    )
+
   //usar useMemo
   // let cantidadTotal = 0;
   // for (let i = 0; i < productShopping.length; i++) {
@@ -166,7 +167,7 @@ export const Carrito = () => {
                   <div className="d-flex flex-column  gap-2 p-2">
                     <div className="d-flex justify-content-between">
                       <p>Producto</p>
-                      <p>{formatCurrency(Total)}</p>
+                      <p>{formatCurrency(totalCompra)}</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p>Envio</p>
@@ -174,7 +175,7 @@ export const Carrito = () => {
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold">Total</p>
-                      <p className="fw-bold">{formatCurrency(Total)}</p>
+                      <p className="fw-bold">{formatCurrency(totalCompra)}</p>
                     </div>
                   </div>
                   <div className="d-flex flex-column justify-content-center align-items-center">

@@ -10,14 +10,12 @@ function ModalImageProducts({ product }) {
   const [files, setFiles] = useState();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { register, handleSubmit } = useForm();
+
   const { getProducts } = useProducts();
 
-
-
-  const onSubmit =   async(e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-   
+
     const formData = new FormData();
     formData.append("_id", product._id);
     formData.append("UrlImagen", files);
@@ -44,15 +42,18 @@ function ModalImageProducts({ product }) {
           <form onSubmit={onSubmit}>
             <div className="mb-3">
               <label htmlFor="formFile" className="form-label fw-bold">
-               {product.NombreProducto}
+                {product.NombreProducto}
               </label>
-              <input 
+              <input
                 onChange={(e) => {
                   setFiles(e.target.files[0]);
                 }}
-                className="form-control" type="file" id="formFile" />
+                className="form-control"
+                type="file"
+                id="formFile"
+              />
             </div>
-             <div className="w-100 d-flex justify-content-end gap-3">
+            <div className="w-100 d-flex justify-content-end gap-3">
               <button type="submit" className="btn btn-primary">
                 Subir Imagen
               </button>
@@ -61,50 +62,6 @@ function ModalImageProducts({ product }) {
               </button>
             </div>
           </form>
-          {/* <form onSubmit={onSubmit}>
-            <div className="mb-3">
-              <label className="form-label">Nombre del producto</label>
-              <input
-                type="text"
-                className="form-control"
-                aria-describedby="emailHelp"
-                defaultValue={product.NombreProducto}
-                placeholder={product.NombreProducto}
-                {...register("NombreProducto")}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Descripción</label>
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={product.Detalle}
-                placeholder={product.Detalle}
-                {...register("Detalle")}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Precio</label>
-              <input
-                type="number"
-                className="form-control"
-                defaultValue={product.Precio}
-                placeholder={product.Precio}
-                {...register("Precio")}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Ultimo Precio</label>
-              <input
-                type="number"
-                className="form-control"
-                defaultValue={product.UltimoPrecio}
-                placeholder={product.UltimoPrecio}
-                {...register("UltimoPrecio")}
-              />
-            </div>
-           
-          </form> */}
         </Modal.Body>
       </Modal>
     </>

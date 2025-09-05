@@ -20,37 +20,36 @@ function PaginaRegistro() {
 
   const { signup, isAuthenticated, errors: authErrors } = useAuth();
 
-  useEffect(() => {
-    if (isAuthenticated) navigate("/");
-  }, [isAuthenticated]);
-
   const onSubmit = handleSubmit(async (data) => {
     signup(data);
   });
-  const porductStorage = useMemo(async () => {
-    if (isAuthenticated && window.localStorage.getItem("productLocal")) {
-      console.log("enviando");
+    useEffect(() => {
+    const porductStorage = async () => {
+      if (isAuthenticated && window.localStorage.getItem("productLocal")) {
+        console.log("enviando");
 
-      const { IdProduct, cantidad, color, eid } = productLocal;
-      const IdUsuProductStorage = {
-        IdUsu: user.id,
-        IdProduct,
-        cantidad,
-        color,
-        eid,
-      };
+        const { IdProduct, cantidad, color, eid } = productLocal;
+        const IdUsuProductStorage = {
+          IdUsu: user.id,
+          IdProduct,
+          cantidad,
+          color,
+          eid,
+        };
 
-      await PostShoppings(IdUsuProductStorage);
-      navigate("/carrito");
-      console.log("if porductStorage")
-      const timer = setTimeout(() => {
-        localStorage.removeItem("productLocal");
-      }, 2000);
-      return () => clearTimeout(timer);
-    } else {
-      navigate("/");
-      console.log("else porductStorage")
-    }
+        await PostShoppings(IdUsuProductStorage);
+
+        navigate("/carrito");
+        const timer = setTimeout(() => {
+          localStorage.removeItem("productLocal");
+        }, 2000);
+        return () => clearTimeout(timer);
+      } else if (isAuthenticated) {
+        navigate("/");
+      }
+    };
+
+    porductStorage();
   }, [isAuthenticated]);
 
   return (
