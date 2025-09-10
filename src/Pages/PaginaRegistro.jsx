@@ -22,35 +22,13 @@ function PaginaRegistro() {
 
   const onSubmit = handleSubmit(async (data) => {
     signup(data);
+    productStorage()
+    if (productStorage()) {
+      navigate("/carrito");
+    } else {
+      navigate("/");
+    }
   });
-    useEffect(() => {
-    const porductStorage = async () => {
-      if (isAuthenticated && window.localStorage.getItem("productLocal")) {
-        console.log("enviando");
-
-        const { IdProduct, cantidad, color, eid } = productLocal;
-        const IdUsuProductStorage = {
-          IdUsu: user.id,
-          IdProduct,
-          cantidad,
-          color,
-          eid,
-        };
-
-        await PostShoppings(IdUsuProductStorage);
-
-        navigate("/carrito");
-        const timer = setTimeout(() => {
-          localStorage.removeItem("productLocal");
-        }, 2000);
-        return () => clearTimeout(timer);
-      } else if (isAuthenticated) {
-        navigate("/");
-      }
-    };
-
-    porductStorage();
-  }, [isAuthenticated]);
 
   return (
     <div className="p-1">
@@ -83,7 +61,7 @@ function PaginaRegistro() {
               aria-describedby="emailHelp"
             />
             {errors.nameUser && (
-              <span className=" fs-4 text-center mt-1  text-white  bg-danger  ">
+              <span className=" fs-5 text-center mt-1  text-danger    ">
                 {errors.nameUser.message}
               </span>
             )}
@@ -110,7 +88,7 @@ function PaginaRegistro() {
               id="exampleInputPassword1"
             />
             {errors.email && (
-              <span className=" fs-4 text-center mt-1  text-white  bg-danger  ">
+              <span className="  fs-5 text-center mt-1  text-danger   ">
                 {errors.email.message}
               </span>
             )}
@@ -146,7 +124,7 @@ function PaginaRegistro() {
               id="exampleInputPassword2"
             />
             {errors.password && (
-              <span className=" fs-4 text-center mt-1  text-white  bg-danger  ">
+              <span className="  fs-5 text-center mt-1  text-danger   ">
                 {errors.password.message}
               </span>
             )}
@@ -172,7 +150,7 @@ function PaginaRegistro() {
               id="exampleInputPassword3"
             />
             {errors.confirmarPassword && (
-              <span className=" fs-4 text-center mt-1  text-white  bg-danger  ">
+              <span className=" fs-5 text-center mt-1  text-danger   ">
                 {errors.confirmarPassword.message}
               </span>
             )}

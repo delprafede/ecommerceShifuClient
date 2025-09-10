@@ -9,6 +9,10 @@ import {
 } from "../api/products";
 import { DeleteProduct, PostShoppings } from "../fetch/shopping";
 import { set } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "./AuthContext";
+import { use } from "react";
 
 const ProductsContext = createContext();
 
@@ -33,6 +37,8 @@ export const ProductsProvider = ({ children }) => {
   const [searchTrue, setSearchTrue] = useState(false);
   const [filteredProduct, setFilteredProduct] = useState("");
   const [comentries, setComentries] = useState([]);
+  const [isProductLocal, setIsProductLocal] = useState("");
+  const { user, isAuthenticated } = useAuth();
 
   const DecrementQty = () => {
     if (productShopping.length > 0) {
@@ -44,28 +50,39 @@ export const ProductsProvider = ({ children }) => {
     setQuantity((prevCont) => prevCont + 1);
   };
   const searcher = (name) => {
-   
-   setSearch(productsPage.filter((product) =>{
-    if( product.NombreProducto.toLowerCase().includes(name.toLowerCase())){
-      return product
-    }else {
-      console.log("soy el string")
-    }
-   }
-     ))
-    setSearchTrue(true)
-    // if ( filteredProduct  ) {
+    setSearch(
+      productsPage.filter((product) => {
+        if (product.NombreProducto.toLowerCase().includes(name.toLowerCase())) {
+          return product;
+        } else {
+          console.log("soy el string");
+        }
+      })
+    );
+    setSearchTrue(true);
+  };
+  const productStorage = async (user, productLocal) => {
+    console.log(user, productLocal)
+    if ( Object.keys(productLocal).length > 0  && user ) {
+      console.log(true)
+      const { IdProduct, cantidad, color, eid } = productLocal;
+      const IdUsuProductStorage = {
+        IdUsu: user.id,
+        IdProduct,
+        cantidad,
+        color,
+        eid,
+      };
 
-    //   filteredProduct = productsPage.filter((product) =>
-    //     product.NombreProducto.toLowerCase().includes(
-    //       name.toLowerCase()
-    //     ))
-    //   }else {
-    //  console.log(   "no esoty")
-    //   }
-      
- 
-  }
+      const res = await PostShoppings(IdUsuProductStorage);
+      setIsProductLocal(res.status);
+      console.log("enviando")
+      const timer = setTimeout(() => {
+        localStorage.removeItem("productLocal");
+        return () => clearTimeout(timer);
+      }, 2000);
+    }
+  };
   const getProducts = async () => {
     try {
       const res = await getProductsRequest();
@@ -175,8 +192,11 @@ export const ProductsProvider = ({ children }) => {
         getComentries,
         comentries,
         filteredProduct,
-       setSearchTrue,
-       searchTrue
+        setSearchTrue,
+        searchTrue,
+        productStorage,
+        setIsProductLocal,
+        isProductLocal,
       }}
     >
       {children}

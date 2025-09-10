@@ -13,6 +13,7 @@ import Publicidad from "../Components/Publicidad";
 import SkeletonUi from "../Components/Skeleton";
 import useLocalStorage from "../CustonHook/useLocalStorage";
 import { use } from "react";
+import { useShoppingContext } from "../Context/ShoppingContext";
 
 const PageProductCard = () => {
   const { productCard, getProduct, IncrementQty } = useProducts();
@@ -39,11 +40,13 @@ const PageProductCard = () => {
   const [colorsAvailable, setColorsAvailable] = useState([]);
   const [cantidad, setCantidad] = useState(0);
   const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
-
+ const { setSpinnerCar } = useShoppingContext();
   useEffect(() => {
     if (params.id) {
       getProduct(params.id);
     }
+    setSpinnerCar(false)
+
     const time = setTimeout(() => {
       setSpinner(false);
     }, 2500);

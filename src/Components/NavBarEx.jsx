@@ -223,7 +223,7 @@ function NavBarEx() {
                   <>
                     <NavDropdown title={user.nameUser} id="basic-nav-dropdown">
                       <button
-                        className=" pointer w-100 text-center"
+                        className="border-0 bg-white w-100 text-center"
                         onClick={() => {
                           logout();
                         }}

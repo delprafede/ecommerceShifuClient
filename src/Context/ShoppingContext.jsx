@@ -14,11 +14,10 @@ export const useShoppingContext = () => {
 export const ShoppingProvider = ({ children }) => {
   const [payment, setPayment] = useState("");
   const [paymentId, setPaymentID] = useState("");
-  const [total, setTotal] = useState(0);
+  const [spinnerCar, setSpinnerCar] = useState(true);
 
   const createOrderPayment = async (carrito) => {
-   
-   console.log(carrito)
+    console.log(carrito);
     try {
       const res = await ShoppingPaymentRequest(carrito);
       setPayment(res.id);
@@ -36,8 +35,8 @@ export const ShoppingProvider = ({ children }) => {
         createOrderPayment,
         payment,
         paymentId,
-        setTotal,
-        total,
+        spinnerCar,
+        setSpinnerCar,
       }}
     >
       {children}

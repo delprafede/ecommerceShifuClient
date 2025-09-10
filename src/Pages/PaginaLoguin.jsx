@@ -1,17 +1,16 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../Context/AuthContext";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, redirect, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { iconEyesBlock, iconEyes } from "../helpers/iconos";
-import useLocalStorage from "../CustonHook/useLocalStorage";
-import { PostShoppings } from "../fetch/shopping";
 import { useEffect } from "react";
+import { useProducts } from "../Context/ProductsContext";
+import useLocalStorage from "../CustonHook/useLocalStorage";
 import { use } from "react";
+
 // ----------------------------------------------------------------
 
 const PaginaLoguin = () => {
-  const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
-
   const [eyes, setEyes] = useState(false);
   const {
     register,
@@ -19,66 +18,33 @@ const PaginaLoguin = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
 
   const { signin, user, errors: setErrors, isAuthenticated } = useAuth();
-
+  const { productStorage, isProductLocal } = useProducts();
   //
 
   const onSubmit = handleSubmit(async (data) => {
     signin(data);
+    if (productLocal.length === 0) {
+      navigate("/");
+    }
   });
 
-  // const porductStorage = useMemo(async () => {
-  //   if (isAuthenticated && window.localStorage.getItem("productLocal")) {
-  //     console.log("enviando");
-
-  //     const { IdProduct, cantidad, color, eid } = productLocal;
-  //     const IdUsuProductStorage = {
-  //       IdUsu: user.id,
-  //       IdProduct,
-  //       cantidad,
-  //       color,
-  //       eid,
-  //     };
-
-  //     await PostShoppings(IdUsuProductStorage);
-  //     navigate("/carrito");
-  //     const timer = setTimeout(() => {
-  //       localStorage.removeItem("productLocal");
-  //     }, 2000);
-  //     return () => clearTimeout(timer);
-  //   } else {
-  //     navigate("/");
-  //   }
-  // }, [isAuthenticated]);
   useEffect(() => {
-    const porductStorage = async () => {
-      if (isAuthenticated && window.localStorage.getItem("productLocal")) {
-        console.log("enviando");
+    isAuthenticated && navigate("/");
+  }, []);
 
-        const { IdProduct, cantidad, color, eid } = productLocal;
-        const IdUsuProductStorage = {
-          IdUsu: user.id,
-          IdProduct,
-          cantidad,
-          color,
-          eid,
-        };
-
-        await PostShoppings(IdUsuProductStorage);
-
-        navigate("/carrito");
-        const timer = setTimeout(() => {
-          localStorage.removeItem("productLocal");
-        }, 2000);
-        return () => clearTimeout(timer);
-      } else if (isAuthenticated) {
-        navigate("/");
-      }
-    };
-
-    porductStorage();
-  }, [isAuthenticated]);
+  useEffect(() => {
+    productStorage(user, productLocal);
+    setTimeout(() => {
+    if(isProductLocal === "ok"){ 
+      navigate("/carrito");
+      console.log("carrito")
+    }
+    }, 2000);
+    console.log("otra vez");
+  }, [isAuthenticated, isProductLocal]);
 
   const cambiarVista = () => {
     setEyes(!eyes);
