@@ -11,11 +11,11 @@ import GetListaProductos from "../Components/ListaProductos.jsx";
 const PageAdmin = () => {
   return (
     <>
-      {/* <div className=" container mb-5">
+      <div className=" container mb-5">
         <h2 className=" text-center fw-bold my-5">Carga de Productos</h2>
 
         <FormAdminProduct />
-      </div> */}
+      </div>
 
       <div className="container mb-5">
         <h2 className=" text-center fw-bold my-5"> Productos</h2>

@@ -54,8 +54,6 @@ export const ProductsProvider = ({ children }) => {
       productsPage.filter((product) => {
         if (product.NombreProducto.toLowerCase().includes(name.toLowerCase())) {
           return product;
-        } else {
-          console.log("soy el string");
         }
       })
     );
@@ -64,7 +62,6 @@ export const ProductsProvider = ({ children }) => {
   const productStorage = async (user, productLocal) => {
     console.log(user, productLocal)
     if ( Object.keys(productLocal).length > 0  && user ) {
-      console.log(true)
       const { IdProduct, cantidad, color, eid } = productLocal;
       const IdUsuProductStorage = {
         IdUsu: user.id,

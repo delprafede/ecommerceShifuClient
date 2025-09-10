@@ -140,7 +140,7 @@ export const cartFavoriteIcon = (
     width="30"
     height="30"
     fill="green"
-    class="bi bi-bag-plus"
+    className="bi bi-bag-plus"
     viewBox="0 0 16 16"
   >
     <path
@@ -251,7 +251,7 @@ export const iconstLeft = (
     width="25"
     height="25"
     fill="currentColor"
-    class="bi bi-arrow-left"
+    className="bi bi-arrow-left"
     viewBox="0 0 16 16"
   >
     <path
@@ -303,7 +303,7 @@ export const deleteIcons = (
     width="25"
     height="25"
     fill="red"
-    class="bi bi-trash-fill"
+    className="bi bi-trash-fill"
     viewBox="0 0 16 16"
   >
     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
@@ -315,7 +315,7 @@ export const editIcons = (
     width="20"
     height="20"
     fill="blue"
-    class="bi bi-pencil-square"
+    className="bi bi-pencil-square"
     viewBox="0 0 16 16"
   >
     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />

@@ -1,23 +1,14 @@
-// import React from "react";
 import ReactDOM from "react-dom/client";
-// import Admin from './PagesAdmin/PageAdmin.jsx'
+
 import { EditProvider } from "./ContextAdmin/EditContext.jsx";
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import { ShoppingRender } from "./ShoppingF.jsx";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "../src/index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-// import RouterApp from "../RouterApp";
-// import Home from "../src/Pages/Home";
 
 import Contacto from "../src/Pages/Contacto";
-// import Productos from "../src/Pages/Productos";
-// import ModalLoguin from "../src/Components/ModalLoguin";
-// import ModalRegister from "../src/Components/ModalRegistro";
-// import Admin from "../src/Pages/Admin";
-// import { ProtectedRoute } from "./src/Components/ProtectedRoute";
+
 import PaginaError from "../src/Pages/PaginaError";
 import Layout from "../src/Components/Layout";
 import Home from "../src/Pages/Home";
@@ -35,26 +26,10 @@ import { ShoppingProvider } from "./Context/ShoppingContext";
 import PageAdmin from "./Pages/PageAdmin.jsx";
 import Ayuda from "./Pages/Ayuda.jsx";
 import SuccesPassword from "./Pages/SuccesPassword.jsx";
-// import Favorites from "./Pages/Favorit.jsx";
+
 import Favorites from "./Pages/Favorites.jsx";
 import Categories from "./Components/Categories.jsx";
 
-// import { ShoppingRender } from "./ShoppingF";
-
-// import { ShoppingRender } from "./ShoppingF.jsx";
-// import ProductsList from "./Components/ProductsList";
-
-// ReactDOM.createRoot(document.getElementById("root")).render(
-//   <React.StrictMode>
-//     <RouterApp />
-//   </React.StrictMode>
-// );
-
-// ReactDOM.createRoot(document.getElementById("rootShopping")).render(
-//   <React.StrictMode>
-//     <ShoppingRender />
-//   </React.StrictMode>
-// );
 const router = createBrowserRouter([
   {
     index: "/",
@@ -197,29 +172,20 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-    ]
+    ],
   },
-],
-{
-  future: {
-    v7: {
-      // Normalize `useNavigation()`/`useFetcher()` `formMethod` to uppercase
-       v7_normalizeFormMethod: true,
-    },
-  },
-}
-);
+]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ShoppingProvider>
-    <AuthProvider>
-      <ProductsProvider>
+  <AuthProvider>
+    <ProductsProvider>
+      <ShoppingProvider>
         <EditProvider>
           <FavoritesProvider>
             <RouterProvider router={router} />
           </FavoritesProvider>
         </EditProvider>
-      </ProductsProvider>
-    </AuthProvider>
-  </ShoppingProvider>
+      </ShoppingProvider>
+    </ProductsProvider>
+  </AuthProvider>
 );

@@ -5,7 +5,6 @@ import { useShoppingContext } from "../Context/ShoppingContext";
 
 const SkeletonUi = () => {
   const { spinnerCar } = useShoppingContext();
-  console.log(spinnerCar);
   return (
     <>
       {!spinnerCar ? (

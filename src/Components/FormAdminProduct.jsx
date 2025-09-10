@@ -212,7 +212,7 @@ const FormAdminProduct = () => {
         theme="light"
         position="top-center"
         duration={2000}
-        
+        richColors
       />
     </>
   );

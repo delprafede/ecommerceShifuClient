@@ -69,7 +69,7 @@ export const Carrito = () => {
   for (let i = 0; i < productShopping.length; i++) {
     Total = Total + productShopping[i].cantidad * productShopping[i].pid.Precio;
   }
-  console.log(spinnerCar);
+
   const totalCompra = useMemo(
     () =>
       productShopping.reduce(
@@ -176,7 +176,7 @@ export const Carrito = () => {
                     );
                   })}
                 </div>
-                <div className=" my-3  col-lg-4  d-flex justify-content-center p-1 rounded shadow-lg  p-lg-0 h-50">
+                <div className=" my-3  col-lg-4  d-flex justify-content-center p-1 rounded shadow-sm  p-lg-0 h-50">
                   <div className=" p-3 w-100  ">
                     <p className="  fw-semibold border-bottom p-2">
                       Resumen de compra
