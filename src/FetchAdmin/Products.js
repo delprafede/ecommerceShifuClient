@@ -1,7 +1,7 @@
 import instance from "../api/axios";
 
 const GetProducts = async () => {
-  const response = await fetch(`http://localhost:6060/api/Admin`, {
+  const response = await fetch(`${instance}/Admin`, {
     method: "GET",
     headers: { "content-type": "application/json" },
   });
@@ -10,7 +10,7 @@ const GetProducts = async () => {
 };
 
 const GetProduct = async (id) => {
-  const response = await fetch(`http://localhost:6060/api/Admin/${id}`, {
+  const response = await fetch(`${instance}/Admin/${id}`, {
     method: "GET",
     headers: { "content-type": "application/json" },
   });
@@ -20,7 +20,7 @@ const GetProduct = async (id) => {
 
 const GetCompleteProduct = async (Prod) => {
   let ProdString = JSON.stringify(Prod);
-  const response = await fetch(`http://localhost:6060/api/Admin/Product`, {
+  const response = await fetch(`${instance}/Admin/Product`, {
     body: ProdString,
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -30,49 +30,23 @@ const GetCompleteProduct = async (Prod) => {
   return data;
 };
 
-// const PostProducts=async  (Prod)=>{
-//   let ProdString=JSON.stringify(Prod)
-//     const response= await fetch(`http://localhost:5050/api/Admin`,{
-//       body:ProdString,
-//       method:"POST",
-//       headers:{"content-type":"application/json"},
-//           });
-//           const data=response.json();
 
-//           return data
-//   }
 
 const PostEspecificaciones = async (Especificacion) => {
   let ProdString = JSON.stringify(Especificacion);
   console.log(ProdString);
-  const response = await fetch(
-    `http://localhost:6060/api/Admin/Especificaciones`,
-    {
-      body: ProdString,
-      method: "POST",
-      headers: { "content-type": "application/json" },
-    }
-  );
+  const response = await fetch(`${instance}/Admin/Especificaciones`, {
+    body: ProdString,
+    method: "POST",
+    headers: { "content-type": "application/json" },
+  });
   const data = response.json();
-  // console.log(data)
+ 
   return data;
 };
 
-// const UploadImgProducts = async (imgFile) => {
-//   console.log(imgFile)
-//   let ImgString = JSON.stringify(imgFile);
-//   const response = await fetch(`http://localhost:6060/api/Admin/AddImg`, {
-//     body: ImgString,
-//     method: "POST",
-//     headers: { "content-type": "application/json" },
-//   });
-//   const data = response.json();
-// // console.log(data)
-//   return data;
-// };
- const UploadImgProducts = (imgFile) =>
-  
-  instance.post(`/Admin/AddImg`, imgFile);
+
+const UploadImgProducts = (imgFile) => instance.post(`/Admin/AddImg`, imgFile);
 
 const UploadEspecificaciones = async () => {
   // let ProdString=JSON.stringify(data)
@@ -87,7 +61,7 @@ const UploadEspecificaciones = async () => {
 
 // const UploadImage = async (FormData) => {
 //   // let ProdString=JSON.stringify(Image)
-//   const response = await fetch(`http://localhost:6060/api/Admin/Picture`, {
+//   const response = await fetch(`${instance}/Admin/Picture`, {
 //     body: FormData,
 //     method: "PUT",
 //   });
@@ -107,27 +81,23 @@ const UploadEspecificaciones = async () => {
 //   const data = response.json();
 //   return data;
 // };
- const DeleteProducts = (id)=> instance.delete(`/Admin/Product/${id}`);
+const DeleteProducts = (id) => instance.delete(`/Admin/Product/${id}`);
 
 const DeleteEspecificaciones = async (Especificacion) => {
   let ProdString = JSON.stringify(Especificacion);
-  const response = await fetch(
-    `http://localhost:6060/api/Admin/Especificaciones`,
-    {
-      body: ProdString,
-      method: "DELETE",
-      headers: { "content-type": "application/json" },
-    }
-  );
+  const response = await fetch(`${instance}/Admin/Especificaciones`, {
+    body: ProdString,
+    method: "DELETE",
+    headers: { "content-type": "application/json" },
+  });
   const data = response.json();
 
   return data;
 };
 
-
 const DeleteImage = async (Image) => {
   let ProdString = JSON.stringify(Image);
-  const response = await fetch(`http://localhost:6060/api/Admin/Picture`, {
+  const response = await fetch(`${instance}/Admin/Picture`, {
     body: ProdString,
     method: "DELETE",
     headers: {

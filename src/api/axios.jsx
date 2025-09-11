@@ -1,9 +1,9 @@
 import axios from "axios";
+import { DATABASE_API } from "../../config";
+
 
 const instance = axios.create({
-  baseURL: "http://localhost:6060/api",
+  baseURL: `${DATABASE_API}`,
   withCredentials: true,
 });
 export default instance;
-
-

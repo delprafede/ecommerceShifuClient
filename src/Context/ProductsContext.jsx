@@ -89,9 +89,9 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
-  const getProduct = async (id) => {
+  const getProduct =  (id) => {
     try {
-      const res = await getProductCardRequest(id);
+      const res =  getProductCardRequest(id);
       setProductCard(res.data);
     } catch (error) {
       console.log(error.response.data);

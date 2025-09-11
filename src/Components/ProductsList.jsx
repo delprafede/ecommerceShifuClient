@@ -13,7 +13,6 @@ const ProductsList = () => {
   const lastIndex = currentPage * pageNumber;
   const firstIndex = lastIndex - pageNumber;
   const totalProducts = productsPage.length;
-
   return (
     <>
       {searchTrue ? (
