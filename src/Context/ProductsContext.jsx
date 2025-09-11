@@ -86,12 +86,12 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
-  const getProduct =   (id) => {
+  const getProduct = async  (id) => {
   
     try {
-      const res =  getProductCardRequest(id);
-      // setProductCard(res);
-      console.log(res)
+      const res = await getProductCardRequest(id);
+      setProductCard(res.data);
+    
     } catch (error) {
       console.log(error.response.data);
     }
