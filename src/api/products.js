@@ -1,5 +1,5 @@
 import { insert } from "formik";
-import instance from "./axios";
+import instance from "./axios.js";
 
 //productos
 export const getProductsRequest = () => instance.get(`/products`);
@@ -45,7 +45,6 @@ export const deleteShoppingRequest = (id) => instance.delete(`/elimina/${id}`);
 export const createComentriesRequest = (comentries) =>
   instance.post(`/comentrie`, comentries);
 
-
 export const getComentriesRequest = async (id) => {
   const response = await fetch(`${instance}/comentries/${id}`, {
     method: "GET",
@@ -58,4 +57,3 @@ export const getComentriesRequest = async (id) => {
 
   return data;
 };
-

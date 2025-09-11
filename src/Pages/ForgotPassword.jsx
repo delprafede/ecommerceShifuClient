@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 
-// import { useAuth } from "../Context/AuthContext";
+
 import { useNavigate, useParams } from "react-router-dom";
-import { updatePasswordRequest } from "../api/auth";
+
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { useAuth } from "../Context/AuthContext";
@@ -216,15 +216,7 @@ const ForgotPassword = () => {
           </div>
         </form>
       </div>
-      <Toaster
-        theme="light"
-        position="top-center"
-        duration={2000}
-        toastOptions={{
-          style: { background: "gren" },
-          className: "my-toast",
-        }}
-      />
+      <Toaster theme="light" position="top-center" richColors />
     </>
   );
 };

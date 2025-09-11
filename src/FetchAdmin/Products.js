@@ -1,4 +1,4 @@
-import instance from "../api/axios";
+import instance from "../api/axios.js";
 
 const GetProducts = async () => {
   const response = await fetch(`${instance}/Admin`, {
@@ -30,8 +30,6 @@ const GetCompleteProduct = async (Prod) => {
   return data;
 };
 
-
-
 const PostEspecificaciones = async (Especificacion) => {
   let ProdString = JSON.stringify(Especificacion);
   console.log(ProdString);
@@ -41,23 +39,22 @@ const PostEspecificaciones = async (Especificacion) => {
     headers: { "content-type": "application/json" },
   });
   const data = response.json();
- 
+
   return data;
 };
 
-
 const UploadImgProducts = (imgFile) => instance.post(`/Admin/AddImg`, imgFile);
 
-const UploadEspecificaciones = async () => {
-  // let ProdString=JSON.stringify(data)
-  //   const response= await fetch(`http://localhost:5050/api/Admin/Especificaciones`,{
-  //     body:ProdString,
-  //     method:"PUT",
-  //     headers:{"content-type":"application/json"},
-  //         });
-  //         const res=response.json();
-  //         return res
-};
+// const UploadEspecificaciones = async () => {
+//   let ProdString=JSON.stringify(data)
+//     const response= await fetch(`http://localhost:5050/api/Admin/Especificaciones`,{
+//       body:ProdString,
+//       method:"PUT",
+//       headers:{"content-type":"application/json"},
+//           });
+//           const res=response.json();
+//           return res
+// };
 
 // const UploadImage = async (FormData) => {
 //   // let ProdString=JSON.stringify(Image)
@@ -121,5 +118,5 @@ export {
   DeleteImage,
   DeleteEspecificaciones,
   UploadImgProducts,
-  UploadEspecificaciones,
+  // UploadEspecificaciones,
 };

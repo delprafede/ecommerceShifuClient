@@ -6,13 +6,10 @@ import {
   deleteShoppingRequest,
   getComentriesRequest,
   createComentriesRequest,
-} from "../api/products";
-import { DeleteProduct, PostShoppings } from "../fetch/shopping";
-import { set } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+} from "../api/products.js";
+import { DeleteProduct, PostShoppings } from "../api/shopping";
 
 import { useAuth } from "./AuthContext";
-import { use } from "react";
 
 const ProductsContext = createContext();
 
@@ -60,8 +57,8 @@ export const ProductsProvider = ({ children }) => {
     setSearchTrue(true);
   };
   const productStorage = async (user, productLocal) => {
-    console.log(user, productLocal)
-    if ( Object.keys(productLocal).length > 0  && user ) {
+    console.log(user, productLocal);
+    if (Object.keys(productLocal).length > 0 && user) {
       const { IdProduct, cantidad, color, eid } = productLocal;
       const IdUsuProductStorage = {
         IdUsu: user.id,
@@ -73,7 +70,7 @@ export const ProductsProvider = ({ children }) => {
 
       const res = await PostShoppings(IdUsuProductStorage);
       setIsProductLocal(res.status);
-      console.log("enviando")
+      console.log("enviando");
       const timer = setTimeout(() => {
         localStorage.removeItem("productLocal");
         return () => clearTimeout(timer);
@@ -89,10 +86,12 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
-  const getProduct =  (id) => {
+  const getProduct =   (id) => {
+  
     try {
       const res =  getProductCardRequest(id);
-      setProductCard(res.data);
+      // setProductCard(res);
+      console.log(res)
     } catch (error) {
       console.log(error.response.data);
     }
