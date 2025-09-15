@@ -78,7 +78,7 @@ function GetListaProductos() {
             <tfoot>
               <tr>
                 <td colSpan={2} className="">
-                  <ModalCreateEspecific Id={product._id}></ModalCreateEspecific>
+                  <ModalCreateEspecific product={product}></ModalCreateEspecific>
                 </td>
                 <td colSpan={3} className="">
                   <ModalImageProducts product={product} />

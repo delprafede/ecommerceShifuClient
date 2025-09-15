@@ -12,23 +12,12 @@ export const Comentarios = (props) => {
   const { register, handleSubmit, reset } = useForm();
   const { isAuthenticated } = useAuth();
   const [spinner, setSpinner] = useState(true);
-  // const comentriesNew = () => {
-  //   setLoading(!loading);
- 
-  // };
-
-  const handleComentarios = handleSubmit((data) => {
-    data.id = props.productCard._id;
-    CreateComentries(data);
-    setSpinner(!spinner);
-    reset();
-  });
 
   useEffect(() => {
-    if (params.id) {
+    if (params.id && isAuthenticated) {
       getComentries(params.id);
     }
-  }, [spinner]);
+  }, []);
 
   useEffect(() => {
     const timerComentries = setTimeout(() => {
@@ -36,7 +25,12 @@ export const Comentarios = (props) => {
     }, 500);
     return () => clearTimeout(timerComentries);
   }, [spinner]);
-
+  const handleComentarios = handleSubmit((data) => {
+    data.id = props.productCard._id;
+    CreateComentries(data);
+    setSpinner(!spinner);
+    reset();
+  });
 
   // console.log(comentries);
 
@@ -45,7 +39,7 @@ export const Comentarios = (props) => {
       {" "}
       <h2 className=" text-center">Comentarios</h2>
       <div className="  p-3 w-100">
-        <form 
+        <form
           onSubmit={handleComentarios}
           className=" container d-flex justify-content-around align-items-center gap-2"
         >
@@ -54,12 +48,9 @@ export const Comentarios = (props) => {
             placeholder="Descripcion"
             rows="1"
             {...register("description")}
-            
           ></textarea>
 
           <button
-           
-
             className={`btn btn-primary ${isAuthenticated ? "" : "disabled"}`}
             onClick={handleComentarios}
           >
@@ -72,26 +63,21 @@ export const Comentarios = (props) => {
           {spinner ? (
             <img src={spinnerLoading} className="spinner" />
           ) : (
-            comentries.map((comentario, index) => {
-              return (
-            
-                <div key={index} >
-
-                  <p className=" p-3">
-                    {comentario.description}
-                  </p>
-                  <span className=" text-center">
-                    {new Date(comentario.date).toLocaleDateString()}
-                  </span>
-                  <hr />
-                </div>
-           
-              );
-            }).reverse()
+            comentries
+              .map((comentario, index) => {
+                return (
+                  <div key={index}>
+                    <p className=" p-3">{comentario.description}</p>
+                    <span className=" text-center">
+                      {new Date(comentario.date).toLocaleDateString()}
+                    </span>
+                    <hr />
+                  </div>
+                );
+              })
+              .reverse()
           )}
         </div>
-
-       
       </div>
     </div>
   );

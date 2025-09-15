@@ -38,10 +38,14 @@
   font-size: 16px;
   font-weight: 600;
   color: white;
-  background-color: rgb(55, 55, 235);
+  background-color: rgb(41, 41, 236);
   outline: none;
   cursor: pointer;
   border-radius: 10px;
+}
+.productDisplayRightTalleBtn:hover {
+  transition: all;
+  background-color: rgb(3, 3, 133);
 }
 .form-select {
   width: 80% !important;

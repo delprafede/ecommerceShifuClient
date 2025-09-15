@@ -1,11 +1,9 @@
 import instance from "./axios.js";
 
-
 export const ShoppingPaymentRequest = (carrito) =>
   instance.post(`/create-order`, carrito);
 export const CreateProductAdmin = (product) =>
   instance.post(`/Admin/Crea`, product);
-
 
 export const GetIdUsu = async (Cart) => {
   let CartJson = JSON.stringify(Cart);
@@ -23,23 +21,25 @@ export const GetIdUsu = async (Cart) => {
   return data;
 };
 
-const PostShoppings = async (Cart) => {
-  let CartJson = JSON.stringify(Cart);
+export const postShoppingsRequest = async (carrito) =>
+  instance.post(`/carrito`, carrito);
 
-  const response = await fetch(`${instance}/carrito`, {
-    method: "POST",
-    body: CartJson,
-    headers: {
-      "content-type": "application/json",
-    },
-  });
-  console.log(CartJson);
-  const data = response.json();
+// const PostShoppings = async (Cart) => {
+// )
+// let CartJson = JSON.stringify(Cart);
 
-  return data;
-};
+// const response = await fetch(`${instance}/carrito`, {
+//   method: "POST",
+//   body: CartJson,
+//   headers: {
+//     "content-type": "application/json",
+//   },
+// });
+// console.log(CartJson);
+// const data = response.json();
 
-
+// return data;
+// };
 
 const DeleteProduct = async (Product) => {
   let ProductJson = JSON.stringify(Product);
@@ -144,7 +144,6 @@ const DeleteProduct = async (Product) => {
 // }
 
 export {
-  PostShoppings,
   DeleteProduct,
   // PagoPay,
   // DeleteShopping,

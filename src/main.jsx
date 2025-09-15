@@ -29,6 +29,7 @@ import SuccesPassword from "./Pages/SuccesPassword.jsx";
 
 import Favorites from "./Pages/Favorites.jsx";
 import Categories from "./Components/Categories.jsx";
+import { AdminProvider } from "./Context/AdminContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -178,14 +179,16 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
-    <ProductsProvider>
-      <ShoppingProvider>
-        <EditProvider>
-          <FavoritesProvider>
-            <RouterProvider router={router} />
-          </FavoritesProvider>
-        </EditProvider>
-      </ShoppingProvider>
-    </ProductsProvider>
+    <AdminProvider>
+      <ProductsProvider>
+        <ShoppingProvider>
+          <EditProvider>
+            <FavoritesProvider>
+              <RouterProvider router={router} />
+            </FavoritesProvider>
+          </EditProvider>
+        </ShoppingProvider>
+      </ProductsProvider>
+    </AdminProvider>
   </AuthProvider>
 );

@@ -1,4 +1,4 @@
-import instance from "../api/axios.js";
+ import instance from "../api/axios.js";
 
 const GetProducts = async () => {
   const response = await fetch(`${instance}/Admin`, {
@@ -30,18 +30,18 @@ const GetCompleteProduct = async (Prod) => {
   return data;
 };
 
-const PostEspecificaciones = async (Especificacion) => {
-  let ProdString = JSON.stringify(Especificacion);
-  console.log(ProdString);
-  const response = await fetch(`${instance}/Admin/Especificaciones`, {
-    body: ProdString,
-    method: "POST",
-    headers: { "content-type": "application/json" },
-  });
-  const data = response.json();
+// const PostEspecificaciones = async (Especificacion) => {
+//   let ProdString = JSON.stringify(Especificacion);
+//   console.log(ProdString);
+//   const response = await fetch(`${instance}/Admin/Especificaciones`, {
+//     body: ProdString,
+//     method: "POST",
+//     headers: { "content-type": "application/json" },
+//   });
+//   const data = response.json();
 
-  return data;
-};
+//   return data;
+// };
 
 const UploadImgProducts = (imgFile) => instance.post(`/Admin/AddImg`, imgFile);
 
@@ -112,7 +112,7 @@ export {
   // PostProducts
   GetProduct,
   GetCompleteProduct,
-  PostEspecificaciones,
+  // PostEspecificaciones,
   // UploadImage,
   DeleteProducts,
   DeleteImage,

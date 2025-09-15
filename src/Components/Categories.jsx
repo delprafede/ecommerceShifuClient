@@ -24,7 +24,7 @@ const Categories = (categories) => {
     deleteProductFavorites(product._id);
   };
   const alertas = () => {
-    return toast.success("Debes iniciar sesion");
+    return toast.error("Debes iniciar sesion");
   };
   const alertas1 = () => {
     return toast.success("Agregaste a favoritos");
@@ -50,72 +50,66 @@ const Categories = (categories) => {
                     key={product.id}
                     className=" card mb-4 boxShadow containerCard overflow-hidden"
                   >
-                    <div className="card h-100 text-center wCard">
-                      <div className=" overflow-hidden">
-                        <img
-                          src={product.UrlImagen[0].secure_url}
-                          className="  imgCard"
-                          alt={product.NombreProducto}
-                        />
-                      </div>
-                      <div className="card-body">
-                        <h5 className="card-title mb-0">
-                          {product.NombreProducto.substring(0, 12)}...
-                        </h5>
-                        <p className="card-text lead fw-bold">
-                          {formatCurrency(product.Precio)}
-                        </p>
-                        <a
-                          className="btn btn-outline-dark"
-                          onClick={async () => {
-                            await getProduct(product._id);
-                            navigate(`/productCard/${product._id}`);
-                          }}
-                        >
-                          Ver más
-                        </a>
+                  <div className="card  text-center">
+                  <div className=" overflow-hidden  ">
+                    <img
+                      src={product.UrlImagen[0].secure_url}
+                      className="  imgCard"
+                      alt={product.NombreProducto}
+                    />
+                  </div>
+                  <div
+                    onClick={async () => {
+                      await getProduct(product._id);
+                      navigate(`/productCard/${product._id}`);
+                    }}
+                    className="card-body pointer"
+                  >
+                    <p className=" mb-0 fs-6 fontSize">
+                      {product.NombreProducto.substring(0, 12)}...
+                    </p>
+                    <p className="card-text  fs-6 fontSize fw-bold">
+                      {formatCurrency(product.Precio)}
+                    </p>
+                  </div>
+                  {favsPage.map((f) => f.product._id).includes(product._id) ? (
+                    <button
+                      key={product._id}
+                      className=" btn  positionAbsolute"
+                      type="submit"
+                      onClick={() => {
+                        handclick(product);
+                      }}
+                    >
+                      {iconoFavoritoAgregado}
+                    </button>
+                  ) : (
+                    <button
+                      className="btn positionAbsolute"
+                      type="submit"
+                      key={product._id}
+                      onClick={async () => {
+                        if (!isAuthenticated) {
+                          alertas();
+                        } else {
+                          const product1 = {
+                            product: product._id,
+                            user: user.id,
+                          };
 
-                        {favsPage
-                          .map((f) => f.product._id)
-                          .includes(product._id) ? (
-                          <button
-                            key={product._id}
-                            className=" btn CorazonRed"
-                            type="submit"
-                            onClick={() => {
-                              handclick(product);
-                            }}
-                          >
-                            {iconoFavoritoAgregado}
-                          </button>
-                        ) : (
-                          <button
-                            className="btn "
-                            type="submit"
-                            key={product._id}
-                            onClick={async () => {
-                              if (!isAuthenticated) {
-                                alertas();
-                              } else {
-                                const product1 = {
-                                  product: product._id,
-                                  user: user.id,
-                                };
+                          //  await createFavRequest(product1);
+                          await createFavorite(product1);
 
-                                //  await createFavRequest(product1);
-                                await createFavorite(product1);
-
-                                alertas1();
-                              }
-                              // handclick();
-                              setCambiar(!cambiar);
-                            }}
-                          >
-                            {iconoFavorito}
-                          </button>
-                        )}
-                      </div>
-                    </div>
+                          alertasCreate();
+                        }
+                        // handclick();
+                        setCambiar(!cambiar);
+                      }}
+                    >
+                      {iconoFavorito}
+                    </button>
+                  )}
+                </div>
                   </div>
                 </>
               );
@@ -126,6 +120,7 @@ const Categories = (categories) => {
           theme="light"
           position="top-center"
           duration={2000}
+          richColorspor
          
         />
       </div>

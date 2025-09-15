@@ -7,7 +7,7 @@ import {
   getComentriesRequest,
   createComentriesRequest,
 } from "../api/products.js";
-import { DeleteProduct, PostShoppings } from "../api/shopping";
+import { DeleteProduct } from "../api/shopping";
 
 import { useAuth } from "./AuthContext";
 
@@ -37,15 +37,17 @@ export const ProductsProvider = ({ children }) => {
   const [isProductLocal, setIsProductLocal] = useState("");
   const { user, isAuthenticated } = useAuth();
 
+  //DECREMENTA LA CANTIDAD DE PRODUCTOS
   const DecrementQty = () => {
     if (productShopping.length > 0) {
       setQuantity((prevCont) => prevCont - 1);
     }
   };
-
+  //INCREMENTA LA CANTIDAD DE PRODUCTOS
   const IncrementQty = () => {
     setQuantity((prevCont) => prevCont + 1);
   };
+  //BUSCADOR
   const searcher = (name) => {
     setSearch(
       productsPage.filter((product) => {
@@ -56,6 +58,7 @@ export const ProductsProvider = ({ children }) => {
     );
     setSearchTrue(true);
   };
+  //CONTROLA EL LOCALSTORAGE DEL CARRITO
   const productStorage = async (user, productLocal) => {
     console.log(user, productLocal);
     if (Object.keys(productLocal).length > 0 && user) {
@@ -77,6 +80,7 @@ export const ProductsProvider = ({ children }) => {
       }, 2000);
     }
   };
+  //OBTIENE TODOS LOS PRODUCTOS
   const getProducts = async () => {
     try {
       const res = await getProductsRequest();
@@ -85,13 +89,11 @@ export const ProductsProvider = ({ children }) => {
       console.log(error);
     }
   };
-
-  const getProduct = async  (id) => {
-  
+  //OBTIENE UN PRODUCTO
+  const getProduct = async (id) => {
     try {
       const res = await getProductCardRequest(id);
       setProductCard(res.data);
-    
     } catch (error) {
       console.log(error.response.data);
     }
@@ -146,12 +148,16 @@ export const ProductsProvider = ({ children }) => {
   };
 
   const CreateComentries = async (comentrie) => {
-    const res = await createComentriesRequest(comentrie);
-    console.log(res);
+    try {
+      const res = await createComentriesRequest(comentrie);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const getComentries = async (id) => {
     try {
       const res = await getComentriesRequest(id);
+      console.log(res)
 
       setComentries(res);
     } catch (error) {
@@ -159,7 +165,6 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
-  // porducto = porductoss
   return (
     <ProductsContext.Provider
       value={{

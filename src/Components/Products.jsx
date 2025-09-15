@@ -31,7 +31,9 @@ const Products = ({ lastIndex, firstIndex, setPageNumber }) => {
   const [cambiar, setCambiar] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    getProductsFavorite();
+  if(isAuthenticated){
+      getProductsFavorite();
+  }
     getProducts();
   }, [cambiar]);
 

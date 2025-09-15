@@ -3,8 +3,6 @@ import { useProducts } from "../Context/ProductsContext";
 import { set, useForm } from "react-hook-form";
 import { useAuth } from "../Context/AuthContext";
 import "./CSS/PageProductCard.css";
-import { getEspecificaciones } from "../api/products";
-import { PostShoppings } from "../api/shopping";
 import { useNavigate, useParams } from "react-router-dom";
 import spinnerLoading from "../assets/img/spinnerLoading.svg";
 import { Toaster, toast } from "sonner";
@@ -12,17 +10,29 @@ import { Comentarios } from "../Components/Comentarios";
 import Publicidad from "../Components/Publicidad";
 import SkeletonUi from "../Components/Skeleton";
 import useLocalStorage from "../CustonHook/useLocalStorage";
-import { useShoppingContext } from "../Context/ShoppingContext";
+import { useShopping } from "../Context/ShoppingContext";
+import { useAdmin } from "../Context/AdminContext";
+import Button from "react-bootstrap/Button";
+import { Wallet } from "@mercadopago/sdk-react";
 
 const PageProductCard = () => {
+  const { user, isAuthenticated } = useAuth();
   const { productCard, getProduct, IncrementQty } = useProducts();
+  const { getEspecifications } = useAdmin();
+  const {
+    setSpinnerCar,
+    postShopping,
+    payment,
+    paymentId,
+    createOrderPayment,
+    setPaymentId,
+  } = useShopping();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
-  const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const params = useParams();
 
@@ -30,6 +40,7 @@ const PageProductCard = () => {
   const [spinner, setSpinner] = useState(true);
   const [spinnerColors, setSpinnerColors] = useState(true);
   const [spinnerCantidad, setSpinnerCantidad] = useState(false);
+  const [spinnerPyment, setSpinnerPyment] = useState(false);
   const [talle, setTalle] = useState("");
   const [talleDuplicado, setTalleDuplicado] = useState([]);
   const [talleOk, setTalleOk] = useState(false);
@@ -39,14 +50,15 @@ const PageProductCard = () => {
   const [colorsAvailable, setColorsAvailable] = useState([]);
   const [cantidad, setCantidad] = useState(0);
   const [productLocal, setProductLocal] = useLocalStorage("productLocal", []);
-  const { setSpinnerCar } = useShoppingContext();
+
   useEffect(() => {
-    console.log(params.id);
     if (params.id) {
       getProduct(params.id);
     }
     setSpinnerCar(false);
-
+    setPaymentId("");
+  }, []);
+  useEffect(() => {
     const time = setTimeout(() => {
       setSpinner(false);
     }, 3000);
@@ -75,17 +87,27 @@ const PageProductCard = () => {
   const alertasLocalStorageProduct = () => {
     return toast.success("Logueate por favor para ver tu carrito");
   };
-  console.log(productCard);
+  //Carga de PaymentId Mercado pago
+  useEffect(() => {
+    const timerPay = setTimeout(() => {
+      setSpinnerPyment(false);
+    }, 2000);
+
+    return () => clearTimeout(timerPay);
+  }, [spinnerPyment]);
+
   const onSubmit = handleSubmit(async (data) => {
     data.IdProduct = productCard.IdProduct;
     if (user) {
       data.IdUsu = user.id;
     }
     data.talle = talle;
-    const res = await getEspecificaciones(data);
+    const res = await getEspecifications(data);
     data.eid = res._id;
+
+    console.log(data);
     if (isAuthenticated) {
-      await PostShoppings(data);
+      await postShopping(data);
       IncrementQty();
       alertas();
       reset();
@@ -146,9 +168,11 @@ const PageProductCard = () => {
 
   // obtengo todos los colores sin repetirce y se muetra en la pagina
   const colorTotalProduct = [...new Set(arrayColors)];
+  //obtengo la cantidad de productos
   const handleQuantity = (e) => {
     setCantidad(e.target.value);
   };
+
   return (
     <>
       {spinner ? (
@@ -338,6 +362,7 @@ const PageProductCard = () => {
                             placeholder={
                               quantityMax === 0 ? "sin stock" : quantityMax
                             }
+                            disabled={quantityMax === 0 ? true : false}
                             onClick={(e) => {
                               setCantidad(e.target.value);
                             }}
@@ -389,12 +414,70 @@ const PageProductCard = () => {
                 </div>
 
                 <button
-                  className="productDisplayRightTalleBtn w-100"
+                  className="productDisplayRightTalleBtn w-100 mt-2"
                   onClick={onSubmit}
                 >
                   AGREAGAR AL CARRITO
                 </button>
               </form>
+              <div className="d-flex flex-column justify-content-center align-items-center w-100 mt-3">
+                {spinnerPyment ? (
+                  <img src={spinnerLoading} className="spinner" />
+                ) : (
+                  <>
+                    {paymentId ? (
+                      <button
+                        className="btn bg-warning w-100"
+                        onClick={() => {
+                          window.location.href = payment;
+                        }}
+                      >
+                        <Wallet
+                          className="bg-danger"
+                          initialization={{
+                            preferenceId: paymentId,
+                            target: "_blank",
+                          }}
+                          customization={{
+                            texts: { valueProp: "smart_option" },
+                          }}
+                        />
+                      </button>
+                    ) : (
+                      <Button
+                        className={`${
+                          cantidad > 0 ? "" : "disabled"
+                        } productDisplayRightTalleBtn w-100`}
+                        onClick={async () => {
+                          const carrito = {
+                            user: user.nameUser,
+                            userEmail: user.email,
+                            TotalCarro: productCard.Precio,
+                          };
+
+                          await createOrderPayment(carrito);
+                          setSpinnerPyment(true);
+
+                          // let PayShopping = {
+                          //   cid: getCarroId,
+                          //   TotalCarro: Total,
+                          // };
+                          // console.log(PayShopping);
+                          // // console.log(payment);
+                          // console.log(paymentId);
+
+                          // const Pay = await PagoPay(PayShopping);
+
+                          // console.log(Pay);
+                          // deleteShopping(getCarroId);
+                        }}
+                      >
+                        COMPRAR
+                      </Button>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
           <div className=" container-lg containerMax mt-3 d-flex justify-content-around p-lg-5">

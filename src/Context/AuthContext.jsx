@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticate] = useState(false);
   const [errors, setErrors] = useState("");
   const [loading, setLoading] = useState(true);
+
   const [send, setSend] = useState(false);
   const [forgot, setForgot] = useState(false);
 
@@ -79,7 +80,6 @@ export const AuthProvider = ({ children }) => {
       if (res.data.status === "Success") {
         setForgot(true);
       }
-      // setForgot(true);
 
       const timer = setTimeout(() => {
         setSend(false);
@@ -99,8 +99,8 @@ export const AuthProvider = ({ children }) => {
   }, [errors]);
 
   useEffect(() => {
+    //funcion EM5
     async function checkLogin() {
-      //funcion EM5
       const cookies = Cookies.get();
 
       if (!cookies.token) {
@@ -109,22 +109,22 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
       }
       try {
-        const res = await verifyTokenRequest(cookies.token);
-        // console.log(res);
-        if (!res.data) {
-          setIsAuthenticate(false);
+        if (cookies.token) {
+          const res = await verifyTokenRequest(cookies.token);
+
+          if (!res.data) {
+            setIsAuthenticate(false);
+            setLoading(false);
+          }
+          setIsAuthenticate(true);
+          setUser(res.data);
           setLoading(false);
-          console.log("necesitas acceder");
         }
-        setIsAuthenticate(true);
-        setUser(res.data);
-        setLoading(false);
-        // console.log(res.data)
       } catch (error) {
         setIsAuthenticate(false);
         setUser(null);
         setLoading(false);
-        // console.log("error verify", error);
+        console.log("error verify", error.response.data.message);
       }
     }
     checkLogin();

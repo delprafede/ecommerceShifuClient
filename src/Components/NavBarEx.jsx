@@ -42,8 +42,10 @@ function NavBarEx() {
   ];
 
   useEffect(() => {
-    getProductShopping();
-    getProductsFavorite();
+    if (isAuthenticated) {
+      getProductShopping();
+      getProductsFavorite();
+    }
   }, [quantity, isAuthenticated]);
   return (
     <>
@@ -52,9 +54,9 @@ function NavBarEx() {
           <Navbar className="col col-lg-12 order-2 order-lg-0 ">
             <Container className="d-flex justify-content-center  p-2 ">
               <Nav.Link
-                onClick={() => { 
-                  setSearch([]);            
-                 setSearchTrue(false);
+                onClick={() => {
+                  setSearch([]);
+                  setSearchTrue(false);
                 }}
                 as={NavLink}
                 to="/"
@@ -258,8 +260,10 @@ function NavBarEx() {
                           Registro
                         </Nav.Link>
                       </li>
-                      <li>
-                        <Nav.Link as={NavLink} to="login">
+                      <li >
+                        <Nav.Link
+                        className={`${user === null ? "border border-1 rounded-pill bg-secondary text-white" : null}`}
+                        as={NavLink} to="login">
                           Acceder
                         </Nav.Link>
                       </li>

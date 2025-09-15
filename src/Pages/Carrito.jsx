@@ -2,33 +2,28 @@ import { useProducts } from "../Context/ProductsContext";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../Context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Table } from "react-bootstrap";
-// import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 // import { PagoPay } from "../fetch/shopping";
-import { useShoppingContext } from "../Context/ShoppingContext";
+import { useShopping } from "../Context/ShoppingContext";
 import "./CSS/PageProductCard.css";
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { Wallet } from "@mercadopago/sdk-react";
 import { formatCurrency } from "../utils";
 import spinnerLoading from "../assets/img/spinnerLoading.svg";
 import ModalEditCarrito from "../Modal/ModalEditCarrito";
-import {
-  arrowIcons,
-  arrowIconsUp,
-  arrowRetuernIcons,
-  deleteIcons,
-} from "../helpers/iconos";
+import { arrowRetuernIcons } from "../helpers/iconos";
 
 import SkeletonUi from "../Components/Skeleton";
 
 export const Carrito = () => {
-  initMercadoPago("APP_USR-ee7c2a9d-4725-4e64-bf91-ad5ba9a3c2a2", {
-    locale: "es-AR",
-  });
-  //---
   const { user, isAuthenticated } = useAuth();
-  const { createOrderPayment, payment, paymentId, spinnerCar, setSpinnerCar } =
-    useShoppingContext();
+  const {
+    createOrderPayment,
+    payment,
+    paymentId,
+    spinnerCar,
+    setSpinnerCar,
+    setPaymentId,
+  } = useShopping();
   const {
     getProductShopping,
     productShopping,
@@ -45,6 +40,7 @@ export const Carrito = () => {
 
   useEffect(() => {
     getProductShopping();
+    setPaymentId("");
 
     if (!isAuthenticated) navigate("/");
     setSpinnerCar(true);
@@ -202,23 +198,23 @@ export const Carrito = () => {
                       ) : (
                         <>
                           {paymentId ? (
-                            <button
+                            <Button
                               className="btn"
                               onClick={() => {
-                                window.location.href = payment.data.init_point;
+                                window.location.href = payment;
                               }}
                             >
                               <Wallet
                                 className="bg-info"
                                 initialization={{
                                   preferenceId: paymentId,
-                                  redirectMode: "target_blank",
+                                  target: "_blank",
                                 }}
                                 customization={{
                                   texts: { valueProp: "smart_option" },
                                 }}
                               />
-                            </button>
+                            </Button>
                           ) : (
                             <Button
                               className="btn btn-primary w-100 mt-2"
@@ -229,7 +225,7 @@ export const Carrito = () => {
                                   TotalCarro: Total,
                                 };
 
-                                createOrderPayment(carrito);
+                                await createOrderPayment(carrito);
                                 setSpinner(true);
                                 // setTotal(Total)
 

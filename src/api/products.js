@@ -6,21 +6,24 @@ export const getProductsRequest = () => instance.get(`/products`);
 
 export const getProductCardRequest = (id) => instance.get(`/productCard/${id}`);
 
-export const getEspecificaciones = async (Cart) => {
-  let CartJson = JSON.stringify(Cart);
+ export const creatEspecificationsResquest = (data)=> instance.post("/Admin/Especificaciones", {data})
 
-  const response = await fetch(`${instance}/productCardE`, {
-    method: "POST",
-    body: CartJson,
-    headers: {
-      "content-type": "application/json",
-    },
-  });
+// (Especificacion) => {
+//   let ProdString = JSON.stringify(Especificacion);
+//   console.log(ProdString);
+//   const response = await fetch(`${instance}/Admin/Especificaciones`, {
+//     body: ProdString,
+//     method: "POST",
+//     headers: { "content-type": "application/json" },
+//   });
+//   const data = response.json();
 
-  const data = response.json();
+//   return data;
+// };
 
-  return data;
-};
+export const getEspecificationsRequest = async (Cart) =>
+  instance.post(`/productCardE`, { Cart });
+
 
 export const getEspecificacionesT = async (Talle) => {
   let TalleJson = JSON.stringify(Talle);
