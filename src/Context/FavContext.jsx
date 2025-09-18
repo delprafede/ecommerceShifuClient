@@ -41,7 +41,6 @@ export const FavoritesProvider = ({ children }) => {
   };
 
   const deleteProductFavorites = async (id) => {
-    console.log(id)
     try {
       const res = await deleteFavRequest(id);
       if (res.status === 204)

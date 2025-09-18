@@ -17,7 +17,7 @@ import { Wallet } from "@mercadopago/sdk-react";
 
 const PageProductCard = () => {
   const { user, isAuthenticated } = useAuth();
-  const { productCard, getProduct, IncrementQty } = useProducts();
+  const { productCard, getProduct } = useProducts();
   const { getEspecifications } = useAdmin();
   const {
     setSpinnerCar,
@@ -26,6 +26,7 @@ const PageProductCard = () => {
     paymentId,
     createOrderPayment,
     setPaymentId,
+    IncrementQty,
   } = useShopping();
   const {
     register,
@@ -80,7 +81,7 @@ const PageProductCard = () => {
       setSpinnerColors(false);
     }, 500);
     return () => clearTimeout(timerColor);
-  }, [talle]);
+  }, [color]);
   const alertas = () => {
     return toast.success("Se agrego a tu carrito");
   };
@@ -104,15 +105,14 @@ const PageProductCard = () => {
     data.talle = talle;
     const res = await getEspecifications(data);
     data.eid = res._id;
-
-    console.log(data);
+  
     if (isAuthenticated) {
-      await postShopping(data);
-      IncrementQty();
-      alertas();
-      reset();
-      const timer = setTimeout(() => {
-        setTalle("");
+        await postShopping(data);
+        IncrementQty();
+        alertas();
+        reset();
+        const timer = setTimeout(() => {
+            setTalle("");
       }, 1000);
       return () => clearTimeout(timer);
     } else {
@@ -127,8 +127,9 @@ const PageProductCard = () => {
     }
   });
 
-  const quantityMaxCantidad = (color) => {
-    setColor(color);
+  const quantityMaxCantidad = () => {
+    setColor(colorsAvailable[0]);
+    setCantidad(0);
     setSpinnerCantidad(true);
 
     productCard.Especificaciones.find((elem) => {
@@ -143,15 +144,15 @@ const PageProductCard = () => {
   };
   const handleTalle = (t) => {
     cambioIndexColor(t);
-    console.log(t);
     setTalle(t);
+    setColor("");
   };
   let arrayColorsTalle = [];
   const cambioIndexColor = (t) => {
     setTalle(t);
     productCard.Especificaciones.find((e) => {
       if (e.id.Talle === t) {
-        arrayColorsTalle.push(e.id.Color);
+        arrayColorsTalle.push(...[e.id.Color, e.id.Stock]);
         setColorsAvailable(arrayColorsTalle);
       }
     });
@@ -282,32 +283,52 @@ const PageProductCard = () => {
                       spinnerColors ? (
                         <img src={spinnerLoading} className="spinner" />
                       ) : (
-                        colorsAvailable.map((c, index) => {
-                          return (
-                            <div
-                              className=" d-flex justify-content-center align-items-center gap-2 checketRadio "
-                              key={index}
-                            >
-                              <input
-                                className=" d-none"
-                                type="radio"
-                                id={c}
-                                value={c}
-                                onClick={() => {
-                                  quantityMaxCantidad(c);
-                                  setColor(c);
-                                  setCantidad(0);
-                                }}
-                                {...register("color", {
-                                  required: "Color es requerido",
-                                })}
-                              />
-                              <label className="cursor" htmlFor={c}>
-                                {c}
-                              </label>
-                            </div>
-                          );
-                        })
+                        <div className=" d-flex justify-content-center align-items-center gap-2 checketRadio ">
+                          <input
+                            className=" d-none"
+                            type="radio"
+                            id={colorsAvailable[0]}
+                            value={colorsAvailable[0]}
+                            onClick={() => {
+                              quantityMaxCantidad();
+                            }}
+                            {...register("color", {
+                              required: "Color es requerido",
+                            })}
+                          />
+                          <label
+                            className="cursor"
+                            htmlFor={colorsAvailable[0]}
+                          >
+                            {colorsAvailable[0]}
+                          </label>
+                        </div>
+                        // colorsAvailable.map((c, index) => {
+                        //   return (
+                        //     <div
+                        //       className=" d-flex justify-content-center align-items-center gap-2 checketRadio "
+                        //       key={index}
+                        //     >
+                        //       <input
+                        //         className=" d-none"
+                        //         type="radio"
+                        //         id={c}
+                        //         value={c}
+                        //         onClick={() => {
+                        //           quantityMaxCantidad(c);
+                        //           setColor(c);
+                        //           setCantidad(0);
+                        //         }}
+                        //         {...register("color", {
+                        //           required: "Color es requerido",
+                        //         })}
+                        //       />
+                        //       <label className="cursor" htmlFor={c}>
+                        //         {c}
+                        //       </label>
+                        //     </div>
+                        //   );
+                        // })
                       )
                     ) : (
                       colorTotalProduct.map((ctp, index) => {
@@ -360,21 +381,23 @@ const PageProductCard = () => {
                             className="w-25 inputNumber "
                             type="number"
                             placeholder={
-                              quantityMax === 0 ? "sin stock" : quantityMax
+                              quantityMax === 0
+                                ? "sin stock"
+                                : colorsAvailable[1]
                             }
                             disabled={quantityMax === 0 ? true : false}
                             onClick={(e) => {
                               setCantidad(e.target.value);
                             }}
                             min={1}
-                            max={quantityMax}
+                            max={colorsAvailable[1]}
                             {...register("cantidad", {
                               required: {
                                 value: true,
                                 message: "Cantidad es requerida",
                               },
                               validate: (value) => {
-                                if (value > quantityMax) {
+                                if (value > colorsAvailable[1]) {
                                   return "Cantidad no valida";
                                 } else {
                                   return true;
@@ -384,7 +407,7 @@ const PageProductCard = () => {
                           />
 
                           <p className=" opacity-50">
-                            ({quantityMax} disponibles)
+                            ({colorsAvailable[1]} disponibles)
                           </p>
                         </div>
                       )}

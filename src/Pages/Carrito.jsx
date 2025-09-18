@@ -23,21 +23,17 @@ export const Carrito = () => {
     spinnerCar,
     setSpinnerCar,
     setPaymentId,
-  } = useShopping();
-  const {
     getProductShopping,
+    deleteProductShopping,
     productShopping,
-    DeleteShoppingProduct,
     DecrementQty,
-    getCarroId,
-    deleteShopping,
-  } = useProducts();
+  } = useShopping();
+  const { getCarroId,cantidad } = useProducts();
 
   const [spinner, setSpinner] = useState(false);
   // const [formapago, setForma] = useState({});
 
   const navigate = useNavigate();
-
   useEffect(() => {
     getProductShopping();
     setPaymentId("");
@@ -144,7 +140,7 @@ export const Carrito = () => {
                                     let IdUsu = user.id;
                                     let Product = { IdUsu, eid };
 
-                                    await DeleteShoppingProduct(Product);
+                                    await deleteProductShopping(Product);
                                     DecrementQty();
                                   }}
                                   className=" border-0 text-primary bg-transparent m-0  w-50 text-start "

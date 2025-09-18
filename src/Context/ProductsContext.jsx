@@ -7,7 +7,6 @@ import {
   getComentriesRequest,
   createComentriesRequest,
 } from "../api/products.js";
-import { DeleteProduct } from "../api/shopping";
 
 import { useAuth } from "./AuthContext";
 
@@ -26,8 +25,7 @@ export const ProductsProvider = ({ children }) => {
   const [productsPage, setProductsPage] = useState([]);
   const [getCarroId, setGetCarroId] = useState("");
   const [productCard, setProductCard] = useState();
-  const [productShopping, setProductShopping] = useState([]);
-  const [quantity, setQuantity] = useState(productShopping.length);
+
   const [cantidad, setCantProduct] = useState();
   const [results, setResults] = useState([]);
   const [search, setSearch] = useState([]);
@@ -37,16 +35,6 @@ export const ProductsProvider = ({ children }) => {
   const [isProductLocal, setIsProductLocal] = useState("");
   const { user, isAuthenticated } = useAuth();
 
-  //DECREMENTA LA CANTIDAD DE PRODUCTOS
-  const DecrementQty = () => {
-    if (productShopping.length > 0) {
-      setQuantity((prevCont) => prevCont - 1);
-    }
-  };
-  //INCREMENTA LA CANTIDAD DE PRODUCTOS
-  const IncrementQty = () => {
-    setQuantity((prevCont) => prevCont + 1);
-  };
   //BUSCADOR
   const searcher = (name) => {
     setSearch(
@@ -100,52 +88,8 @@ export const ProductsProvider = ({ children }) => {
   };
 
   // TRAER TODOS LOS PRODUCTOS DEL CARRRITO
-  const getProductShopping = async () => {
-    try {
-      const res = await getProductsShoppingRequest();
 
-      setProductShopping(res.data.DetalleCarro);
 
-      setGetCarroId(res.data._id);
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-  // ELIMINA PRODUCTOS DEL CARRITO
-  const DeleteShoppingProduct = async (Product) => {
-    try {
-      const res = await DeleteProduct(Product);
-      console.log(res.data);
-
-      if (res.status === "ok")
-        setProductShopping(
-          productShopping.filter((shopping) => shopping.eid._id !== Product.eid)
-        );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // ELIMINA EL CARRITO DEL USUAERIO
-  const deleteShopping = async (id) => {
-    try {
-      const res = await deleteShoppingRequest(id);
-      console.log(res);
-      if (res.status === 204) setProductShopping([]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const ModificarCantidadShopinng = async (Product) => {
-    try {
-      const res = await PostShoppings(Product);
-      console.log(res);
-
-      if (res.status === "ok") setProductShopping(res.data.DetalleCarro);
-    } catch (error) {
-      console.log(error, "no me estoy aplicando");
-    }
-  };
 
   const CreateComentries = async (comentrie) => {
     try {
@@ -157,7 +101,7 @@ export const ProductsProvider = ({ children }) => {
   const getComentries = async (id) => {
     try {
       const res = await getComentriesRequest(id);
-      console.log(res)
+      console.log(res);
 
       setComentries(res);
     } catch (error) {
@@ -175,20 +119,13 @@ export const ProductsProvider = ({ children }) => {
         setResults,
         getProducts,
         getProduct,
-        getProductShopping,
         productsPage,
         setProductsPage,
-        productShopping,
         getCarroId,
         productCard,
-        DeleteShoppingProduct,
-        deleteShopping,
-        quantity,
-        DecrementQty,
-        IncrementQty,
         cantidad,
         setCantProduct,
-        ModificarCantidadShopinng,
+    
         CreateComentries,
         getComentries,
         comentries,
@@ -198,6 +135,7 @@ export const ProductsProvider = ({ children }) => {
         productStorage,
         setIsProductLocal,
         isProductLocal,
+  
       }}
     >
       {children}

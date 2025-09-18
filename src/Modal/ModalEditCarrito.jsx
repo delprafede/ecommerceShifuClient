@@ -3,20 +3,23 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useAuth } from "../Context/AuthContext";
-// import { PostShoppings } from "../fetch/shopping";
 import { useProducts } from "../Context/ProductsContext";
 import { arrowIconsUp } from "../helpers/iconos";
+import { useShopping } from "../Context/ShoppingContext";
+
 
 function ModalEditCarrito({element}) {
 
   const [show, setShow] = useState(false);
   // const [cantidad,setCantProduct]=useState();
   const { user, isAuthenticated } = useAuth();
-  const { cantidad, setCantProduct, ModificarCantidadShopinng } = useProducts();
+  const { cantidad, setCantProduct } = useProducts();
+  const { ModificarCantidadShopinng } = useShopping();
+
+  
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   return (
     <>
       <p onClick={handleShow}>{arrowIconsUp}</p>
@@ -31,6 +34,8 @@ function ModalEditCarrito({element}) {
               <Form.Label>Cantidad Nueva</Form.Label>
               <Form.Control
                 type="number"
+                min={1}
+                max={element.eid.Stock}
                 placeholder={element.cantidad}
                 onChange={(e) => {
                   setCantProduct(e.target.value);

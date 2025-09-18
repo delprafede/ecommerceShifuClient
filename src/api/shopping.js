@@ -5,6 +5,8 @@ export const ShoppingPaymentRequest = (carrito) =>
 export const CreateProductAdmin = (product) =>
   instance.post(`/Admin/Crea`, product);
 
+export const postShoppingsRequest = async (carrito) =>
+  instance.post(`/carrito`, carrito);
 export const GetIdUsu = async (Cart) => {
   let CartJson = JSON.stringify(Cart);
 
@@ -20,9 +22,6 @@ export const GetIdUsu = async (Cart) => {
 
   return data;
 };
-
-export const postShoppingsRequest = async (carrito) =>
-  instance.post(`/carrito`, carrito);
 
 // const PostShoppings = async (Cart) => {
 // )
@@ -41,21 +40,23 @@ export const postShoppingsRequest = async (carrito) =>
 // return data;
 // };
 
-const DeleteProduct = async (Product) => {
-  let ProductJson = JSON.stringify(Product);
+export const deleteProductShoppingRequest = (product) =>
+  instance.delete("/elimina", { data: product });
 
-  const response = await fetch(`${instance}/carrito`, {
-    method: "DELETE",
-    body: ProductJson,
-    headers: {
-      "content-type": "application/json",
-    },
-  });
+// let ProductJson = JSON.stringify(product);
+// console.log(ProductJson)
+// const res =await fetch(`${instance}/elimina`, {
+//   method: "DELETE",
+//   body: ProductJson,
+//   headers: {
+//     "content-type": "application/json",
+//   },
+// });
 
-  const data = response.json();
+// const data = response.json();
 
-  return data;
-};
+// return data;
+
 // const DeleteShopping = async (id) => {
 //     console.log(id)
 // //   let ProductJson = JSON.stringify(id);
@@ -143,9 +144,7 @@ const DeleteProduct = async (Product) => {
 //     return data
 // }
 
-export {
-  DeleteProduct,
-  // PagoPay,
-  // DeleteShopping,
-  // GetIdUsu
-};
+export // PagoPay,
+// DeleteShopping,
+// GetIdUsu
+ {};

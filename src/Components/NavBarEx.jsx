@@ -21,17 +21,12 @@ import Buscador from "./Buscador";
 import { useFav } from "../Context/FavContext";
 import Categories from "./Categories";
 import Favorites from "../Pages/Favorites";
+import { useShopping } from "../Context/ShoppingContext";
 
 function NavBarEx() {
   const { isAuthenticated, logout, user } = useAuth();
-  const {
-    productShopping,
-    getProductShopping,
-    quantity,
-    search,
-    setSearch,
-    setSearchTrue,
-  } = useProducts();
+  const {  search, setSearch, setSearchTrue } = useProducts();
+  const { getProductShopping, productShopping,quantity } = useShopping();
   const { favsPage, getProductsFavorite, setIsActivePage } = useFav();
   const [iconsFavS, setIconsFavS] = useState(false);
 
@@ -260,10 +255,16 @@ function NavBarEx() {
                           Registro
                         </Nav.Link>
                       </li>
-                      <li >
+                      <li>
                         <Nav.Link
-                        className={`${user === null ? "border border-1 rounded-pill bg-secondary text-white" : null}`}
-                        as={NavLink} to="login">
+                          className={`${
+                            user === null
+                              ? "border border-1 rounded-pill bg-secondary text-white"
+                              : null
+                          }`}
+                          as={NavLink}
+                          to="login"
+                        >
                           Acceder
                         </Nav.Link>
                       </li>

@@ -7,7 +7,7 @@ import { toast, Toaster } from "sonner";
 
 function MOdalCreateEspecific({ product }) {
   const [show, setShow] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -18,8 +18,7 @@ function MOdalCreateEspecific({ product }) {
     createEspecifications,
     especificationsOk,
   } = useAdmin();
-  // const IdProduct = product.IdProduct;
-  // const _id = product._id;
+
   const alertEspecificationsOk = () => {
     return toast.success("Especificaciones Agregadas");
   };
@@ -33,9 +32,10 @@ function MOdalCreateEspecific({ product }) {
     });
     setTimeout(() => {
       if (especificationsOk.status === "OK") {
-        setNewEspecific("");
+
         alertEspecificationsOk();
         handleClose();
+        reset()
       }
     }, 2000);
   };
